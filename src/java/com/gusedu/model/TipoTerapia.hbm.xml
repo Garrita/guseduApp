@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.TipoTerapia" optimistic-lock="version" table="tipo_terapia">
+    <id name="tteCodigo" type="java.lang.Integer">
+      <column name="tte_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <property name="tteCosto" type="java.lang.Double">
+      <column name="tte_costo" precision="22" scale="0"/>
+    </property>
+    <property name="tteCurrencySymbol" type="string">
+      <column name="tte_currency_symbol"/>
+    </property>
+    <property name="tteFecModificacion" type="timestamp">
+      <column length="19" name="tte_fec_modificacion"/>
+    </property>
+    <property name="tteNombre" type="string">
+      <column length="50" name="tte_nombre"/>
+    </property>
+    <property name="tteUsuModificacion" type="string">
+      <column name="tte_usu_modificacion"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="terapias" table="terapia">
+      <key>
+        <column name="tte_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Terapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapias_1" table="terapia">
+      <key>
+        <column name="tte_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Terapia"/>
+    </set>
+  </class>
+</hibernate-mapping>

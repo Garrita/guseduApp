@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Pago" optimistic-lock="version" table="pago">
+    <id name="pagoCodigo" type="java.lang.Integer">
+      <column name="pago_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.TipoPago" fetch="select" name="tipoPago">
+      <column name="tpago_codigo"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.Visita" fetch="select" name="visita">
+      <column name="vis_codigo"/>
+    </many-to-one>
+    <property name="monto" type="java.lang.Double">
+      <column name="monto" precision="22" scale="0"/>
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/gusedu_dbsv</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">1234</property>
+    <!--  c3p0  
+    <property name="hibernate.c3p0.validate">true</property>
+    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.min_size">0</property>
+    <property name="hibernate.c3p0.max_size">600</property>
+    <property name="hibernate.c3p0.timeout">1800</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.preferredTestQuery">SELECT 1;</property>
+    <property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
+    <property name="hibernate.c3p0.idle_test_period">1800</property> --> 
+    <mapping resource="com/gusedu/model/TipoCliente.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Llamada.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Mensaje.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Punto.hbm.xml"/>
+    <mapping resource="com/gusedu/model/EnfermedadVisita.hbm.xml"/>
+    <mapping resource="com/gusedu/model/TerapiaSintoma.hbm.xml"/>
+    <mapping resource="com/gusedu/model/TerapiaPar.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Producto.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Logueo.hbm.xml"/>
+    <mapping resource="com/gusedu/model/TipoPago.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Marca.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Par.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Cliente.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Ubprovincia.hbm.xml"/>
+    <mapping resource="com/gusedu/model/HistoriaClinica.hbm.xml"/>
+    <mapping resource="com/gusedu/model/SintomaVisita.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Ubdepartamento.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Visita.hbm.xml"/>
+    <mapping resource="com/gusedu/model/TipoProducto.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Pago.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Grupo.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Modelo.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Enfermedad.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Ubdistrito.hbm.xml"/>
+    <mapping resource="com/gusedu/model/DetalleFactura.hbm.xml"/>
+    <mapping resource="com/gusedu/model/TipoTerapia.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Foo.hbm.xml"/>
+    <mapping resource="com/gusedu/model/SintomaPar.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Terapia.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Sintoma.hbm.xml"/>
+    <mapping resource="com/gusedu/model/EnfermedadTerapia.hbm.xml"/>
+    <mapping resource="com/gusedu/model/CabeceraFactura.hbm.xml"/>
+    <mapping resource="com/gusedu/model/ProductoVisita.hbm.xml"/>
+    <mapping resource="com/gusedu/model/SintomaTerapia.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Persona.hbm.xml"/>
+    <mapping resource="com/gusedu/model/UnidadMedida.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Diagnostico.hbm.xml"/>
+    <mapping resource="com/gusedu/model/EnfermedadPar.hbm.xml"/>
+    <mapping resource="com/gusedu/model/TipoUsuario.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Usuario.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

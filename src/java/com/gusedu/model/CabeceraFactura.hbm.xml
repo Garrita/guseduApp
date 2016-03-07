@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.CabeceraFactura" optimistic-lock="version" table="cabecera_factura">
+    <id name="codFactura" type="java.lang.Integer">
+      <column name="cod_factura"/>
+      <generator class="identity"/>
+    </id>
+    <property name="cliente" type="string">
+      <column length="500" name="cliente"/>
+    </property>
+    <property name="monto" type="java.lang.Double">
+      <column name="monto" precision="22" scale="0"/>
+    </property>
+    <property name="fecha" type="date">
+      <column length="10" name="fecha"/>
+    </property>
+    <property name="facturaReal" type="string">
+      <column length="50" name="factura_real"/>
+    </property>
+    <property name="codCliente" type="java.lang.Integer">
+      <column name="cod_cliente"/>
+    </property>
+    <property name="estado" type="java.lang.Integer">
+      <column name="estado"/>
+    </property>
+    <property name="codVisita" type="java.lang.Integer">
+      <column name="cod_visita"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="detalleFacturas" table="detalle_factura">
+      <key>
+        <column name="cod_factura"/>
+      </key>
+      <one-to-many class="com.gusedu.model.DetalleFactura"/>
+    </set>
+  </class>
+</hibernate-mapping>

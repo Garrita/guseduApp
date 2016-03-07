@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition >
+<script type="text/javascript">
+ function get() {
+ 	window.parent.foo();
+ }
+ </script>
+        <h:form id="formularioEdit">
+            <p:growl showDetail="true" autoUpdate="true" />
+            <h:panelGrid columns="4" id="panelRegistroEdit"  >
+                <p:outputLabel for="EperDni" value="DNI: " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perDni}" id="EperDni" maxlength="8" required="true" requiredMessage="El campo DNI es obligatorio" >
+                    <pe:keyFilter mask="num" />  
+                </p:inputText>
+
+                <p:outputLabel for="EperFecNac" value="Fecha de nacimiento: " /> 
+                <p:calendar value="#{pacienteBean.cliente.persona.perFecNacimiento}" yearRange="c-100:c" maxdate="new Date();"
+                            id="EperFecNac" pattern="dd/MM/yyyy" navigator="true" >
+                    <p:ajax event="dateSelect" listener="#{personaBean.validaEdad}" update="EperEdad" />
+                </p:calendar>
+
+
+                <p:outputLabel for="EperNombre" value="Nombre: " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perNombres}" id="EperNombre" required="true" requiredMessage="Se requiere llenar el nombre" >
+
+                </p:inputText>
+
+                <p:outputLabel for="EperEdad" value="Edad : " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perEdad}" id="EperEdad" maxlength="3"   validatorMessage="Solo se aceptan numeros positivos" >
+                    <pe:keyFilter mask="num" /> 
+                    <f:validateDoubleRange minimum="0" maximum="250" />
+                </p:inputText>
+
+                <p:outputLabel for="EperApePaterno" value="Apellido paterno: " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perApellidoP}" required="true" requiredMessage="Se requiere llenar los apellidos"
+                             id="EperApePaterno" >
+
+                </p:inputText>
+
+                <p:outputLabel for="EperTelFijo" value="Teléfono fijo: " />
+                <p:inputText	id="EperTelFijo"  value="#{pacienteBean.cliente.persona.perTelFijo}" />
+
+                <p:outputLabel for="EperApeMaterno" value="Apellido materno: " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perApellidoM}" 
+                             id="EperApeMaterno" >
+
+                </p:inputText>
+
+
+                <p:outputLabel for="EperTelMovil" value="Teléfono móvil: " />
+                <p:inputText type="tel" 
+                             value="#{pacienteBean.cliente.persona.perTelMovil}" id="EperTelMovil" maxlength="12" >
+                    <pe:keyFilter mask="num" />  
+                </p:inputText>
+
+
+                <p:outputLabel value="Departamento : " />
+                <p:selectOneMenu id="EidDepa" 
+                                 value="#{pacienteBean.cliente.persona.perDepartamento}" >
+                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                    <f:selectItems value="#{ubigoBean.listadepa}" var="tt"
+                                   itemValue="#{tt.idDepa}" itemLabel="#{tt.departamento}" />
+                    <p:ajax event="change" 
+                            update=":#{p:component('idProvE')},
+                            :#{p:component('idDisE')}"
+                            listener="#{ubigoBean.LISTA_PROVINCIAS()}" 
+                            />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="EperCorreo" value="Correo: " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perCorreo}" id="EperCorreo" style="width: 310px"    >
+                    <f:validateRegex
+                        pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
+                </p:inputText>
+
+
+                <p:outputLabel value="Provincia : " />
+                <p:selectOneMenu id="idProvE" 
+                                 value="#{pacienteBean.cliente.persona.perProvincia}"
+                                 >
+                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                    <f:selectItems value="#{ubigoBean.listapro}" var="u_prov"
+                                   itemValue="#{u_prov.idProv}" itemLabel="#{u_prov.provincia}" />
+                    <p:ajax event="change" 
+                            update=":#{p:component('idDisE')}"
+                            listener="#{ubigoBean.LISTA_DISTRITO()}" 
+                            />
+                </p:selectOneMenu>
+
+
+
+
+
+                <p:outputLabel for="EperSexo" value="Sexo: " />
+                <p:selectOneButton id="EperSexo" value="#{pacienteBean.cliente.persona.perSexo}">
+                    <f:selectItem itemLabel="Masculino" itemValue="M" />
+                    <f:selectItem itemLabel="Femenino" itemValue="F" />
+                </p:selectOneButton>
+
+
+
+                <p:outputLabel value="Distrito : " />
+                <p:selectOneMenu id="idDisE" 
+                                 value="#{pacienteBean.cliente.persona.perDistrito}"
+                                 >
+                    <f:selectItem itemLabel="Seleccione un tipo" itemValue="#{null}" />
+                    <f:selectItems value="#{ubigoBean.listadis}" var="u_dis"
+                                   itemValue="#{u_dis.idDist}" itemLabel="#{u_dis.distrito}" />
+                </p:selectOneMenu>
+
+
+                <p:outputLabel for="EperEstadoCivil" value="Estado civil: " />
+                <p:selectOneButton id="EperEstadoCivil"
+                                   value="#{pacienteBean.cliente.persona.perEstadoCivil}">
+                    <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+                    <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                    <f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+                    <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                </p:selectOneButton>
+
+                <p:outputLabel for="EperDireccion" value="Dirección: " />
+                <p:inputText value="#{pacienteBean.cliente.persona.perDireccion}" id="EperDireccion" style="width: 310px" />
+
+
+                <p:outputLabel for="EperComo" value="¿Cómo se enteró de Gusedu?" />
+                <p:selectOneRadio id="EperComo" value="#{pacienteBean.cliente.persona.perEnteroGusedu}" layout="grid" columns="2" >
+                    <f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
+                    <f:selectItem itemLabel="Web" itemValue="Web" />
+                    <f:selectItem itemLabel="Amigos" itemValue="Amigos" />
+                    <f:selectItem itemLabel="Familiares" itemValue="Familiares" />
+                    <f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
+                </p:selectOneRadio>
+
+                <p:commandButton value="Registrar"  update=":#{p:component('tablaPac')},:#{p:component('growl')}"
+                                 id="EproceReg"
+                                 action="#{pacienteBean.editar2}" 
+                                 icon="ui-icon-check" 
+                                 oncomplete="PF('dlgDP').hide();javascript:get();"  />
+                <p:commandButton value="Cancelar" icon="ui-icon-cancel"
+                                 action="#{visitaBean.cancel}" immediate="true" />
+            </h:panelGrid>
+            <p:blockUI block=":#{p:component('panelRegistroEdit')}" trigger=":#{p:component('EproceReg')}" />
+        </h:form>
+    </ui:composition>
+</html>

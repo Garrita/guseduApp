@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Enfermedad" optimistic-lock="version" table="enfermedad">
+    <id name="enfCodigo" type="java.lang.Integer">
+      <column name="enf_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <property name="enfNombre" type="string">
+      <column name="enf_nombre"/>
+    </property>
+    <property name="enfDescripcion" type="string">
+      <column name="enf_descripcion"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadPars" table="enfermedad_par">
+      <key>
+        <column name="enf_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadTerapias" table="enfermedad_terapia">
+      <key>
+        <column name="enf_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadTerapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadPars_1" table="enfermedad_par">
+      <key>
+        <column name="enf_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadVisitas" table="enfermedad_visita">
+      <key>
+        <column name="enf_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadTerapias_1" table="enfermedad_terapia">
+      <key>
+        <column name="enf_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadTerapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadVisitas_1" table="enfermedad_visita">
+      <key>
+        <column name="enf_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadVisita"/>
+    </set>
+  </class>
+</hibernate-mapping>

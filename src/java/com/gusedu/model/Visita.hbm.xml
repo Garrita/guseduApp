@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Visita" optimistic-lock="version" table="visita">
+    <id name="visCodigo" type="java.lang.Integer">
+      <column name="vis_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Cliente" fetch="select" name="cliente">
+      <column name="cli_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="visCostoTotal" type="java.lang.Double">
+      <column name="vis_costo_total" precision="22" scale="0"/>
+    </property>
+    <property name="visPresencial" type="java.lang.Boolean">
+      <column name="vis_presencial"/>
+    </property>
+    <property name="visEstado" type="java.lang.Integer">
+      <column name="vis_estado"/>
+    </property>
+    <property name="visFecCreacion" type="timestamp">
+      <column length="19" name="vis_fec_creacion"/>
+    </property>
+    <property name="visPrioridad" type="java.lang.Integer">
+      <column name="vis_prioridad"/>
+    </property>
+    <property name="visUsuCreacion" type="string">
+      <column length="100" name="vis_usu_creacion"/>
+    </property>
+    <property name="visDescripcion" type="string">
+      <column name="vis_descripcion"/>
+    </property>
+    <property name="visFecFin" type="timestamp">
+      <column length="19" name="vis_fec_fin"/>
+    </property>
+    <property name="visLlegada" type="java.lang.Boolean">
+      <column name="vis_llegada"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadVisitas" table="enfermedad_visita">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="sintomaVisitas" table="sintoma_visita">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.SintomaVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="productoVisitas" table="producto_visita">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.ProductoVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapias" table="terapia">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Terapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapias_1" table="terapia">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Terapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="pagos" table="pago">
+      <key>
+        <column name="vis_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Pago"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="productoVisitas_1" table="producto_visita">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.ProductoVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadVisitas_1" table="enfermedad_visita">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="sintomaVisitas_1" table="sintoma_visita">
+      <key>
+        <column name="vis_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.SintomaVisita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="historiaClinicas" table="historia_clinica">
+      <key>
+        <column name="vis_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.HistoriaClinica"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="historiaClinicas_1" table="historia_clinica">
+      <key>
+        <column name="vis_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.HistoriaClinica"/>
+    </set>
+  </class>
+</hibernate-mapping>

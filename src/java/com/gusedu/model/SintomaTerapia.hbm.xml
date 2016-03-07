@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.SintomaTerapia" optimistic-lock="version" table="sintoma_terapia">
+    <id name="sxtCodigo" type="java.lang.Integer">
+      <column name="sxt_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Sintoma" fetch="select" name="sintoma">
+      <column name="sin_codigo" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.Terapia" fetch="select" name="terapia">
+      <column name="ter_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="sxtDescripcion" type="string">
+      <column name="sxt_descripcion"/>
+    </property>
+    <property name="sxtDolor" type="java.lang.Integer">
+      <column name="sxt_dolor"/>
+    </property>
+    <property name="sxtActivo" type="java.lang.Boolean">
+      <column name="sxt_activo"/>
+    </property>
+  </class>
+</hibernate-mapping>

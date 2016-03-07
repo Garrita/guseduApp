@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Terapia" optimistic-lock="version" table="terapia">
+    <id name="terCodigo" type="java.lang.Integer">
+      <column name="ter_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.TipoTerapia" fetch="select" name="tipoTerapia">
+      <column name="tte_codigo" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.Visita" fetch="select" name="visita">
+      <column name="vis_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="terDescripcion" type="string">
+      <column length="200" name="ter_descripcion"/>
+    </property>
+    <property name="terFecProxima" type="timestamp">
+      <column length="19" name="ter_fec_proxima"/>
+    </property>
+    <property name="terFecRealizada" type="timestamp">
+      <column length="19" name="ter_fec_realizada"/>
+    </property>
+    <property name="terUsuCreacion" type="string">
+      <column length="100" name="ter_usu_creacion"/>
+    </property>
+    <property name="terCosto" type="java.lang.Double">
+      <column name="ter_costo" precision="22" scale="0"/>
+    </property>
+    <property name="terEmpresa" type="string">
+      <column length="100" name="ter_empresa"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadTerapias" table="enfermedad_terapia">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadTerapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapiaPars" table="terapia_par">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.TerapiaPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="diagnosticos" table="diagnostico">
+      <key>
+        <column name="ter_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Diagnostico"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="sintomaTerapias" table="sintoma_terapia">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.SintomaTerapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="sintomaTerapias_1" table="sintoma_terapia">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.SintomaTerapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadTerapias_1" table="enfermedad_terapia">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadTerapia"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapiaSintomas" table="terapia_sintoma">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.TerapiaSintoma"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="diagnosticos_1" table="diagnostico">
+      <key>
+        <column name="ter_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Diagnostico"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapiaPars_1" table="terapia_par">
+      <key>
+        <column name="ter_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.TerapiaPar"/>
+    </set>
+  </class>
+</hibernate-mapping>

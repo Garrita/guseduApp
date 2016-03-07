@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+       <title>Iniciar Sesión</title>
+    </h:head>
+    <h:body style="background-image: url('#{request.contextPath}/resources/images/fondo.png');" id="entirePage"  >
+        <h:form id="formLogin" >
+                    <p:panel header="Inicio de sesión" id="pnlSesion" style="position: absolute;top: 30%;left: 40%;margin-top: -210px;margin : 0 auto;height:200px;width:400px;"  >
+		<h:panelGrid columns="2" style="center">
+			<p:outputLabel value="Usuario: "></p:outputLabel>
+			<p:inputText required="true" value="#{auth.username}" requiredMessage="Debe ingresar un usuario"    />
+			<p:outputLabel value="Password: "></p:outputLabel>
+			<p:password required="true" value="#{auth.password}" requiredMessage="Debe ingresar un password"  />
+		</h:panelGrid>
+		<h:panelGrid columns="2">
+                    <p:commandButton action="#{auth.login}" value="Iniciar Sesión" id="btnLogin" 
+                                     onstart="PF('blockUIWidget').block()" 
+                                     oncomplete="PF('blockUIWidget').unblock();" update="@none"  ></p:commandButton>
+			<p:commandButton action="#{auth.cancel}" ajax="false" value="Cancelar"></p:commandButton>
+                </h:panelGrid>
+		<p:messages autoUpdate="true" />
+		</p:panel>
+                    
+                  
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage url="/resources/images/loading2.gif"    /> 
+                    <h:outputText value="Verificando..." style="white-space: nowrap;"/>  
+                </h:panelGrid>  
+            </pe:blockUI>  
+	</h:form>
+    </h:body>
+</html>
+

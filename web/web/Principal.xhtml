@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../plantillas/PlantillaPrincipal.xhtml">
+
+            <ui:define name="titulo">
+                Inicio
+            </ui:define>
+
+            <ui:define name="top">
+
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formBusquedaP" style="text-align: center;">
+                    <p:outputLabel value="Filtrar: " for="inpQuery" />
+                    <p:inputText value="#{pacienteBean.query}" id="inpQuery"
+                                 style="width : 500px;">
+                        <p:ajax event="keyup" update=":#{p:component('tablaPac')}" delay="250"
+                                listener="#{pacienteBean.filtrarBusqueda}">
+                        </p:ajax>
+                    </p:inputText>
+                    <p:spacer width="50px;" />
+                     <p:commandButton value="Nuevo Paciente" id="btnNuevo"
+                                     update=":#{p:component('panelRegistro')}"
+                                     action="#{personaBean.valida}" oncomplete="PF('dlg1').show();" />
+                </h:form>
+                <br/>
+                
+                <h:form id="formulario">
+                    <p:dataTable id="tablaPac" var="pac"
+                                 value="#{pacienteBean.clientesxfecha}" paginator="true" rows="10"
+                                 rowKey="#{pac.codCliente}" widgetVar="tablaPacientes"
+                                 emptyMessage="No hay historial de visitas por el momento" >
+                        <p:column headerText="DNI" width="80px;" filterBy="#{pac.dni}"
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{pac.dni}" />
+                        </p:column>
+                        <p:column headerText="Ap. paterno" sortBy="#{pac.apellidoPPersona}" 
+                                  >
+                            <h:outputText value="#{pac.apellidoPPersona}" />
+                        </p:column>
+                        <p:column headerText="Ap. materno" sortBy="#{pac.apellidoMPersona}"
+                                  >
+                            <h:outputText value="#{pac.apellidoMPersona}" />
+                        </p:column>
+                        <p:column headerText="Nombre" sortBy="#{pac.nombresPersona}"
+                                  >
+                            <h:outputText value="#{pac.nombresPersona}" />
+                        </p:column>
+                        <p:column headerText="Teléfono móvil" width="70px;">
+                            <h:outputText value="#{pac.telmovilPersona}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="Última visita" sortBy="#{pac.fechafinVisita}" width="100px;">
+                            <p:outputLabel value="#{pac.fechafinVisita}" >
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Tipo Cliente" width="70px;">
+                            <h:outputText value="#{pac.tipoCliente}" />
+                        </p:column>
+                        <p:column headerText="Opciones" width="150px;"> 
+                            <p:selectOneMenu id="sselectoption" value="#{visitaBean.opciones}"  >
+                                <f:selectItem itemLabel="Seleccione" itemValue="S" />
+                                <f:selectItem itemLabel="Historial de terapias" itemValue="HT"   />
+                                <f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
+                                <f:selectItem itemLabel="Datos Personales" itemValue="DP" />
+                                <p:ajax event="change" update=":#{p:component('frame')},:#{p:component('growl')}"
+                                       
+                                        listener="#{pacienteBean.cargaCliente(pac.codCliente)}" /> 
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>  
+                <p:growl id="growlT" showDetail="true"   life="2000" /> 
+                <p:dialog  id="dialoghistorialTerapia" header="Historia de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" widgetVar="dlgHTe" 
+                           showEffect="pop" width="1230px" height="550px"  >
+                    <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+                    <h:form id="frame5"  >
+                        <ui:include src="HistorialTerapia.xhtml" />
+                    </h:form>
+                </p:dialog>
+                
+                 <h:form>
+                    <p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
+                              showEffect="pop" modal="true">
+                        <p:panel id="panelJ"    >
+                           
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
+                 <h:form>
+                    <p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
+                              showEffect="pop" modal="true">
+                        <p:panel id="panelJ"    >
+                            <ui:include src="prueba.xhtml"  />
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
+                <p:dialog id="dialogDP" header="Datos personales de  #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" widgetVar="dlgDP" showEffect="pop" modal="true"   >
+                    <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+                    <h:form id="frame" >
+                        <ui:include  src="editarDatosPersonales.xhtml"  />
+                    </h:form>
+                </p:dialog>
+                
+                    <p:dialog id="dialogHistorialVisitas" header="Historial de visitas de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" 
+                          widgetVar="dlgHV" showEffect="pop" modal="true" width="800px" height="550px" >
+                    <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+                    <h:form id="frame4"  >
+                        <ui:include src="historialVisitas.xhtml" />
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

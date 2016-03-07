@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition>
+        <h:form>
+            <p:dataTable id="visitas" var="vis"
+                         value="#{visitaBean.visitasxPaciente}"
+                         emptyMessage="No se han registrado visitas" rowKey="#{vis.visitaCodigo}"
+                         paginator="true" rows="25" tableStyleClass="ui-table-columntoggle">
+
+                <p:column headerText="Visita ">
+                    <h:outputText value="#{vis.visita}"/>
+                </p:column>			
+                <p:column headerText="Gasto Total ">
+                    <h:outputText value="#{vis.costoTotal}"/>
+                </p:column>
+                <p:column headerText="Fecha ">
+                    <h:outputText value="#{vis.fechaCreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Registrar Pares" actionListener="#{historialVisitaBean.obtenerVisita3(vis)}" 
+                                     title="Editar" oncomplete="PF('dlgParesTHV2').show();" 
+                                     update=":#{p:component('dialogParesByHistorial')}" />
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog id="dialogParesByHistorial"
+                      header="Registrar pares de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM} de la #{historialVisitaBean.viscliente.visita}" 
+                      widgetVar="dlgParesTHV2" showEffect="pop" width="80%"  >
+                <ui:include src="RegistroParesV3.xhtml" />
+            </p:dialog>
+        </h:form> 
+    </ui:composition>
+</html>

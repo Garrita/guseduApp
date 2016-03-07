@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Ubprovincia" optimistic-lock="version" table="ubprovincia">
+    <id name="idProv" type="int">
+      <column name="idProv"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Ubdepartamento" fetch="select" name="ubdepartamento">
+      <column name="idDepa"/>
+    </many-to-one>
+    <property name="provincia" type="string">
+      <column length="50" name="provincia"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="ubdistritos" table="ubdistrito">
+      <key>
+        <column name="idProv"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Ubdistrito"/>
+    </set>
+  </class>
+</hibernate-mapping>

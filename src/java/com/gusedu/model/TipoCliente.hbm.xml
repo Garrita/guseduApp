@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.TipoCliente" optimistic-lock="version" table="tipo_cliente">
+    <id name="tclCodigo" type="java.lang.Integer">
+      <column name="tcl_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <property name="tclDescripcion" type="string">
+      <column name="tcl_descripcion"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="clientes" table="cliente">
+      <key>
+        <column name="tcl_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Cliente"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="clientes_1" table="cliente">
+      <key>
+        <column name="tcl_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Cliente"/>
+    </set>
+  </class>
+</hibernate-mapping>

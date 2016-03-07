@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Modelo" optimistic-lock="version" table="modelo">
+    <id name="modCodigo" type="java.lang.Integer">
+      <column name="mod_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Marca" fetch="select" name="marca">
+      <column name="mar_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="modYearFab" type="string">
+      <column length="100" name="mod_year_fab"/>
+    </property>
+    <property name="modColor" type="string">
+      <column length="100" name="mod_color"/>
+    </property>
+    <property name="modNombre" type="string">
+      <column length="40" name="mod_nombre"/>
+    </property>
+    <property name="modSize" type="string">
+      <column length="100" name="mod_size"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="productos" table="producto">
+      <key>
+        <column name="mod_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Producto"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="productos_1" table="producto">
+      <key>
+        <column name="mod_codigo"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Producto"/>
+    </set>
+  </class>
+</hibernate-mapping>

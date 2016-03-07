@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Punto" optimistic-lock="version" table="punto">
+    <id name="punCodigo" type="java.lang.Integer">
+      <column name="pun_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <property name="punNombre" type="string">
+      <column length="30" name="pun_nombre"/>
+    </property>
+    <property name="punOrdenFisico" type="java.lang.Integer">
+      <column name="pun_orden_fisico"/>
+    </property>
+    <property name="punUbicacionC" type="string">
+      <column length="50" name="pun_ubicacion_c"/>
+    </property>
+    <property name="punUbicacionM" type="string">
+      <column length="100" name="pun_ubicacion_m"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="parsForPunCodigoP2" table="par">
+      <key>
+        <column name="pun_codigo_p2"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Par"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="parsForPunCodigoP2_1" table="par">
+      <key>
+        <column name="pun_codigo_p2"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Par"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="parsForPunCodigoP1" table="par">
+      <key>
+        <column name="pun_codigo_p1"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Par"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="parsForPunCodigoP1_1" table="par">
+      <key>
+        <column name="pun_codigo_p1"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Par"/>
+    </set>
+  </class>
+</hibernate-mapping>

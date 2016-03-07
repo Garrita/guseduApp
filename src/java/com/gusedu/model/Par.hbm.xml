@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Par" optimistic-lock="version" table="par">
+    <id name="parCodigo" type="java.lang.Integer">
+      <column name="par_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Grupo" fetch="select" name="grupo">
+      <column name="gru_codigo"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.Punto" fetch="select" name="puntoByPunCodigoP2">
+      <column name="pun_codigo_p2"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.Punto" fetch="select" name="puntoByPunCodigoP1">
+      <column name="pun_codigo_p1"/>
+    </many-to-one>
+    <property name="parDescripcion" type="string">
+      <column name="par_descripcion"/>
+    </property>
+    <property name="parPatogeno" type="string">
+      <column length="100" name="par_patogeno"/>
+    </property>
+    <property name="parUrl" type="string">
+      <column name="par_url"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="sintomaPars" table="sintoma_par">
+      <key>
+        <column name="par_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.SintomaPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadPars" table="enfermedad_par">
+      <key>
+        <column name="par_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="sintomaPars_1" table="sintoma_par">
+      <key>
+        <column name="par_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.SintomaPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="enfermedadPars_1" table="enfermedad_par">
+      <key>
+        <column name="par_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.EnfermedadPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapiaPars" table="terapia_par">
+      <key>
+        <column name="par_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.TerapiaPar"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="terapiaPars_1" table="terapia_par">
+      <key>
+        <column name="par_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.TerapiaPar"/>
+    </set>
+  </class>
+</hibernate-mapping>

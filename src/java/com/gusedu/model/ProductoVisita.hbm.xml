@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.ProductoVisita" optimistic-lock="version" table="producto_visita">
+    <id name="pxvCodigo" type="java.lang.Integer">
+      <column name="pxv_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Producto" fetch="select" name="producto">
+      <column name="pro_codigo" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.Visita" fetch="select" name="visita">
+      <column name="vis_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="pxvCantidad" type="java.lang.Double">
+      <column name="pxv_cantidad" precision="22" scale="0"/>
+    </property>
+    <property name="pxvCostoParcial" type="java.lang.Double">
+      <column name="pxv_costo_parcial" precision="22" scale="0"/>
+    </property>
+    <property name="pxvCurrencySymbol" type="string">
+      <column name="pxv_currency_symbol"/>
+    </property>
+  </class>
+</hibernate-mapping>

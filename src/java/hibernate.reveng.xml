@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="gusedu_dbsv"/>
+  <table-filter match-name="tipo_pago"/>
+  <table-filter match-name="enfermedad_terapia"/>
+  <table-filter match-name="marca"/>
+  <table-filter match-name="tipo_producto"/>
+  <table-filter match-name="tipo_cliente"/>
+  <table-filter match-name="producto_visita"/>
+  <table-filter match-name="sintoma_visita"/>
+  <table-filter match-name="cabecera_factura"/>
+  <table-filter match-name="terapia"/>
+  <table-filter match-name="detalle_factura"/>
+  <table-filter match-name="unidad_medida"/>
+  <table-filter match-name="persona"/>
+  <table-filter match-name="modelo"/>
+  <table-filter match-name="ubdistrito"/>
+  <table-filter match-name="ubprovincia"/>
+  <table-filter match-name="logueo"/>
+  <table-filter match-name="grupo"/>
+  <table-filter match-name="historia_clinica"/>
+  <table-filter match-name="sintoma"/>
+  <table-filter match-name="cliente"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="sintoma_par"/>
+  <table-filter match-name="sintoma_terapia"/>
+  <table-filter match-name="diagnostico"/>
+  <table-filter match-name="punto"/>
+  <table-filter match-name="tipo_terapia"/>
+  <table-filter match-name="terapia_sintoma"/>
+  <table-filter match-name="foo"/>
+  <table-filter match-name="mensaje"/>
+  <table-filter match-name="producto"/>
+  <table-filter match-name="enfermedad_par"/>
+  <table-filter match-name="enfermedad"/>
+  <table-filter match-name="terapia_par"/>
+  <table-filter match-name="tipo_usuario"/>
+  <table-filter match-name="visita"/>
+  <table-filter match-name="enfermedad_visita"/>
+  <table-filter match-name="llamada"/>
+  <table-filter match-name="ubdepartamento"/>
+  <table-filter match-name="pago"/>
+  <table-filter match-name="par"/>
+</hibernate-reverse-engineering>

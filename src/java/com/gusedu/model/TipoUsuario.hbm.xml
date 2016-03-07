@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.TipoUsuario" optimistic-lock="version" table="tipo_usuario">
+    <id name="tusCodigo" type="java.lang.Integer">
+      <column name="tus_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <property name="tusDescripcion" type="string">
+      <column name="tus_descripcion"/>
+    </property>
+    <property name="caja" type="java.lang.Boolean">
+      <column name="caja"/>
+    </property>
+    <property name="datosPersonales" type="java.lang.Boolean">
+      <column name="datos_personales"/>
+    </property>
+    <property name="historialTerapias" type="java.lang.Boolean">
+      <column name="historial_terapias"/>
+    </property>
+    <property name="historialVisitas" type="java.lang.Boolean">
+      <column name="historial_visitas"/>
+    </property>
+    <property name="consultaPares" type="java.lang.Boolean">
+      <column name="consulta_pares"/>
+    </property>
+    <property name="consultaParesPorEnfermedad" type="java.lang.Boolean">
+      <column name="consulta_pares_por_enfermedad"/>
+    </property>
+    <property name="consultaParesPorSintoma" type="java.lang.Boolean">
+      <column name="consulta_pares_por_sintoma"/>
+    </property>
+    <property name="consultaPuntos" type="java.lang.Boolean">
+      <column name="consulta_puntos"/>
+    </property>
+    <property name="crearVisita" type="java.lang.Boolean">
+      <column name="crear_visita"/>
+    </property>
+    <property name="datosMedicos" type="java.lang.Boolean">
+      <column name="datos_medicos"/>
+    </property>
+    <property name="gestionCajaDiaria" type="java.lang.Boolean">
+      <column name="gestion_caja_diaria"/>
+    </property>
+    <property name="gestionEnfermedades" type="java.lang.Boolean">
+      <column name="gestion_enfermedades"/>
+    </property>
+    <property name="gestionPares" type="java.lang.Boolean">
+      <column name="gestion_pares"/>
+    </property>
+    <property name="gestionPuntos" type="java.lang.Boolean">
+      <column name="gestion_puntos"/>
+    </property>
+    <property name="gestionSintomas" type="java.lang.Boolean">
+      <column name="gestion_sintomas"/>
+    </property>
+    <property name="gestionTipoUsuarios" type="java.lang.Boolean">
+      <column name="gestion_tipo_usuarios"/>
+    </property>
+    <property name="gestionUsuarios" type="java.lang.Boolean">
+      <column name="gestion_usuarios"/>
+    </property>
+    <property name="historialVisita" type="java.lang.Boolean">
+      <column name="historial_visita"/>
+    </property>
+    <property name="home" type="java.lang.Boolean">
+      <column name="home"/>
+    </property>
+    <property name="registroTerapias" type="java.lang.Boolean">
+      <column name="registro_terapias"/>
+    </property>
+    <property name="reporteProducto" type="java.lang.Boolean">
+      <column name="reporte_producto"/>
+    </property>
+    <property name="reportePar" type="java.lang.Boolean">
+      <column name="reporte_par"/>
+    </property>
+    <property name="ventaProductos" type="java.lang.Boolean">
+      <column name="venta_productos"/>
+    </property>
+    <property name="registroTerapiaPares" type="java.lang.Boolean">
+      <column name="registro_terapia_pares"/>
+    </property>
+    <property name="calendarioCitas" type="java.lang.Boolean">
+      <column name="calendario_citas"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="usuarios" table="usuario">
+      <key>
+        <column name="tus_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Usuario"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="usuarios_1" table="usuario">
+      <key>
+        <column name="tus_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Usuario"/>
+    </set>
+  </class>
+</hibernate-mapping>

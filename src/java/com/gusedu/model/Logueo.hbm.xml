@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Logueo" optimistic-lock="version" table="logueo">
+    <id name="idLogueo" type="java.lang.Integer">
+      <column name="id_logueo"/>
+      <generator class="identity"/>
+    </id>
+    <property name="usuario" type="string">
+      <column length="50" name="usuario"/>
+    </property>
+    <property name="empresa" type="string">
+      <column length="100" name="empresa"/>
+    </property>
+    <property name="fecha" type="timestamp">
+      <column length="19" name="fecha"/>
+    </property>
+  </class>
+</hibernate-mapping>

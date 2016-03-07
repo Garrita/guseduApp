@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Cliente" optimistic-lock="version" table="cliente">
+    <id name="cliCodigo" type="java.lang.Integer">
+      <column name="cli_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Persona" fetch="select" name="persona">
+      <column name="per_codigo"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.TipoCliente" fetch="select" name="tipoCliente">
+      <column name="tcl_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="cliAlergia" type="string">
+      <column name="cli_alergia"/>
+    </property>
+    <property name="cliCanRegular" type="string">
+      <column name="cli_can_regular"/>
+    </property>
+    <property name="cliCirugiaEstetica" type="string">
+      <column name="cli_cirugia_estetica"/>
+    </property>
+    <property name="cliDolcabRegular" type="string">
+      <column name="cli_dolcab_regular"/>
+    </property>
+    <property name="cliActivo" type="java.lang.Boolean">
+      <column name="cli_activo"/>
+    </property>
+    <property name="cliFecCreacion" type="timestamp">
+      <column length="19" name="cli_fec_creacion"/>
+    </property>
+    <property name="cliProGastrico" type="string">
+      <column name="cli_pro_gastrico"/>
+    </property>
+    <property name="cliMedicamentos" type="string">
+      <column name="cli_medicamentos"/>
+    </property>
+    <property name="cliOperacion" type="string">
+      <column name="cli_operacion"/>
+    </property>
+    <property name="cliResRegular" type="string">
+      <column name="cli_res_regular"/>
+    </property>
+    <property name="cliUsuCreacion" type="string">
+      <column name="cli_usu_creacion"/>
+    </property>
+    <property name="cliAlcohol" type="string">
+      <column name="cli_alcohol"/>
+    </property>
+    <property name="cliEjercicio" type="string">
+      <column name="cli_ejercicio"/>
+    </property>
+    <property name="cliHabitos" type="string">
+      <column name="cli_habitos"/>
+    </property>
+    <property name="cliHijos" type="string">
+      <column name="cli_hijos"/>
+    </property>
+    <property name="cliOcupacion" type="string">
+      <column name="cli_ocupacion"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="visitas" table="visita">
+      <key>
+        <column name="cli_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Visita"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="visitas_1" table="visita">
+      <key>
+        <column name="cli_codigo" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Visita"/>
+    </set>
+  </class>
+</hibernate-mapping>

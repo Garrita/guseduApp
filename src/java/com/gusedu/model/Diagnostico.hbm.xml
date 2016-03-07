@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Diagnostico" optimistic-lock="version" table="diagnostico">
+    <id name="diaCodigo" type="java.lang.Integer">
+      <column name="dia_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Terapia" fetch="select" name="terapia">
+      <column name="ter_codigo"/>
+    </many-to-one>
+    <property name="diaDescripcion" type="string">
+      <column name="dia_descripcion"/>
+    </property>
+    <property name="diaFecRealizado" type="timestamp">
+      <column length="19" name="dia_fec_realizado"/>
+    </property>
+    <property name="diaResultado" type="string">
+      <column name="dia_resultado"/>
+    </property>
+    <property name="diaUsuCreacion" type="string">
+      <column length="100" name="dia_usu_creacion"/>
+    </property>
+  </class>
+</hibernate-mapping>

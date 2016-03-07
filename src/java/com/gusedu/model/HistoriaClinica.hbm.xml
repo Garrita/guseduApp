@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.HistoriaClinica" optimistic-lock="version" table="historia_clinica">
+    <id name="hclCodigo" type="java.lang.Integer">
+      <column name="hcl_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Visita" fetch="select" name="visita">
+      <column name="vis_codigo"/>
+    </many-to-one>
+    <property name="cliAgua" type="java.lang.Integer">
+      <column name="cli_agua"/>
+    </property>
+    <property name="cliHabAlmuerzo" type="string">
+      <column name="cli_hab_almuerzo"/>
+    </property>
+    <property name="cliAzucar" type="java.lang.Boolean">
+      <column name="cli_azucar"/>
+    </property>
+    <property name="cliHabCena" type="string">
+      <column name="cli_hab_cena"/>
+    </property>
+    <property name="hclDatosAdicionales" type="string">
+      <column name="hcl_datos_adicionales"/>
+    </property>
+    <property name="hclDepRegular" type="string">
+      <column name="hcl_dep_regular"/>
+    </property>
+    <property name="cliHabDesayuno" type="string">
+      <column name="cli_hab_desayuno"/>
+    </property>
+    <property name="cliEsVegetariano" type="java.lang.Boolean">
+      <column name="cli_es_vegetariano"/>
+    </property>
+    <property name="hclEmbarazo" type="java.lang.Boolean">
+      <column name="hcl_embarazo"/>
+    </property>
+    <property name="hclGlucosa" type="java.lang.Double">
+      <column name="hcl_glucosa" precision="22" scale="0"/>
+    </property>
+    <property name="hclQuimioterapia" type="java.lang.Boolean">
+      <column name="hcl_quimioterapia"/>
+    </property>
+    <property name="hclImc" type="java.lang.Double">
+      <column name="hcl_imc" precision="22" scale="0"/>
+    </property>
+    <property name="hclMesEmbarazo" type="string">
+      <column name="hcl_mes_embarazo"/>
+    </property>
+    <property name="hclPeso" type="java.lang.Double">
+      <column name="hcl_peso" precision="22" scale="0"/>
+    </property>
+    <property name="cliSalYodada" type="java.lang.Boolean">
+      <column name="cli_sal_yodada"/>
+    </property>
+    <property name="hclTalla" type="java.lang.Double">
+      <column name="hcl_talla" precision="22" scale="0"/>
+    </property>
+    <property name="hclTemperatura" type="java.lang.Double">
+      <column name="hcl_temperatura" precision="22" scale="0"/>
+    </property>
+    <property name="hclTensionArterial" type="string">
+      <column length="8" name="hcl_tension_arterial"/>
+    </property>
+    <property name="hclDispElectronico" type="java.lang.Boolean">
+      <column name="hcl_disp_electronico"/>
+    </property>
+  </class>
+</hibernate-mapping>

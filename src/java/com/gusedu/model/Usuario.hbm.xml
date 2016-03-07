@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01/03/2016 03:47:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="gusedu_dbsv" name="com.gusedu.model.Usuario" optimistic-lock="version" table="usuario">
+    <id name="usuCodigo" type="java.lang.Integer">
+      <column name="usu_codigo"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="com.gusedu.model.Persona" fetch="select" name="persona">
+      <column name="per_codigo"/>
+    </many-to-one>
+    <many-to-one class="com.gusedu.model.TipoUsuario" fetch="select" name="tipoUsuario">
+      <column name="tus_codigo" not-null="true"/>
+    </many-to-one>
+    <property name="usuActivo" type="java.lang.Boolean">
+      <column name="usu_activo"/>
+    </property>
+    <property name="usuFecCreacion" type="timestamp">
+      <column length="19" name="usu_fec_creacion"/>
+    </property>
+    <property name="usuPassword" type="string">
+      <column length="50" name="usu_password" not-null="true"/>
+    </property>
+    <property name="usuUsuario" type="string">
+      <column length="50" name="usu_usuario" not-null="true"/>
+    </property>
+    <property name="usuEmpresa" type="string">
+      <column name="usu_empresa"/>
+    </property>
+    <property name="usuFecFinm" type="timestamp">
+      <column length="19" name="usu_fec_finm"/>
+    </property>
+    <property name="usuPrecio" type="java.lang.Integer">
+      <column name="usu_precio"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="mensajesForUsuCodigoReceptor" table="mensaje">
+      <key>
+        <column name="usu_codigo_receptor" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Mensaje"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="mensajesForUsuCodigoReceptor_1" table="mensaje">
+      <key>
+        <column name="usu_codigo_receptor" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Mensaje"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="mensajesForUsuCodigoEmisor" table="mensaje">
+      <key>
+        <column name="usu_codigo_emisor" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Mensaje"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="mensajesForUsuCodigoEmisor_1" table="mensaje">
+      <key>
+        <column name="usu_codigo_emisor" not-null="true"/>
+      </key>
+      <one-to-many class="com.gusedu.model.Mensaje"/>
+    </set>
+  </class>
+</hibernate-mapping>

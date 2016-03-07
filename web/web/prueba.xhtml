@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    
+<ui:composition >
+<!--  
+<script type="text/javascript">
+function get() {
+	window.parent.foo();
+}
+</script>
+-->
+
+	<h:form id="formulario">
+		<p:growl showDetail="true" autoUpdate="true" />
+               
+                <h:panelGrid columns="4" id="panelRegistro"  >
+			<p:outputLabel for="perDni" value="DNI: " />
+                        <p:inputText value="#{personaBean.persona.perDni}" id="perDni" maxlength="8" required="true" requiredMessage="El campo DNI es obligatorio" >
+				<pe:keyFilter mask="num" />  
+			</p:inputText>
+
+                        <p:outputLabel for="perFecNac" value="Fecha de nacimiento: " /> 
+                        <p:calendar value="#{personaBean.persona.perFecNacimiento}" yearRange="c-100:c" maxdate="new Date();"
+                                    id="perFecNac" pattern="dd/MM/yyyy" navigator="true" >
+                            <p:ajax event="dateSelect" listener="#{personaBean.validaEdad}" update="perEdad" />
+                        </p:calendar>
+                        
+                        
+			<p:outputLabel for="perNombre" value="Nombre: " />
+                        <p:inputText value="#{personaBean.persona.perNombres}" id="perNombre" required="true" requiredMessage="Se requiere llenar el nombre" >
+
+			</p:inputText>
+
+                        <p:outputLabel for="perEdad" value="Edad : " />
+                        <p:inputText value="#{personaBean.persona.perEdad}" id="perEdad" maxlength="3"   validatorMessage="Solo se aceptan numeros positivos" >
+				<pe:keyFilter mask="num" /> 
+				<f:validateDoubleRange minimum="0" maximum="250" />
+			</p:inputText>
+                        
+			<p:outputLabel for="perApePaterno" value="Apellido paterno: " />
+                        <p:inputText value="#{personaBean.persona.perApellidoP}" required="true" requiredMessage="Se requiere llenar los apellidos"
+				id="perApePaterno" >
+	
+			</p:inputText>
+
+                        <p:outputLabel for="perTelFijo" value="Teléfono fijo: " />
+                        <p:inputText	id="perTelFijo"  value="#{personaBean.persona.perTelFijo}" />
+                        
+			<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
+			<p:inputText value="#{personaBean.persona.perApellidoM}" 
+				id="perApeMaterno" >
+			
+			</p:inputText>
+
+			
+                        <p:outputLabel for="perTelMovil" value="Teléfono móvil: " />
+			<p:inputText type="tel" 
+                                     value="#{personaBean.persona.perTelMovil}" id="perTelMovil" maxlength="12" >
+				<pe:keyFilter mask="num" />  
+			</p:inputText>
+                        
+                        
+                        <p:outputLabel value="Departamento : " />
+                        <p:selectOneMenu id="idDepa" 
+                                         value="#{ubigoBean.idDepartamento}"
+                                          >
+                            <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                            <f:selectItems value="#{ubigoBean.listadepa}" var="tt"
+                                           itemValue="#{tt.idDepa}" itemLabel="#{tt.departamento}" />
+                            <p:ajax event="change" 
+                                    update=":#{p:component('idProv')},
+                                    :#{p:component('idDis')}"
+                                    listener="#{ubigoBean.LISTA_PROVINCIAS()}" 
+                                    />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel for="perCorreo" value="Correo: " />
+                        <p:inputText value="#{personaBean.persona.perCorreo}" id="perCorreo" style="width: 310px"    >
+				<f:validateRegex
+					pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
+			</p:inputText>
+                        
+                        
+                        <p:outputLabel value="Provincia : " />
+                        <p:selectOneMenu id="idProv" 
+                 value="#{ubigoBean.idProvincia}"
+                                         >
+                           <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                           <f:selectItems value="#{ubigoBean.listapro}" var="u_prov"
+                                          itemValue="#{u_prov.idProv}" itemLabel="#{u_prov.provincia}" />
+                           <p:ajax event="change" 
+                                    update=":#{p:component('idDis')}"
+                                    listener="#{ubigoBean.LISTA_DISTRITO()}" 
+                                   />
+                       </p:selectOneMenu>
+                        
+                       
+                        
+			
+                        
+			<p:outputLabel for="perSexo" value="Sexo: " />
+                        <p:selectOneButton id="perSexo" value="#{personaBean.persona.perSexo}">
+				<f:selectItem itemLabel="Masculino" itemValue="M" />
+				<f:selectItem itemLabel="Femenino" itemValue="F" />
+			</p:selectOneButton>
+
+			
+                        
+                         <p:outputLabel value="Distrito : " />
+                        <p:selectOneMenu id="idDis" 
+                                         value="#{ubigoBean.idDistrito}"
+                                        >
+                            <f:selectItem itemLabel="Seleccione un tipo" itemValue="#{null}" />
+                            <f:selectItems value="#{ubigoBean.listadis}" var="u_dis"
+                                           itemValue="#{u_dis.idDist}" itemLabel="#{u_dis.distrito}" />
+                        </p:selectOneMenu>
+
+			
+                        <p:outputLabel for="perEstadoCivil" value="Estado civil: " />
+			<p:selectOneButton id="perEstadoCivil"
+                                           value="#{personaBean.persona.perEstadoCivil}">
+				<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+				<f:selectItem itemLabel="Casado" itemValue="Casado" />
+				<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+				<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+			</p:selectOneButton>
+                        
+                        <p:outputLabel for="perDireccion" value="Dirección: " />
+                        <p:inputText value="#{personaBean.persona.perDireccion}" id="perDireccion" style="width: 310px" />
+			
+
+			<p:outputLabel for="perComo" value="¿Cómo se enteró de Gusedu?" />
+                        <p:selectOneRadio id="perComo" value="#{personaBean.persona.perEnteroGusedu}" layout="grid" columns="2" >
+				<f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
+				<f:selectItem itemLabel="Web" itemValue="Web" />
+				<f:selectItem itemLabel="Amigos" itemValue="Amigos" />
+				<f:selectItem itemLabel="Familiares" itemValue="Familiares" />
+				<f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
+			</p:selectOneRadio>
+
+                        <p:commandButton id="proceReg" value="Registrar"  update=":#{p:component('tablaPac')},:#{p:component('growl')}"
+                                         action="#{personaBean.registroPacienteV2()}" icon="ui-icon-check"    />
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+				action="#{personaBean.cancel}" immediate="true" />
+		</h:panelGrid>
+        
+                <p:blockUI block=":#{p:component('panelJ')}" trigger=":#{p:component('proceReg')}" />
+	</h:form>
+</ui:composition>
+</html>

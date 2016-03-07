@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition>
+<script type="text/javascript">
+function foo() {
+       document.getElementById('menu:btnPruebita').click();
+            }
+</script>
+        <h:form id="menu">
+            <p:commandButton value="Pruebita" id="btnPruebita" actionListener="#{scheduleView.llenarCalendario()}" style="display: none;" />
+            <p:menubar>
+                <p:menuitem value="Inicio"  url="/web/Principal.jsf"   />
+                <p:menuitem icon="ui-icon-document" value="Calendario de Citas"   update=":#{p:component('schedule')}"  url="/web/Citas.jsf" rendered="#{auth.userLogged.tipoUsuario.calendarioCitas}" />
+                <p:submenu label="Reportes" icon="ui-icon-document">
+                    <p:menuitem value="Productos"  url="#" rendered="#{auth.userLogged.tipoUsuario.reporteProducto}" />
+                    <p:menuitem value="Puntos por Par" url="#" rendered="#{auth.userLogged.tipoUsuario.reportePar}" />
+                </p:submenu>
+
+                <p:submenu label="Consultas" icon="ui-icon-pencil" >
+                    <p:menuitem value="Historial de visitas"  action="#{historialVisitaBean.MENU_HISTORIAL()}" rendered="#{auth.userLogged.tipoUsuario.historialVisita}" />
+                    <p:menuitem value="Puntos" url="#" icon="ui-icon-arrowreturnthick-1-w" rendered="#{auth.userLogged.tipoUsuario.consultaPuntos}" />
+                    <p:menuitem value="Pares"  onclick="PF('dlgHT').show();"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaPares}" />
+                    <p:menuitem value="Pares por Enfermedad"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorEnfermedad}" />
+                    <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
+                    <p:menuitem value="Estado Diario"  action="#{reporteEstBean.listarEstadoDiario()}"  />
+                </p:submenu>
+                <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
+
+                <p:submenu label="Gestión" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
+                    <p:menuitem value="Puntos" onclick="PF('dlgPuntos').show();" icon="ui-icon-arrowreturnthick-1-w" rendered="#{auth.userLogged.tipoUsuario.gestionPuntos}" />
+                    <p:menuitem value="Pares" onclick="PF('dlgPares').show();" icon="ui-icon-arrowreturnthick-1-e"  rendered="#{auth.userLogged.tipoUsuario.gestionPares}" />
+                </p:submenu>
+
+                <p:submenu label="Opciones Adicionales" icon="ui-icon-help" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
+                    <p:menuitem value="Gestionar Enfermedades" onclick="PF('dlgEnfer').show();" />
+                    <p:menuitem value="Gestionar Enfermedades por Pares" onclick="PF('dlgEnferPar').show();" style="width:220px;"/>
+                    <p:menuitem value="Gestionar Síntomas"  onclick="PF('dlgSinto').show();" />
+                    <p:menuitem value="Gestionar Síntomas por Pares" onclick="PF('dlgSintoPar').show();" style="width:220px;"/>
+                    <p:menuitem value="Gestionar Tipo de Terapia"   />
+                </p:submenu>
+
+                <p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
+                    <p:menuitem value="Gestionar usuarios" url="/web/seguridad/gestionUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionUsuarios}" />
+                    <p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
+                    <p:menuitem value="Gestionar Productos" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
+                    <p:menuitem value="Estadística"  />
+                    <p:menuitem value="Citas"  />
+                    <p:menuitem value="Venta de Productos"  />
+                </p:submenu>
+
+
+
+                <p:submenu label="Cuenta" >
+                    <p:menuitem value="Cambiar Contraseña" oncomplete="PF('dlgpass').show();"  ></p:menuitem>
+                </p:submenu>
+                <f:facet name="options">
+                    <!--  <p:inputText style="margin-right:10px" placeholder="Search" />-->
+                    <p:commandLink  value="Cerrar Sesión" action="#{auth.logout}" />
+                </f:facet>
+            </p:menubar>
+
+
+        </h:form>
+        <p:dialog id="dialogPass" header="Cambiar Contraseña"
+                  widgetVar="dlgpass" showEffect="pop" modal="true">
+            <h:form  id="formpass" >
+                <p:panelGrid columns="2" id="panel"  >
+                    <p:outputLabel for="idca"  value="Contraseña Actual">
+                    </p:outputLabel>
+                    <p:password id="idca" value="#{auth.passactual}" required="true" ></p:password>
+                    <p:outputLabel  for="nc" value="Nueva Contraseña">
+                    </p:outputLabel>
+                    <p:password id="nc" value="#{auth.passnueva}" required="true" ></p:password>
+                    <p:outputLabel for="rnc" value="Repita la nueva Contraseña">
+                    </p:outputLabel>
+                    <p:password id="rnc" value="#{auth.passrepeat}" required="true" ></p:password>
+
+                    <p:commandButton value="Cambiar" action="#{auth.cambio}"  ></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+            <p:dialog id="dialogVntaProd" widgetVar="dlgVntaProd" showEffect="pop"  
+              width="80%" height="70%" header="Venta de productos" >	 
+			<ui:include src="/web/VentaProducto.xhtml" />
+    </p:dialog>
+         <p:dialog id="dialogHT" widgetVar="dlgHT" showEffect="pop" modal="true"
+                  width="1230px" height="550px">
+             <h:form id="formBMPAR"  >
+                <ui:include src="/web/BMPar.xhtml" />
+            </h:form>
+        </p:dialog>
+        <p:dialog header="Ventas del Día" widgetVar="dlgVentas" showEffect="pop" id="dialogV"
+                  width="30%"   >  
+
+            <p:dataTable id="tablaVntas" var="pac"
+                         value="#{reporteEstBean.listaTerapiasByterapeutas}" 
+                         emptyMessage="No hay visitas por el momento" >
+                <f:facet name="header">
+                    Terapias
+                </f:facet>
+                <p:column headerText="Cant." width="3%">
+                    <h:outputText value="#{pac.cantidad}" />
+                </p:column>
+
+                <p:column headerText="Terapeuta" width="20%">
+                    <h:outputText value="#{pac.nombre}" />
+                </p:column>
+
+                <p:column headerText="Costo" width="10%">
+                    <h:outputText value="S/. #{pac.costo}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:outputLabel
+                        value="Total : S/. #{reporteEstBean.costoT}"
+                        style="margin-right: -70%;" />
+                </f:facet>
+            </p:dataTable>
+            <br/>
+            <p:dataTable id="tablaVntasProd" var="pro"
+                         value="#{reporteEstBean.listarProductos}" 
+                         emptyMessage="No hay visitas por el momento" >
+                <f:facet name="header">
+                    Productos
+                </f:facet>
+                <p:column headerText="Cant." width="3%">
+                    <h:outputText value="#{pro.cantidad}" />
+                </p:column>
+
+                <p:column headerText="producto" width="20%">
+                    <h:outputText value="#{pro.nombre}" />
+                </p:column>
+
+                <p:column headerText="Costo" width="10%">
+                    <h:outputText value="S/. #{pro.costo}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:outputLabel
+                        value="Total  : S/. #{reporteEstBean.costoP}"
+                        style="margin-right: -70%;" />
+                </f:facet>
+            </p:dataTable>
+            <p:spacer width="255" height="20" ></p:spacer>
+            <p:outputLabel value="TOTAL : S/. #{reporteEstBean.costoTotal}"  />
+        </p:dialog>
+        
+            <p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"
+              showEffect="pop"  width="850px" height="500px" >
+        <ui:include src="/web/GestionPuntos.xhtml" /> 
+    </p:dialog>
+        <p:dialog id="dialogPares" widgetVar="dlgPares" showEffect="pop"  
+		width="80%" height="70%">	 
+			<ui:include src="/web/GestionPar.xhtml" />
+	</p:dialog>
+        
+                <p:dialog id="dialogEnfer" widgetVar="dlgEnfer" header="Gestionar enfermedades" showEffect="pop"
+                  width="600px" height="550px">
+            <ui:include src="/web/GestionEnfermedades.xhtml" />
+        </p:dialog>
+                <p:dialog id="dialogEnferPar" widgetVar="dlgEnferPar" header="Gestionar enfermedades por pares" showEffect="pop" 
+                  width="750px" height="550px">
+            <ui:include src="/web/GestionEnfermedadesPar.xhtml" />
+        </p:dialog>
+                <p:dialog id="dialogSinto" widgetVar="dlgSinto" header="Gestionar síntomas" showEffect="pop"  
+                  width="600px" height="550px">
+
+            <ui:include src="/web/GestionSintomas.xhtml" />
+
+        </p:dialog>
+                <p:dialog id="dialogSintoPar" widgetVar="dlgSintoPar" header="Gestionar síntomas por pares" showEffect="pop" 
+                  width="750px" height="550px">
+            <ui:include src="/web/GestionSintomasPar.xhtml" />
+    </p:dialog>
+</ui:composition>
+</html>
