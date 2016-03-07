@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+     <ui:composition template="./../../plantillas/PlantillaPrincipal.xhtml">
+
+        <ui:define name="titulo">
+            Gusedu Salud
+        </ui:define>
+        <ui:define name="top">
+        </ui:define>
+        <ui:define name="content">
+
+            <h:form>
+                <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+
+                    <p:chart type="bar" model="#{estadisticaBean.barra}"  style="width:400px;" />
+                </h:panelGrid>
+            </h:form>
+            
+            <h:form>
+                <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                    <p:chart type="bar" model="#{estadisticaBean.barraM}"  style="width:85%;"  />
+                </h:panelGrid>
+            </h:form>
+            <br/>
+            <p:chart type="line" model="#{estadisticaBean.lineModel2}" style="height:300px;"/>
+        </ui:define>
+
+        <ui:define name="bottom">
+
+        </ui:define>
+
+
+    </ui:composition>
+</html>

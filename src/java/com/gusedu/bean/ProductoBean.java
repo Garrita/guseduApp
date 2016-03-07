@@ -58,6 +58,7 @@ public class ProductoBean {
         productoservice = new ProductoServiceImpl();
         clienteService = new ClienteServiceImpl();
         LISTAR_PRODUCTOS();
+        LISTA_CLIPER();
     }
 
     public String getQuery() {
