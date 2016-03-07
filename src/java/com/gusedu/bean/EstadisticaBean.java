@@ -22,7 +22,7 @@ import org.primefaces.model.chart.LineChartModel;
 
 /**
  *
- * @author NV55C
+ * @author Joel Romero
  */
 @ManagedBean
 @SessionScoped
