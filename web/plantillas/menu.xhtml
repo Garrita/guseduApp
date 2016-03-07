@@ -28,15 +28,13 @@
                     <p:menuitem value="Pares por Enfermedad"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorEnfermedad}" />
                     <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
                     <p:menuitem value="Estado Diario"  action="#{reporteEstBean.listarEstadoDiario()}"  />
+                    <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
 
-                <p:submenu label="Gestión" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
+                <p:submenu label="Gestión" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" >
                     <p:menuitem value="Puntos" onclick="PF('dlgPuntos').show();" icon="ui-icon-arrowreturnthick-1-w" rendered="#{auth.userLogged.tipoUsuario.gestionPuntos}" />
                     <p:menuitem value="Pares" onclick="PF('dlgPares').show();" icon="ui-icon-arrowreturnthick-1-e"  rendered="#{auth.userLogged.tipoUsuario.gestionPares}" />
-                </p:submenu>
-
-                <p:submenu label="Opciones Adicionales" icon="ui-icon-help" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
                     <p:menuitem value="Gestionar Enfermedades" onclick="PF('dlgEnfer').show();" />
                     <p:menuitem value="Gestionar Enfermedades por Pares" onclick="PF('dlgEnferPar').show();" style="width:220px;"/>
                     <p:menuitem value="Gestionar Síntomas"  onclick="PF('dlgSinto').show();" />
@@ -48,7 +46,6 @@
                     <p:menuitem value="Gestionar usuarios" url="/web/seguridad/gestionUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionUsuarios}" />
                     <p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
                     <p:menuitem value="Gestionar Productos" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
-                    <p:menuitem value="Estadística"  />
                     <p:menuitem value="Citas"  />
                     <p:menuitem value="Venta de Productos"  />
                 </p:submenu>
