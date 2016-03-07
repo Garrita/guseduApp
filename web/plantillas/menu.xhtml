@@ -6,11 +6,11 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition>
-<script type="text/javascript">
-function foo() {
-       document.getElementById('menu:btnPruebita').click();
+        <script type="text/javascript">
+            function foo() {
+                document.getElementById('menu:btnPruebita').click();
             }
-</script>
+        </script>
         <h:form id="menu">
             <p:commandButton value="Pruebita" id="btnPruebita" actionListener="#{scheduleView.llenarCalendario()}" style="display: none;" />
             <p:menubar>
@@ -41,7 +41,7 @@ function foo() {
                     <p:menuitem value="Gestionar Enfermedades por Pares" onclick="PF('dlgEnferPar').show();" style="width:220px;"/>
                     <p:menuitem value="Gestionar Síntomas"  onclick="PF('dlgSinto').show();" />
                     <p:menuitem value="Gestionar Síntomas por Pares" onclick="PF('dlgSintoPar').show();" style="width:220px;"/>
-                    <p:menuitem value="Gestionar Tipo de Terapia"   />
+                    <p:menuitem value="Gestionar Tipo de Terapia" onclick="PF('dlgTipoTera').show();" />
                 </p:submenu>
 
                 <p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
@@ -84,13 +84,13 @@ function foo() {
                 </p:panelGrid>
             </h:form>
         </p:dialog>
-            <p:dialog id="dialogVntaProd" widgetVar="dlgVntaProd" showEffect="pop"  
-              width="80%" height="70%" header="Venta de productos" >	 
-			<ui:include src="/web/VentaProducto.xhtml" />
-    </p:dialog>
-         <p:dialog id="dialogHT" widgetVar="dlgHT" showEffect="pop" modal="true"
+        <p:dialog id="dialogVntaProd" widgetVar="dlgVntaProd" showEffect="pop"  
+                  width="80%" height="70%" header="Venta de productos" >	 
+            <ui:include src="/web/VentaProducto.xhtml" />
+        </p:dialog>
+        <p:dialog id="dialogHT" widgetVar="dlgHT" showEffect="pop" modal="true"
                   width="1230px" height="550px">
-             <h:form id="formBMPAR"  >
+            <h:form id="formBMPAR"  >
                 <ui:include src="/web/BMPar.xhtml" />
             </h:form>
         </p:dialog>
@@ -147,33 +147,38 @@ function foo() {
             <p:spacer width="255" height="20" ></p:spacer>
             <p:outputLabel value="TOTAL : S/. #{reporteEstBean.costoTotal}"  />
         </p:dialog>
-        
-            <p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"
-              showEffect="pop"  width="850px" height="500px" >
-        <ui:include src="/web/GestionPuntos.xhtml" /> 
-    </p:dialog>
+
+        <p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"
+                  showEffect="pop"  width="850px" height="500px" >
+            <ui:include src="/web/GestionPuntos.xhtml" /> 
+        </p:dialog>
         <p:dialog id="dialogPares" widgetVar="dlgPares" showEffect="pop"  
-		width="80%" height="70%">	 
-			<ui:include src="/web/GestionPar.xhtml" />
-	</p:dialog>
-        
-                <p:dialog id="dialogEnfer" widgetVar="dlgEnfer" header="Gestionar enfermedades" showEffect="pop"
+                  width="80%" height="70%">	 
+            <ui:include src="/web/GestionPar.xhtml" />
+        </p:dialog>
+
+        <p:dialog id="dialogEnfer" widgetVar="dlgEnfer" header="Gestionar enfermedades" showEffect="pop"
                   width="600px" height="550px">
             <ui:include src="/web/GestionEnfermedades.xhtml" />
         </p:dialog>
-                <p:dialog id="dialogEnferPar" widgetVar="dlgEnferPar" header="Gestionar enfermedades por pares" showEffect="pop" 
+        <p:dialog id="dialogEnferPar" widgetVar="dlgEnferPar" header="Gestionar enfermedades por pares" showEffect="pop" 
                   width="750px" height="550px">
             <ui:include src="/web/GestionEnfermedadesPar.xhtml" />
         </p:dialog>
-                <p:dialog id="dialogSinto" widgetVar="dlgSinto" header="Gestionar síntomas" showEffect="pop"  
+        <p:dialog id="dialogSinto" widgetVar="dlgSinto" header="Gestionar síntomas" showEffect="pop"  
                   width="600px" height="550px">
 
             <ui:include src="/web/GestionSintomas.xhtml" />
 
         </p:dialog>
-                <p:dialog id="dialogSintoPar" widgetVar="dlgSintoPar" header="Gestionar síntomas por pares" showEffect="pop" 
+        <p:dialog id="dialogSintoPar" widgetVar="dlgSintoPar" header="Gestionar síntomas por pares" showEffect="pop" 
                   width="750px" height="550px">
             <ui:include src="/web/GestionSintomasPar.xhtml" />
-    </p:dialog>
+        </p:dialog>
+
+        <p:dialog id="dialogTipoTera" widgetVar="dlgTipoTera" header="Gestionar Tipo de Terapia" showEffect="pop" 
+                  width="600px" height="550px">	 
+            <ui:include src="/web/GestionTipoTerapia.xhtml" />
+        </p:dialog>
 </ui:composition>
 </html>
