@@ -25,14 +25,15 @@
                 </p:column>
                 <p:column>
                     <p:commandButton value="Registrar Pares" actionListener="#{historialVisitaBean.obtenerVisita3(vis)}" 
+                                     action="#{terapiaBean.listado()}"
                                      title="Editar" oncomplete="PF('dlgParesTHV2').show();" 
-                                     update=":#{p:component('dialogParesByHistorial')}" />
+                                     update=":#{p:component('dialogParesByHistorial2')}" />
                 </p:column>
             </p:dataTable>
 
-            <p:dialog id="dialogParesByHistorial"
+            <p:dialog id="dialogParesByHistorial2"
                       header="Registrar pares de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM} de la #{historialVisitaBean.viscliente.visita}" 
-                      widgetVar="dlgParesTHV2" showEffect="pop" width="80%"  >
+                      widgetVar="dlgParesTHV2" showEffect="pop" width="80%" >
                 <ui:include src="RegistroParesV3.xhtml" />
             </p:dialog>
         </h:form> 

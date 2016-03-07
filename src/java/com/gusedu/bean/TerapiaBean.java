@@ -516,6 +516,7 @@ public class TerapiaBean {
     
     public void BuscarEliminar(int codigo)
     {
+        System.out.println("ENTRE AL METODO PS");
         BUSCARXID(codigo);
         ELIMINAR();
     }

@@ -103,21 +103,21 @@
                             <ui:include src="prueba.xhtml"  />
                         </p:panel>
                     </p:dialog>
-                </h:form>
-                <p:dialog id="dialogDP" header="Datos personales de  #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" widgetVar="dlgDP" showEffect="pop" modal="true"   >
-                    <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-                    <h:form id="frame" >
-                        <ui:include  src="editarDatosPersonales.xhtml"  />
-                    </h:form>
-                </p:dialog>
-                
-                    <p:dialog id="dialogHistorialVisitas" header="Historial de visitas de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" 
-                          widgetVar="dlgHV" showEffect="pop" modal="true" width="800px" height="550px" >
-                    <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-                    <h:form id="frame4"  >
-                        <ui:include src="historialVisitas.xhtml" />
-                    </h:form>
-                </p:dialog>
+                 </h:form>
+                 <p:dialog id="dialogDP" header="Datos personales de  #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" widgetVar="dlgDP" showEffect="pop" modal="true"   >
+                     <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+                     <h:form id="frame" >
+                         <ui:include  src="editarDatosPersonales.xhtml"  />
+                     </h:form>
+                 </p:dialog>
+
+                 <p:dialog id="dialogHistorialVisitas" header="Historial de visitas de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" 
+                           widgetVar="dlgHV" showEffect="pop" modal="true" width="800px" height="550px" >
+                     <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+                     <h:form id="frame4"  >
+                         <ui:include src="historialVisitas.xhtml" />
+                     </h:form>
+                 </p:dialog>
             </ui:define>
 
             <ui:define name="bottom">
