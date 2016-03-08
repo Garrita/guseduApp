@@ -65,7 +65,7 @@ public class EstadisticaBean implements Serializable{
         
     private void createAnimatedModelsM() {
         setBarraM(initBarModelM());
-        getBarraM().setTitle("Cantida de Citas por Meses");
+        getBarraM().setTitle("Cantidad de Citas por Meses");
         getBarraM().setAnimate(true);
         getBarraM().setLegendPosition("ne");
         //getBarraM().setBarMargin(50); 
