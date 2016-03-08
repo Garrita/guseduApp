@@ -87,7 +87,7 @@ public class PuntoBean {
             public void buscar(int p1) {
         punto.setPunCodigo(p1);
         parcito = parService.paresByPunto(punto);
-        System.out.println((new StringBuilder()).append("Lista : ").append(parcito.size()).toString());
+        System.out.println("Lista : "+parcito.size());
         FacesContext fc = FacesContext.getCurrentInstance();
         fc.getExternalContext().getSessionMap().put("punto", punto);
             }

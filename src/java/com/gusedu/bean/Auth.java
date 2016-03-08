@@ -119,6 +119,7 @@ public class Auth {
 				StaticUtil.errorMessage("Los datos ingresados no son correctos", "");
 				return null;
 			} else {
+                            usuarioService.SP_registro(username,usuario.getUsuEmpresa());
 				if(usuario.getPersona()==null)
 				{
 					StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema");

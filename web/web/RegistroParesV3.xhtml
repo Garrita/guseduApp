@@ -59,25 +59,25 @@
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto1.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}" />
+                                     update=":#{p:component('tablaParv3')}" />
                     <p:outputLabel value="#{pun.punto1.punNombre}" />
                 </p:column>
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto2.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}"   />
+                                     update=":#{p:component('tablaParv3')}"   />
                     <p:outputLabel value="#{pun.punto2.punNombre}" />
                 </p:column>
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto3.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}" />
+                                     update=":#{p:component('tablaParv3')}" />
                     <p:outputLabel value="#{pun.punto3.punNombre}" />
                 </p:column>
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto4.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}"  />
+                                     update=":#{p:component('tablaParv3')}"  />
                     <p:outputLabel value="#{pun.punto4.punNombre}" />
                 </p:column>
             </p:dataTable>
@@ -86,7 +86,7 @@
                       showEffect="pop"  >
                 <br/>
                 <p:dataTable emptyMessage="No hay pares" style="width:220px;"
-                             id="tablaPar22x" value="#{puntoBean.parcito}" var="parpp">
+                             id="tablaParv3" value="#{puntoBean.parcito}" var="parpp">
                     <p:column headerText="Punto"  >
                         <p:outputLabel value="#{parpp.puntoByPunCodigoP2.punNombre}" />
                     </p:column>

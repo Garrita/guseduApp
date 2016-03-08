@@ -29,4 +29,6 @@ public interface UsuarioService {
         public int buscarporUsuario(String usuUsuario);
 
         public String buscarporCodigo(int codigo);
+        
+        public boolean SP_registro(String usuario,String empresa);
 }

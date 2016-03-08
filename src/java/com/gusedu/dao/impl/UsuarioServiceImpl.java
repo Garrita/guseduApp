@@ -240,4 +240,23 @@ public class UsuarioServiceImpl implements UsuarioService,Serializable{
        return valor;
     }
     
+        @Override
+    public boolean SP_registro(String usuario,String empresa) {
+            boolean result=false;
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+         
+             Query q = session.createSQLQuery("{ CALL SP_logueo(:user,:empresa) }");
+               q.setParameter("user",usuario);
+               q.setParameter("empresa",empresa);
+               q.executeUpdate();
+               result=true;
+        } catch (Exception e) {
+            System.out.println("Error SP_registro : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return result;  
+    }
 }
