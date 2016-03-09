@@ -32,7 +32,7 @@
             </p:dataTable>
 
             <p:dialog id="dialogParesByHistorial2"
-                      header="Registrar pares de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM} de la #{historialVisitaBean.viscliente.visita}" 
+                      header="Registrar pares de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM} de la #{historialVisitaBean.viscliente.visita} - #{historialVisitaBean.toShort(historialVisitaBean.viscliente.fechaCreacion)}" 
                       widgetVar="dlgParesTHV2" showEffect="pop" width="80%" >
                 <p:dataTable emptyMessage="No hay puntos registrados en el Paciente" scrollable="true" scrollHeight="150"
                          style="width:350px;" id="tablaParPunto12x123" value="#{terapiaBean.listarTerapiaPar}"

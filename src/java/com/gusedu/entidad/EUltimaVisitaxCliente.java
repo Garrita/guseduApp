@@ -5,6 +5,7 @@
  */
 package com.gusedu.entidad;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
