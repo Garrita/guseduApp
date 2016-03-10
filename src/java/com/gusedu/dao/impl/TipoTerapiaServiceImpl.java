@@ -169,4 +169,22 @@ public class TipoTerapiaServiceImpl implements TipoTerapiaService, Serializable 
         }
         return tipoterapiaservice;
     }
+
+    @Override
+    public boolean SP_InsertarTipoterapia(TipoTerapia tipoterapia) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_InsertarTipoterapia(:nombre) }");
+             q.setParameter("nombre", tipoterapia.getTteNombre());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_InsertarTipoterapia : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
+    }
 }

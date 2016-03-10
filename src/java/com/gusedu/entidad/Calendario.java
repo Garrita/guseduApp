@@ -19,11 +19,12 @@ public class Calendario {
     private int cli_codigo;
     private String descripcion;
     private Boolean llegada;
+    private String tte_codigo;
 
     public Calendario() {
     }
 
-    public Calendario(String nombre, Date fec_creacion, Date fec_fin, int vis_codigo, int cli_codigo, String descripcion, Boolean llegada) {
+    public Calendario(String nombre, Date fec_creacion, Date fec_fin, int vis_codigo, int cli_codigo, String descripcion, Boolean llegada, String tte_codigo) {
         this.nombre = nombre;
         this.fec_creacion = fec_creacion;
         this.fec_fin = fec_fin;
@@ -31,7 +32,10 @@ public class Calendario {
         this.cli_codigo = cli_codigo;
         this.descripcion = descripcion;
         this.llegada = llegada;
+        this.tte_codigo = tte_codigo;
     }
+
+
 
  
 
@@ -90,6 +94,14 @@ public class Calendario {
 
     public void setVis_codigo(int vis_codigo) {
         this.vis_codigo = vis_codigo;
+    }
+
+    public String getTte_codigo() {
+        return tte_codigo;
+    }
+
+    public void setTte_codigo(String tte_codigo) {
+        this.tte_codigo = tte_codigo;
     }
     
     

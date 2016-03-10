@@ -60,7 +60,7 @@ public class EstadisticaImpl implements EstadisticaService{
                 Session session = HibernateUtil.getSessionFactory().openSession();
                  try {
           String empresa = StaticUtil.userLogged();
-             Query q = session.createSQLQuery("{ CALL Estadistica_Pacientes_Meses() }");
+             Query q = session.createSQLQuery("{ CALL Estadistica_Visita_Meses() }");
 			List<Object[]> d=q.list();
 			for (Object[] result : d) {
 				

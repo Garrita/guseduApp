@@ -1,0 +1,91 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08/03/2016, 04:08:16 PM
+    Author     : NV55C
+*/
+
+.event1 .fc-event,
+.event1 a,
+.event1 .fc-event-inner{
+   background-color: darkorange;
+   border-color: darkorange;
+   color: white;
+}
+
+.event2 .fc-event,
+.event2 a,
+.event2 .fc-event-inner{
+   background-color: lawngreen;
+   border-color: lawngreen;
+   color: black;
+}
+
+
+.event3 .fc-event,
+.event3 a,
+.event3 .fc-event-inner{
+   background-color: orchid;
+   border-color: orchid;
+   color: white;
+}
+
+.event4 .fc-event,
+.event4 a,
+.event4 .fc-event-inner{
+   background-color: paleturquoise;
+   border-color: paleturquoise;
+   color: black;
+}
+
+.event5 .fc-event,
+.event5 a,
+.event5 .fc-event-inner{
+   background-color: springgreen;
+   border-color: springgreen;
+   color: black;
+}
+
+.event6 .fc-event,
+.event6 a,
+.event6 .fc-event-inner{
+   background-color: skyblue;
+   border-color: skyblue;
+   color: white;
+}
+
+.event7 .fc-event,
+.event7 a,
+.event7 .fc-event-inner{
+   background-color: peru;
+   border-color: peru;
+   color: white;
+}
+
+.event8 .fc-event,
+.event8 a,
+.event8 .fc-event-inner{
+   background-color: yellow;
+   border-color: yellow;
+   color: black;
+}
+
+.event9 .fc-event,
+.event9 a,
+.event9 .fc-event-inner{
+   background-color: purple;
+   border-color: purple;
+   color: white;
+}
+
+.event10 .fc-event,
+.event10 a,
+.event10 .fc-event-inner{
+   background-color: violet;
+   border-color: violet;
+   color: white;
+}
+

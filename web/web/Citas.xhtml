@@ -20,6 +20,7 @@
             </ui:define>
 
             <ui:define name="content">
+               
                 <script type="text/javascript">
                     function scroll_messages() {
                         //window.parent.fooC();
@@ -230,7 +231,7 @@
 
                 <h:form id="formCalendario" >
                     <p:dialog widgetVar="eventDialog" id="eventDialogP" header="Detalle de Cita" 
-                              showEffect="clip" hideEffect="clip" modal="true" >
+                              showEffect="clip" hideEffect="clip" modal="true" focus="iTipoTerapia2" >
                         <p:panel id="pnlCitas" >
                             <h:panelGrid id="eventDetails" columns="2">
                                 <p:outputLabel for="title" value="Paciente : " />
@@ -345,11 +346,13 @@
                             <h:outputLabel value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar eq false}" />
                             <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar ne false}" />
 
-                            <h:outputText value="Marcar llegada : " />
-                            <p:selectBooleanCheckbox value="#{scheduleView.visita.visLlegada }" >
-                                <p:ajax  listener="#{scheduleView.CREAR_FACTURA}" />                  
-                            </p:selectBooleanCheckbox>
-
+                            <h:panelGrid columns="2"  >
+                                <h:outputText value="Marcar llegada : " />
+                                <p:selectBooleanCheckbox value="#{scheduleView.visita.visLlegada }" disabled="#{scheduleView.visita.visLlegada }" >
+                                    <p:ajax  listener="#{scheduleView.CREAR_FACTURA}" oncomplete="PF('eventDialog2').hide();PF('dlgPnlPay').show();" />                  
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
+                            <p:outputLabel />
                             <p:commandButton icon="ui-icon-pencil" title="Editar" action="#{scheduleView.change}" update="eventDetails2" rendered="#{scheduleView.calendar eq false}" />    
                             <p:commandButton icon="ui-icon-disk" title="Guardar" action="#{scheduleView.change}" update="eventDetails2" rendered="#{scheduleView.calendar ne false}" />
                             <p:commandButton 
@@ -437,6 +440,24 @@
                         </p:dataTable>
 
                     </p:dialog>
+                </h:form>
+                
+                <h:form>
+                    <p:dialog id="pnlPay"  widgetVar="dlgPnlPay" hideEffect="fade" dynamic="true"
+                          modal="true"  header="Registro de Pago de Terapia" closable="false" focus="cajaTerPago" >
+                    <p:panelGrid columns="2">
+                         <p:outputLabel value="Paciente : " />
+                         <p:outputLabel value="#{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM}" />
+                         <p:outputLabel value="Terapia : " />
+                         <p:outputLabel value="#{scheduleView.terapia.tipoTerapia.tteNombre}" />
+                         <p:outputLabel value="Terapeuta : " />
+                         <p:outputLabel value="#{scheduleView.terapia.terUsuCreacion}" />
+                         <p:outputLabel value="Registrar Pago :" />
+                         <p:inputText id="cajaTerPago" value="#{scheduleView.valorTerapia}" />
+                    </p:panelGrid>
+                    <p:commandButton value="Registrar Pago"  action="#{scheduleView.REGISTRAR_PRECIO_TERAPIA()}"
+                                     oncomplete="PF('dlgPnlPay').hide();"   />
+                </p:dialog>
                 </h:form>
                 <script type="text/javascript">
                     PrimeFaces.locales["es"] = {

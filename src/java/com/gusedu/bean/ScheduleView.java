@@ -85,6 +85,8 @@ public class ScheduleView {
     
     private String terapeuta;
     
+    private double valorTerapia;
+    
     public ScheduleView() {
         visitaService = new VisitaServiceImpl();
         terapiaService = new TerapiaServiceImpl();
@@ -108,6 +110,7 @@ public class ScheduleView {
         sesion = new EUltimaVisitaxCliente();
         cab_fact= new cabecera_factura();
         terapeuta="";
+        valorTerapia=150;
         llenarCalendario();
     }
     
@@ -131,7 +134,9 @@ public class ScheduleView {
              Cliente cli = new Cliente();
              cli.setCliCodigo(listaCalendario.get(i).getCli_codigo());
              v.setCliente(cli);
-             eventModel.addEvent(new DefaultScheduleEvent(pac,fecE,fecF,v));
+             DefaultScheduleEvent evento = new DefaultScheduleEvent(pac, fecE, fecF, v);
+             evento.setStyleClass(listaCalendario.get(i).getTte_codigo());   
+             eventModel.addEvent(evento);
 
         }
     }
@@ -349,7 +354,7 @@ public class ScheduleView {
        FacesContext fc = FacesContext.getCurrentInstance();
        fc.getExternalContext().getSessionMap().put("visActual", visita);
        fc.getExternalContext().getSessionMap().put("ultimavisita", visita);
-       
+        System.out.println("FLAG : "+visita.getVisLlegada());
        //VisitaBean vbean = new VisitaBean();
        //vbean.changeVisita(visita);
         //------- Terapia ---------//
@@ -528,19 +533,29 @@ public class ScheduleView {
     public void setCab_fact(cabecera_factura cab_fact) {
         this.cab_fact = cab_fact;
     }
+
+    public double getValorTerapia() {
+        return valorTerapia;
+    }
+
+    public void setValorTerapia(double valorTerapia) {
+        this.valorTerapia = valorTerapia;
+    }
+    
+    
     
     public void BUSCARFACTURA()
     {
-        System.out.println("Codigo Cliente : "+cli.getCliCodigo()+"\nFec : "+visita.getVisFecCreacion());
-        cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),visita.getVisFecCreacion());
+        System.out.println("Codigo Cliente : "+cli.getCliCodigo()+"\nFec : "+visita.getVisFecCreacion()+"\nCod : "+visita.getVisCodigo());
+        cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),visita.getVisFecCreacion(),visita.getVisCodigo());
         LISTAR();
     }
     
     public void BUSCARFACTURA_EXTERNO(int cli_codigo)
     {
        cli.setCliCodigo(cli_codigo);
-       cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),new Date());
-       lista_detfact=facturaService.SP_ListaDetalle(cli.getCliCodigo(),new Date());
+       cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),new Date(),0);
+       lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
       
     }
     
@@ -552,7 +567,7 @@ public class ScheduleView {
     
     public void LISTAR()
     {
-               lista_detfact=facturaService.SP_ListaDetalle(cli.getCliCodigo(),visita.getVisFecCreacion());
+               lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
     }
       public void onRowEdit(RowEditEvent event) {
         detalle_factura detfact ;
@@ -563,5 +578,12 @@ public class ScheduleView {
           System.out.println("TERAPIA : "+terapia.getTerCodigo()+"-VISITA : "+visita.getVisCodigo()+"-Valor :"+val);
          terapiaService.SP_CambiarPrecioTerapia(terapia.getTerCodigo(), visita.getVisCodigo(), val);
          BUSCARFACTURA();
+    }
+      
+    public void REGISTRAR_PRECIO_TERAPIA()
+    {
+        terapia.setTerCosto(valorTerapia);
+        terapiaService.updateTerapia(terapia);
+        terapiaService.SP_CambiarPrecioTerapia(terapia.getTerCodigo(), visita.getVisCodigo(), 0);
     }
 }

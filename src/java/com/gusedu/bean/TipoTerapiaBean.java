@@ -76,7 +76,8 @@ public class TipoTerapiaBean {
     public void AGREGAR()
     {
         System.out.println("Ingresando tipo terapia...");
-        tipoterapiaservice.saveTipoTerapia(datos);      
+        tipoterapiaservice.SP_InsertarTipoterapia(datos);
+        //tipoterapiaservice.saveTipoTerapia(datos);      
         datos = new TipoTerapia();
         listarTipoTerapia();
     }

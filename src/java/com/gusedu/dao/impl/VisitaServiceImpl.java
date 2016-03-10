@@ -447,7 +447,9 @@ for(int i=0;i<result.size();i++){
                          int cli_codigo=(int) result[4];
                          String descripcion=(String) result[5];
                          Boolean llegada=(Boolean) result[6];
-                lista.add(new Calendario(nombre, fec_creacion, fec_fin,vis_codigo, cli_codigo, descripcion, llegada));
+                         String tte_codigo=(String) result[7];
+                        
+                lista.add(new Calendario(nombre, fec_creacion, fec_fin,vis_codigo, cli_codigo, descripcion, llegada,tte_codigo));
 			}
         } catch (Exception e) {
             System.out.println("Error : "+e.getMessage());

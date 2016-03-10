@@ -25,4 +25,6 @@ public interface TipoTerapiaService {
      public TipoTerapia getByNombre(String nombre);
      
      public TipoTerapia getById(Integer idTipoTerapia);
+     
+     public boolean SP_InsertarTipoterapia(TipoTerapia tipoterapia);
 }

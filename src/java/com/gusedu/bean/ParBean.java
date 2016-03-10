@@ -271,7 +271,12 @@ post();
                 public void cargarParWeb(int id)
 	{
 		parSeleccionado = parService.parById(id); 
-	}
+	           System.out.println("P1 : "+parSeleccionado.getPuntoByPunCodigoP1().getPunNombre()+
+                                       "\nP2 : "+parSeleccionado.getPuntoByPunCodigoP2().getPunNombre()+
+                           "\nPatogeno : "+parSeleccionado.getParPatogeno()+
+                           "\nDescripcion : "+parSeleccionado.getParDescripcion()+
+                           "\nGrupo : "+parSeleccionado.getGrupo().getGruNombre());
+        }
        	public void removePar() {
 		parService.deletePar(parSeleccionado);
 		parSeleccionado = new Par();

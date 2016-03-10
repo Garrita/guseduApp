@@ -87,6 +87,7 @@ public class VisitaBean {
 /*  98*/        historiaClinicaService = new HistoriaClinicaServiceImpl();
 precioTotal=0.0;
 edit=false;
+LISTAR_PRODUCTOS();
             }        
             
     public double getPrePrecioTerapia() {
