@@ -21,6 +21,7 @@ public class ReporteImpl implements ReporteService{
 	
 	@SuppressWarnings("unchecked")
  
+        @Override
 	public List<Reporte> listarTerapiaByterapeutas() {
             System.out.println("Se ejecuta listarTerapiaByterapeutas - ReporteImpl");
 		List<Reporte> lista= new ArrayList<>();
@@ -77,6 +78,67 @@ public class ReporteImpl implements ReporteService{
 		return lista;
 	}
 
+        @Override
+        public List<ReporteClientes> listarClientesByterapeutas(String Terapeuta)
+        {
+            System.out.println("Se ejecuta listarClientesByterapeutas - ReporteImpl");
+            List<ReporteClientes> lista= new ArrayList<>();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+             try {
+            String empresa = StaticUtil.userLogged();
+            Query q = session.createSQLQuery("{ CALL Reporte_ClientesbyTerapeuta(:empresa,:Terapeuta) }");
+                q.setParameter("Terapeuta",Terapeuta);
+                q.setParameter("empresa",empresa);
+
+                List<Object[]> d=q.list();
+                for (Object[] result : d) 
+                {
+                    String Cliente = (String) result[0];
+                    String TipoTer = (String) result[1];
+                    double Monto = (double) result[2];
+                    System.out.println("Cliente: "+result[0] + "\nMonto: " + result[1] + "\nTipo Terapia: " + result[2]);
+                    lista.add(new ReporteClientes(Cliente,TipoTer,Monto));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                session.flush();
+                session.close();
+            }
+		return lista;
+        }
+        
+        @Override
+        public List<ReporteClientesXProd> listarProductosXCliente(String Product)
+        {
+            System.out.println("Se ejecuta listarProductosXCliente - ReporteImpl");
+            List<ReporteClientesXProd> lista= new ArrayList<>();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+             try {
+            String empresa = StaticUtil.userLogged();
+            Query q = session.createSQLQuery("{ CALL Reporte_ProductosbyCliente(:empresa,:producto) }");
+                q.setParameter("empresa",empresa);
+                q.setParameter("producto",Product);
+
+                List<Object[]> d=q.list();
+                for (Object[] result : d) 
+                {
+                    String Cliente = (String) result[0];
+                    String TipoTer = (String) result[1];
+                    double precioU = (double) result[2];
+                    int cant = (int) result[3];
+                    double Monto = (double) result[4];
+                    lista.add(new ReporteClientesXProd(Cliente,TipoTer,precioU,cant,Monto));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                session.flush();
+                session.close();
+            }
+		return lista;
+        }
+        
 	@Override
 	public Reporte AcumuladoTerapias() {
 		Reporte rep =  new Reporte();

@@ -6,12 +6,17 @@
 package com.gusedu.bean;
 
 import com.gusedu.estadistica.Reporte;
+import com.gusedu.estadistica.ReporteClientes;
+import com.gusedu.estadistica.ReporteClientesXProd;
 import com.gusedu.estadistica.ReporteImpl;
 import com.gusedu.estadistica.ReporteService;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.ToggleEvent;
 
 /**
  *
@@ -25,20 +30,41 @@ public class ReporteEstBean {
     ReporteService reporteservice;
     
     public List<Reporte> listaTerapiasByterapeutas;
-	public List<Reporte> listarProductos;
+    public List<ReporteClientes> listaClientesByterapeutas;
+    public List<ReporteClientesXProd> listaProductosXCliente;
+    public List<Reporte> listarProductos;
 	
 	private double costoT;
 	private double costoP;
 	private double costoTotal;
+        private String Terapeuta;
+        private String Product;
     
     public ReporteEstBean() {
         reporteservice = new ReporteImpl();
         setCostoP(0);
-		setCostoT(0);
-		setCostoTotal(0);
-        
+        setCostoT(0);
+	setCostoTotal(0);
+        setProduct(" ");
+        setTerapeuta(" ");
     }
 
+    public String getTerapeuta() {
+        return Terapeuta;
+    }
+
+    public void setTerapeuta(String Terapeuta) {
+        this.Terapeuta = Terapeuta;
+    }
+
+    public String getProduct() {
+        return Product;
+    }
+
+    public void setProduct(String Product) {
+        this.Product = Product;
+    }  
+    
     public List<Reporte> getListaTerapiasByterapeutas() {
         return listaTerapiasByterapeutas;
     }
@@ -47,6 +73,27 @@ public class ReporteEstBean {
         this.listaTerapiasByterapeutas = listaTerapiasByterapeutas;
     }
 
+    public List<ReporteClientes> getListaClientesByterapeutas() {
+        return listaClientesByterapeutas;
+    }
+
+    public void setListaClientesByterapeutas(List<ReporteClientes> listaClientesByterapeutas) {
+        this.listaClientesByterapeutas = listaClientesByterapeutas;
+        Iterator iter = listaClientesByterapeutas.iterator();
+        while(iter.hasNext())
+        {
+            
+        }      
+    }
+
+    public List<ReporteClientesXProd> getListaProductosXCliente() {
+        return listaProductosXCliente;
+    }
+
+    public void setListaProductosXCliente(List<ReporteClientesXProd> listaProductosXCliente) {
+        this.listaProductosXCliente = listaProductosXCliente;
+    }
+    
     public List<Reporte> getListarProductos() {
         return listarProductos;
     }
@@ -79,14 +126,37 @@ public class ReporteEstBean {
         this.costoTotal = costoTotal;
     }
     
+    public void onRowToggle(ToggleEvent event)
+    {
+        System.out.println("Row State : "+event.getVisibility());
+        System.out.println("Model : "+((Reporte)event.getData()).getNombre());
+        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(((Reporte)event.getData()).getNombre());
+        for (int i = 0; i < listaClientesByterapeutas.size(); i++) {
+            System.out.println("Cliente : "+listaClientesByterapeutas.get(i).getCliente()+"\nTipo Terapia : "+
+                    listaClientesByterapeutas.get(i).getTipoTer());
+        }
+    }
     
-    
+    public void onRowToggle1(ToggleEvent event)
+    {
+        System.out.println("Row State : "+event.getVisibility());
+        System.out.println("Model : "+((Reporte)event.getData()).getNombre());
+        listaProductosXCliente = reporteservice.listarProductosXCliente(((Reporte)event.getData()).getNombre());
+        for (int i = 0; i < listaProductosXCliente.size(); i++) {
+            System.out.println("Cliente : "+listaProductosXCliente.get(i).getCliente()+"\nItem : "+
+                    listaProductosXCliente.get(i).getItem());
+        }
+    }
         public void listarEstadoDiario()
         {
+            Terapeuta = "";
+            Product = "";
             costoP=0;
             costoT=0;
             costoTotal=0;
             listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas();
+            listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta);
+            listaProductosXCliente = reporteservice.listarProductosXCliente(Product);
 		listarProductos=reporteservice.listarProductos();
 		for(int i=0;i<listaTerapiasByterapeutas.size();i++)
 		{
