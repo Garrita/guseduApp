@@ -57,5 +57,6 @@
     <mapping resource="com/gusedu/model/EnfermedadPar.hbm.xml"/>
     <mapping resource="com/gusedu/model/TipoUsuario.hbm.xml"/>
     <mapping resource="com/gusedu/model/Usuario.hbm.xml"/>
+    <mapping resource="com/gusedu/model/Evento.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

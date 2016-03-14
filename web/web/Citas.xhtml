@@ -463,31 +463,31 @@
                     </p:panelGrid>
                     <p:commandButton value="Registrar Pago"  action="#{scheduleView.REGISTRAR_PRECIO_TERAPIA()}"
                                      oncomplete="PF('dlgPnlPay').hide();"   />
-                </p:dialog>
+                    </p:dialog>
                 </h:form>
-                
+
                 <h:form>
                     <p:dialog  id="Evento" widgetVar="dlgEvento" hideEffect="fade" dynamic="true" 
-                           modal="true" header="Registro de Eventos" >
-                    <p:panelGrid columns="2" >
-                        <p:outputLabel for="fromE" value="Desde :" />
-                                <p:calendar id="fromE" value="#{scheduleView.visita.visFecCreacion}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
+                               modal="true" header="Registro de Eventos" >
+                        <p:panelGrid columns="2" >
+                            <p:outputLabel for="fromE" value="Desde :" />
+                            <p:calendar id="fromE" value="#{scheduleView.visita.visFecCreacion}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
 
-                                <p:outputLabel for="toE" value="Hasta :" />
-                                <p:calendar id="toE" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
+                            <p:outputLabel for="toE" value="Hasta :" />
+                            <p:calendar id="toE" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
 
-                        <p:outputLabel value="Tipo de evento" />
-                        <p:selectOneMenu>
-                                        <f:selectItem itemLabel="Seleccionar Evento" itemValue="#{null}"  />
-                                        <f:selectItem itemLabel="Conferencia" itemValue="Conferencia"  />
-                                        <f:selectItem itemLabel="Viaje a Nazca" itemValue="Viaje" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Descripción de evento" />
-                        <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" />
-                        
-                    </p:panelGrid>
-                    <p:commandButton value="Guardar" action="#{scheduleView.INSERTAR_EVENTO()}" oncomplete="PF('dlgEvento').hide();" />
-                </p:dialog>
+                            <p:outputLabel value="Tipo de evento" />
+                            <p:selectOneMenu value="#{scheduleView.visita.visEstado}">
+                                <f:selectItem itemLabel="Selecionar" itemValue="" />
+                                <f:selectItems value="#{eventoBean.listar}" var="listaEventos"  
+                                               itemValue="#{listaEventos.idEvento}" itemLabel="#{listaEventos.nombre}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Descripción de evento" />
+                            <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" />
+
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" action="#{scheduleView.INSERTAR_EVENTO()}" oncomplete="PF('dlgEvento').hide();" />
+                    </p:dialog>
                 </h:form>
                 <script type="text/javascript">
                     PrimeFaces.locales["es"] = {

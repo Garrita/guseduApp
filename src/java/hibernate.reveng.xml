@@ -42,4 +42,5 @@
   <table-filter match-name="ubdepartamento"/>
   <table-filter match-name="pago"/>
   <table-filter match-name="par"/>
+  <table-filter match-name="evento"/>
 </hibernate-reverse-engineering>

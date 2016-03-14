@@ -36,6 +36,7 @@
                     <p:menuitem value="Gestionar Síntomas"  onclick="PF('dlgSinto').show();" />
                     <p:menuitem value="Gestionar Síntomas por Pares" onclick="PF('dlgSintoPar').show();" style="width:220px;"/>
                     <p:menuitem value="Gestionar Tipo de Terapia" onclick="PF('dlgTipoTera').show();" />
+                    <p:menuitem value="Gestionar Tipo de Evento" onclick="PF('dlgTipoEvent').show();" />
                 </p:submenu>
 
                 <p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
@@ -217,5 +218,10 @@
                   width="600px" height="550px">	 
             <ui:include src="/web/GestionTipoTerapia.xhtml" />
         </p:dialog>
-</ui:composition>
+
+        <p:dialog id="dialogTipoEvent" widgetVar="dlgTipoEvent" header="Gestionar Tipo de Evento" showEffect="pop" 
+                  width="600px" height="550px">	 
+            <ui:include src="/web/GestionTipoEvento.xhtml" />
+        </p:dialog>
+    </ui:composition>
 </html>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14/03/2016 12:09:02 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class catalog="gusedu_dbsv" name="com.gusedu.model.Evento" table="evento" optimistic-lock="version">
+        <id name="idEvento" type="java.lang.Integer">
+            <column name="id_evento" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" />
+        </property>
+    </class>
+</hibernate-mapping>
