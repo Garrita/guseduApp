@@ -86,6 +86,7 @@ public class ScheduleView {
     private String terapeuta;
     
     private double valorTerapia;
+    private boolean valorEvento;
     
     public ScheduleView() {
         visitaService = new VisitaServiceImpl();
@@ -111,6 +112,7 @@ public class ScheduleView {
         cab_fact= new cabecera_factura();
         terapeuta="";
         valorTerapia=150;
+        valorEvento=false;
         llenarCalendario();
     }
     
@@ -131,9 +133,12 @@ public class ScheduleView {
              v.setVisFecFin(fecF);
              v.setVisDescripcion(listaCalendario.get(i).getDescripcion());
              v.setVisLlegada(listaCalendario.get(i).getLlegada());
-             Cliente cli = new Cliente();
-             cli.setCliCodigo(listaCalendario.get(i).getCli_codigo());
-             v.setCliente(cli);
+             if(listaCalendario.get(i).getCli_codigo()!=0)
+             {
+                Cliente cli = new Cliente();
+                cli.setCliCodigo(listaCalendario.get(i).getCli_codigo());
+                v.setCliente(cli);
+             }
              DefaultScheduleEvent evento = new DefaultScheduleEvent(pac, fecE, fecF, v);
              evento.setStyleClass(listaCalendario.get(i).getTte_codigo());   
              eventModel.addEvent(evento);
@@ -235,6 +240,14 @@ public class ScheduleView {
         this.terapia = terapia;
     }
 
+    public boolean isValorEvento() {
+        return valorEvento;
+    }
+
+    public void setValorEvento(boolean valorEvento) {
+        this.valorEvento = valorEvento;
+    }
+
     
     
     public ScheduleModel getEventModel() {
@@ -291,14 +304,26 @@ public class ScheduleView {
     {
         event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
         Date fecha = new Date();
-
-        
-        if (cli.getCliCodigo() == null || cli.getCliCodigo() == 0) {
+        System.out.println("Valor de Evento : "+ valorEvento);
+        RequestContext context = RequestContext.getCurrentInstance();
+        if(valorEvento)
+        {
+            System.out.println("Va ha registrar Eventos");
+            visita = new Visita();
+            visita.setVisFecCreacion(event.getStartDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(event.getEndDate());
+            calendar.add(Calendar.MINUTE, 30);
+            visita.setVisFecFin(calendar.getTime());
+            context.execute("PF('dlgEvento').show();");
+        }else
+        {
+           if (cli.getCliCodigo() == null || cli.getCliCodigo() == 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cuidado", "Seleccione un Paciente");
             addMessage(message);
             return;
-        }
-        int a = visitaService.visitaProgramada(event.getStartDate(), cli);
+            }
+            int a = visitaService.visitaProgramada(event.getStartDate(), cli);
         if(a==1)
         {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cuidado", "Ya existe una cita del paciente "+cli.getPersona().getPerNombres()+" "+cli.getPersona().getPerApellidoP()+" "+cli.getPersona().getPerApellidoM()+" para la fecha seleccionada");
@@ -320,13 +345,20 @@ public class ScheduleView {
         visita.setVisFecFin(calendar.getTime());
         System.out.println("FECHA INICIO : " + visita.getVisFecCreacion() + "|| FECHA FIN : " + visita.getVisFecFin());
         System.out.println("DESCRIPCION : "+visita.getVisDescripcion());
-        RequestContext context = RequestContext.getCurrentInstance();
+        
        /* RequestContext.getCurrentInstance().update("formCalendario");
         RequestContext.getCurrentInstance().update("pnlCitas");
         RequestContext.getCurrentInstance().update("eventDetails");*/
         context.execute("PF('eventDialog').show();");
+        }
+       
              
        
+    }
+    
+    public void CHANGE_VALUE()
+    {
+        isValorEvento();
     }
     
     public void onEventSelect(SelectEvent selectEvent) {
@@ -462,7 +494,7 @@ public class ScheduleView {
     }
      
     public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La Cita cambio de horario", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
         System.out.println("Se movio la cita D: \nNueva Entrada : "+event.getScheduleEvent().getStartDate()+"\nNueva Salida : "+event.getScheduleEvent().getEndDate()); 
         Visita v = (Visita) event.getScheduleEvent().getData();
          Visita v1 = visitaService.getVisitaById(v.getVisCodigo());
@@ -471,9 +503,18 @@ public class ScheduleView {
         
       visitaService.updateVisita(v1);
         
-        Terapia ter = terapiaService.terapiaByVisita(v);
+        if(v1.getCliente().getCliCodigo()==0)
+        {
+            System.out.println("Se mueve el evento");
+        }else
+        {
+             Terapia ter = terapiaService.terapiaByVisita(v);
         ter.setTerFecRealizada(event.getScheduleEvent().getStartDate());
         terapiaService.updateTerapia(ter);
+        }  
+          
+           
+  
         System.out.println("ID VISITA : "+ v.getVisCodigo() );
         addMessage(message);
     }
@@ -585,5 +626,10 @@ public class ScheduleView {
         terapia.setTerCosto(valorTerapia);
         terapiaService.updateTerapia(terapia);
         terapiaService.SP_CambiarPrecioTerapia(terapia.getTerCodigo(), visita.getVisCodigo(), 0);
+    }
+    
+    public void INSERTAR_EVENTO()
+    {
+        visitaService.SP_Insertar_Eventos(visita);
     }
 }

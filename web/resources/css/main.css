@@ -89,3 +89,10 @@ and open the template in the editor.
    color: white;
 }
 
+.event_A .fc-event,
+.event_A a,
+.event_A .fc-event-inner{
+   background-color: black;
+   border-color: black;
+   color: white;
+}

@@ -16,10 +16,6 @@
             <p:menubar>
                 <p:menuitem value="Inicio"  url="/web/Principal.jsf"   />
                 <p:menuitem icon="ui-icon-document" value="Calendario de Citas"   update=":#{p:component('schedule')}"  url="/web/Citas.jsf" rendered="#{auth.userLogged.tipoUsuario.calendarioCitas}" />
-                <p:submenu label="Reportes" icon="ui-icon-document">
-                    <p:menuitem value="Productos"  url="#" rendered="#{auth.userLogged.tipoUsuario.reporteProducto}" />
-                    <p:menuitem value="Puntos por Par" url="#" rendered="#{auth.userLogged.tipoUsuario.reportePar}" />
-                </p:submenu>
 
                 <p:submenu label="Consultas" icon="ui-icon-pencil" >
                     <p:menuitem value="Historial de visitas"  action="#{historialVisitaBean.MENU_HISTORIAL()}" rendered="#{auth.userLogged.tipoUsuario.historialVisita}" />

@@ -51,4 +51,6 @@ public interface VisitaService {
         public boolean SP_ActualizarDiar(Visita visita);
         
         public List<EUltimaVisita> SP_LISTAR_VISITAS(Date fec_inicial,Date fec_final);
+        
+        public boolean SP_Insertar_Eventos(Visita visita);
 }

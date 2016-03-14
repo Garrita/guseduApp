@@ -446,13 +446,14 @@ for(int i=0;i<result.size();i++){
                          int vis_codigo=(int) result[3];
                          int cli_codigo=(int) result[4];
                          String descripcion=(String) result[5];
-                         Boolean llegada=(Boolean) result[6];
+                         //Boolean llegada=(Boolean) result[6];
+                         boolean llegada = Boolean.parseBoolean(result[6]+"");
                          String tte_codigo=(String) result[7];
                         
                 lista.add(new Calendario(nombre, fec_creacion, fec_fin,vis_codigo, cli_codigo, descripcion, llegada,tte_codigo));
 			}
         } catch (Exception e) {
-            System.out.println("Error : "+e.getMessage());
+            System.out.println("Error SP_Calendario : "+e.getMessage());
         } finally {
             session.flush();
             session.close();
@@ -509,5 +510,26 @@ for(int i=0;i<result.size();i++){
             session.close();
         }
           return lista;
+    }
+
+    @Override
+    public boolean SP_Insertar_Eventos(Visita visita) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_Insertar_Eventos(:entrada,:salida,:empresa,:describ) }");
+             q.setParameter("entrada", visita.getVisFecCreacion());
+             q.setParameter("salida", visita.getVisFecFin());
+             q.setParameter("empresa", StaticUtil.userLogged());
+             q.setParameter("describ", visita.getVisDescripcion());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_Insertar_Eventos : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
     }
 }
