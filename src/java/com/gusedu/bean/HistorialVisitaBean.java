@@ -42,6 +42,20 @@ public class HistorialVisitaBean {
         VisitaService visitaService;
         TerapiaService terapiaservice;
     
+    public String toShort(Date fecha)
+    {
+        String cadena;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if(fecha==null)
+        {
+            cadena= "fail";
+        }else
+        {
+            cadena=sdf.format(fecha);
+        }
+        return cadena;
+    }
+            
     public HistorialVisitaBean() {
         visitaService = new VisitaServiceImpl();
         terapiaservice = new TerapiaServiceImpl();

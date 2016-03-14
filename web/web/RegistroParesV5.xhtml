@@ -8,7 +8,7 @@
     <ui:composition>
         <h:form id="formListaParesporTerapiaww">
             <p:dataTable emptyMessage="No hay puntos registrados en el Paciente" scrollable="true" scrollHeight="150"
-                         style="width:350px;" id="tablaParPunto12x" value="#{terapiaBean.listarTerapiaPar}"
+                         style="width:450px;" id="tablaParPunto12x" value="#{terapiaBean.listarTerapiaPar}"
                          var="parpu">
                 <f:facet name="header">
                     Lista de pares hacia el paciente
@@ -23,13 +23,20 @@
                     <p:inputSwitch value="#{parpu.txpActivo}" offLabel="No" onLabel="Si" >
                         <p:ajax listener="#{terapiaBean.Update(parpu)}"  />
                     </p:inputSwitch>
+                </p:column> 
+                <p:column headerText="Ver Par" style="width: 60px">
+                    <p:commandButton icon="ui-icon-search"
+                                     action="#{parBean.cargarParWeb(parpu.par.parCodigo)}" 
+                                     oncomplete="PF('dlgDetalle1').show();" 
+                                     update=":#{p:component('outpanel1')}" >
+                    </p:commandButton>
                 </p:column>
                 <p:column style="width: 60px" >
                     <p:commandButton id="cmdbtnEliminarHTE02" icon="ui-icon-trash" styleClass="ui-priority-primary" 
                                      action="#{terapiaBean.BuscarEliminar(parpu.txpCodigo)}" update=":#{p:component('tablaParPunto12x')}">
                         <f:actionListener binding="#{terapiaBean.listado()}" />
                         <p:confirm header="Confirmación" message="¿Eliminar este par de puntos?" icon="ui-icon-alert" />
-                    </p:commandButton>               
+                    </p:commandButton>   
                 </p:column>
             </p:dataTable>  
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -37,6 +44,16 @@
                                  update=":#{p:component('formListaParesporTerapiaww')}"/>
                 <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
+            <p:dialog header="Detalle Par" id="dlgDetalle1" widgetVar="dlgDetalle1" showEffect="pop"  >
+                <h:outputText value="&lt;br/&gt;" escape="false" />                  
+                <p:outputPanel style="text-align:center;" id="outpanel1">
+                    <p:graphicImage library="uploads" height="150px;"
+                                    rendered="#{parBean.parSeleccionado.parUrl ne null}"
+                                    name="#{parBean.parSeleccionado.parUrl}"></p:graphicImage>
+                </p:outputPanel>
+                <h:outputText value="&lt;br/&gt;" escape="false" />
+                <p:commandButton value="Cerrar" oncomplete="PF('dlgDetalle1').hide();"  />
+            </p:dialog>
             <br/>
             <br/>                
             <p:outputLabel value="Filtrar: " for="inpQueryx" />
@@ -57,28 +74,38 @@
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto1.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}" />
+                                     update=":#{p:component('tablaPar22x')}, :#{p:component('outpanel2')}" />
                     <p:outputLabel value="#{pun.punto1.punNombre}" />
                 </p:column>
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto2.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}"   />
+                                     update=":#{p:component('tablaPar22x')}, :#{p:component('outpanel2')}"   />
                     <p:outputLabel value="#{pun.punto2.punNombre}" />
                 </p:column>
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto3.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}" />
+                                     update=":#{p:component('tablaPar22x')}, :#{p:component('outpanel2')}" />
                     <p:outputLabel value="#{pun.punto3.punNombre}" />
                 </p:column>
                 <p:column headerText="Nombre">
                     <p:commandButton icon="ui-icon-search" 
                                      oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto4.punCodigo)}"
-                                     update=":#{p:component('tablaPar22x')}"  />
+                                     update=":#{p:component('tablaPar22x')}, :#{p:component('outpanel2')}"  />
                     <p:outputLabel value="#{pun.punto4.punNombre}" />
                 </p:column>
             </p:dataTable>
+            <p:dialog header="Detalle Par" id="dlgDetalle2" widgetVar="dlgDetalle2" showEffect="pop"  >
+                <h:outputText value="&lt;br/&gt;" escape="false" />                  
+                <p:outputPanel style="text-align:center;" id="outpanel2">
+                    <p:graphicImage library="uploads" height="150px;"
+                                    rendered="#{parBean.parSeleccionado.parUrl ne null}"
+                                    name="#{parBean.parSeleccionado.parUrl}"></p:graphicImage>
+                </p:outputPanel>
+                <h:outputText value="&lt;br/&gt;" escape="false" />
+                <p:commandButton value="Cerrar" oncomplete="PF('dlgDetalle2').hide();"  />
+            </p:dialog>
             <p:dialog id="dialogPtos" header="Pares" widgetVar="dlgPtos"
                       showEffect="pop"  >
                 <br/>
@@ -90,6 +117,13 @@
                     <p:column headerText="#" width="25px;">
                         <p:commandButton id="btnAdd" icon="ui-icon-plus"  update=":#{p:component('growl')},:#{p:component('tablaParPunto12x')}"
                                          action="#{terapiaBean.addPar3SP(parpp.parCodigo)}" />
+                    </p:column>
+                    <p:column headerText="Ver Par">
+                        <p:commandButton icon="ui-icon-search"
+                                         action="#{parBean.cargarParWeb(parpp.parCodigo)}" 
+                                         oncomplete="PF('dlgDetalle2').show();" 
+                                         update=":#{p:component('outpanel2')}" >
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
                 <br />
