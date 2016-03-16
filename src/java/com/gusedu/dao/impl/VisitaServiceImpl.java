@@ -517,11 +517,12 @@ for(int i=0;i<result.size();i++){
         boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_Insertar_Eventos(:entrada,:salida,:empresa,:describ) }");
+             Query q = session.createSQLQuery("{ CALL SP_Insertar_Eventos(:entrada,:salida,:empresa,:describ,:tipoeven) }");
              q.setParameter("entrada", visita.getVisFecCreacion());
              q.setParameter("salida", visita.getVisFecFin());
              q.setParameter("empresa", StaticUtil.userLogged());
              q.setParameter("describ", visita.getVisDescripcion());
+             q.setParameter("tipoeven", visita.getVisPrioridad());
              q.executeUpdate();
              resultado = true;
          }
@@ -529,6 +530,63 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_Insertar_Eventos : "+e.getMessage());
              resultado=false;
+         }
+         return resultado;
+    }
+
+    @Override
+    public int SP_Selecionar_TipoEvento(int vis_cod) {
+         int resultado = 0;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_Selecionar_TipoEvento(:vis_cod) }");
+             q.setParameter("vis_cod", vis_cod);
+             resultado = (int) q.uniqueResult();
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_Selecionar_TipoEvento : "+e.getMessage());
+             resultado=0;
+         }
+         return resultado;
+    }
+
+    @Override
+    public boolean SP_ActualizaCita_DescEvento(Visita visita) {
+      boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ActualizaCita_DescEvento(:descripcion,:evento,:vis_cod) }");
+
+             q.setParameter("descripcion", visita.getVisDescripcion());
+             q.setParameter("evento", visita.getVisPrioridad());
+             q.setParameter("vis_cod", visita.getVisCodigo());
+             System.out.println("Descripcion : "+visita.getVisDescripcion()+"\nEvento : "+visita.getVisPrioridad()+
+                     "\nVisita :"+visita.getVisCodigo());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_ActualizaCita_DescEvento : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
+    }
+
+    @Override
+    public String SP_SelectEvento(int cod_event) {
+        String resultado = "";
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_SelectEvento(:cod_event) }");
+             q.setParameter("cod_event", cod_event);
+             resultado = (String) q.uniqueResult();
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_SelectEvento : "+e.getMessage());
+             resultado="";
          }
          return resultado;
     }

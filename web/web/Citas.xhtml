@@ -5,7 +5,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -60,7 +61,7 @@
                                         widgetVar="myschedule" timeZone="GMT-5" locale="es"   > 
 
                                 <p:ajax  event="dateSelect" listener="#{scheduleView.before}" update=":#{p:component('eventDetails')},:#{p:component('messages')}"   />
-                                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}"  update=":#{p:component('eventDetails2')}" oncomplete="PF('eventDialog2').show();" />
+                                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}"  update=":#{p:component('eventDetails2')},:#{p:component('pnlDetalleEvento')}"  />
                                 <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update=":#{p:component('messages')}" />
                                 <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update=":#{p:component('messages')}" />
 
@@ -394,7 +395,7 @@
                                          icon="ui-icon-check" 
                                          actionListener="#{scheduleView.ELIMINARCITA()}" 
                                          update=":#{p:component('schedule')}"
-                                         oncomplete="PF('dlgDeleteCita').hide();PF('eventDialog2').hide();" />
+                                         oncomplete="PF('dlgDeleteCita').hide();PF('eventDialog2').hide();PF('dlgEventoDetalle').hide();" />
 
                         <p:commandButton value="Cancelar" styleClass="ui-btn-inline"
                                          icon="ui-icon-delete" actionListener="#{usuarioBean.cancelar}"
@@ -477,7 +478,7 @@
                             <p:calendar id="toE" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
 
                             <p:outputLabel value="Tipo de evento" />
-                            <p:selectOneMenu value="#{scheduleView.visita.visEstado}">
+                            <p:selectOneMenu value="#{scheduleView.visita.visPrioridad}">
                                 <f:selectItem itemLabel="Selecionar" itemValue="" />
                                 <f:selectItems value="#{eventoBean.listar}" var="listaEventos"  
                                                itemValue="#{listaEventos.idEvento}" itemLabel="#{listaEventos.nombre}" />
@@ -486,9 +487,54 @@
                             <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" />
 
                         </p:panelGrid>
-                        <p:commandButton value="Guardar" action="#{scheduleView.INSERTAR_EVENTO()}" oncomplete="PF('dlgEvento').hide();" />
+                        <p:commandButton value="Guardar" action="#{scheduleView.INSERTAR_EVENTO()}" oncomplete="PF('dlgEvento').hide();" update=":#{p:component('Evento')},:#{p:component('schedule')}" />
                     </p:dialog>
                 </h:form>
+                
+                <h:form>
+                <p:dialog id="dlgDetalleEvento" widgetVar="dlgEventoDetalle" hideEffect="fade" dynamic="true" 
+                               modal="true" header="Registro de Eventos"  >
+                    <h:panelGrid id="pnlDetalleEvento" columns="2" cellspacing="10" >
+                        
+                            <p:outputLabel  value="Tipo de Evento :" />
+                            <p:outputLabel value="#{scheduleView.tipoevento}" rendered="#{scheduleView.calendar eq false}" />
+                            <p:selectOneMenu value="#{scheduleView.visita.visPrioridad}" rendered="#{scheduleView.calendar ne false}" >
+                                <f:selectItem itemLabel="Selecionar" itemValue="" />
+                                <f:selectItems value="#{eventoBean.listar}" var="listaEventosD"  
+                                               itemValue="#{listaEventosD.idEvento}" itemLabel="#{listaEventosD.nombre}" />
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel for="fromE" value="Fecha :" />
+                            <p:outputLabel id="fromE" value="#{scheduleView.visita.visFecCreacion}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy " />
+                            </p:outputLabel>
+                            <p:outputLabel  value="Hora :" />
+
+
+
+                            <p:panelGrid    >
+                                <p:outputLabel value="#{scheduleView.visita.visFecCreacion}" >
+                                    <f:convertDateTime pattern="hh:mm a" />
+                                </p:outputLabel>
+                                <p:outputLabel value=" - " />
+                                <p:outputLabel  value="#{scheduleView.visita.visFecFin}"  >
+                                    <f:convertDateTime pattern="hh:mm a"  />
+                                </p:outputLabel>
+                            </p:panelGrid>
+                              <p:outputLabel value="Descripción : " />
+                            <h:outputLabel value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar eq false}" />
+                            <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar ne false}" />
+                             
+                            <p:spacer />
+                            <p:spacer />
+                            <p:commandButton icon="ui-icon-pencil" title="Editar" value="Editar Evento" action="#{scheduleView.change}" update="pnlDetalleEvento" rendered="#{scheduleView.calendar eq false}" />    
+                            <p:commandButton icon="ui-icon-disk" title="Guardar" action="#{scheduleView.change}" update="pnlDetalleEvento" rendered="#{scheduleView.calendar ne false}" />
+                            
+                            <p:commandButton value="Eliminar Evento" oncomplete="PF('dlgDeleteCita').show();" />
+                            <p:commandButton value="Cerrar" oncomplete="PF('dlgEventoDetalle').hide();" update=":#{p:component('schedule')}" />
+                    </h:panelGrid>
+                </p:dialog>
+                    </h:form>  
                 <script type="text/javascript">
                     PrimeFaces.locales["es"] = {
                         closeText: "Cerrar",

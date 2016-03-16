@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+ <ui:composition template="./../../plantillas/PlantillaPrincipal.xhtml">
+	
+	<ui:define name="titulo">
+         Gusedu Salud
+    </ui:define>
+		<ui:define name="top">
+	</ui:define>
+	<ui:define name="content">
+<p:growl showDetail="true" autoUpdate="true" />
+<br/>
+			<h:form>
+                            <p:commandButton action="#{productoBean.cancelar()}"
+					value="Agregar Producto" oncomplete="PF('dlgAddProducto').show();" update=":#{p:component('formAgregarUsuario')}">
+                                </p:commandButton>
+			</h:form>
+	<br/>	
+				<h:form id="formBusquedaGestionUsuario">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{productoBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaProducto')}"
+							listener="#{productoBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+	<br/>	
+                        
+			<h:form id="gestionUsuario">
+				<p:dataTable emptyMessage="No hay Productos Disponibles"   
+                                             id="tablaProducto" var="prod" value="#{productoBean.listaproducto}" rowIndexVar="valor"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                        rowKey="#{prod.proCodigo}" paginator="true" rows="20"
+					tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="#" width="15px;" >
+						<p:outputLabel value="#{valor+1}" />
+					</p:column>
+					<p:column headerText="Producto">
+                                            <p:outputLabel value="#{prod.proDescripcionC}" />
+					</p:column>
+                                        <p:column headerText="Stock">
+                                            <p:outputLabel value="#{prod.proExistencias}" />
+					</p:column>
+                                                
+                                        <p:column headerText="Precio">
+                                            <p:outputLabel value="#{prod.proCostoUnitario}" />
+					</p:column>
+
+                                    <p:column headerText="Opciones" exportable="false" >
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-pencil"
+							rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}"
+							action="#{productoBean.get_Producto(prod)}" update=":#{p:component('formEditarUsuario')}"
+							oncomplete="PF('dlgEditUsuario').show();"/>
+						<p:commandButton
+							rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}"
+							styleClass="ui-btn-inline" icon="ui-icon-close"
+                                                        actionListener="#{productoBean.get_Producto(prod)}"
+							oncomplete="PF('dlgEliminarProducto').show();" />
+					</p:column>
+				</p:dataTable>
+
+			</h:form>
+		<p:dialog header="¿Eliminar? " widgetVar="dlgEliminarProducto"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+				
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check"  
+                                                actionListener="#{productoBean.deleteProducto()}" update=":#{p:component('tablaProducto')}"
+						oncomplete="PF('dlgEliminarProducto').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" actionListener="#{productoBean.cancelar}"
+						oncomplete="PF('dlgEliminarProducto').hide();" />
+				</h:form>
+			</p:dialog>
+	
+			<p:dialog header="Agregar Producto" widgetVar="dlgAddProducto" showEffect="pop"   
+			   modal="true" >
+				<h:form id="formAgregarUsuario">
+			 
+					<p:panelGrid columns="2" >
+					<p:outputLabel value="Producto : " for="usuProducto" />
+					<p:inputText id="usuProducto" required="true" 
+                                                     value="#{productoBean.producto.proDescripcionC}" />
+                                        
+                                        <p:outputLabel value="Cantidad : " for="usuCantidad" />
+					<p:inputText id="usuCantidad" required="true" 
+                                                     value="#{productoBean.producto.proExistencias}" />
+                                        
+                                        <p:outputLabel value="Precio : " for="usuPrecio" />
+                                        <p:inputText id="usuPrecio" required="true" 
+                                                     value="#{productoBean.producto.proCostoUnitario}" />
+				 
+                                        <p:commandButton action="#{productoBean.ADDPRODUCTO()}" value="Agregar" 
+					 update=":#{p:component('tablaProducto')},:#{p:component('formAgregarUsuario')}" oncomplete="PF('dlgAddProducto').hide();" />
+					 <p:commandButton value="Cancelar" oncomplete="PF('dlgAddProducto').hide();" process="@this"
+					 action="#{productoBean.cancelar}"
+					  /> 
+					</p:panelGrid>
+				 
+			</h:form>
+			</p:dialog>
+			
+			<p:dialog header="Editar Usuario" widgetVar="dlgEditUsuario" showEffect="pop"  modal="true" >
+			
+				<h:form id="formEditarUsuario">
+				 <p:panelGrid columns="2" >
+					<p:outputLabel value="Producto : " for="usuProducto" />
+					<p:inputText id="usuProducto" required="true" 
+                                                     value="#{productoBean.producto.proDescripcionC}" />
+                                        
+                                        <p:outputLabel value="Cantidad : " for="usuCantidad" />
+					<p:inputText id="usuCantidad" required="true" 
+                                                     value="#{productoBean.producto.proExistencias}" />
+                                        
+                                        <p:outputLabel value="Precio : " for="usuPrecio" />
+                                        <p:inputText id="usuPrecio" required="true" 
+                                                     value="#{productoBean.producto.proCostoUnitario}" />
+				 
+				<p:commandButton 
+                                    action="#{productoBean.updateProducto()}" value="Guardar" 
+					update=":#{p:component('tablaProducto')}" oncomplete="PF('dlgEditUsuario').hide();" />
+										 <p:commandButton value="Cancelar" 
+										  action="#{productoBean.cancelar}"  process="@this"
+										   oncomplete="PF('dlgEditUsuario').hide();"  /> 
+					</p:panelGrid>
+			</h:form>
+			</p:dialog>
+		
+	</ui:define>
+
+	<ui:define name="bottom">
+
+	</ui:define>
+ 
+ 
+</ui:composition>
+</html>

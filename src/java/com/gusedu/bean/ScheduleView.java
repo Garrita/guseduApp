@@ -87,6 +87,7 @@ public class ScheduleView {
     
     private double valorTerapia;
     private boolean valorEvento;
+    private String tipoevento;
     
     public ScheduleView() {
         visitaService = new VisitaServiceImpl();
@@ -167,8 +168,16 @@ public class ScheduleView {
     public void setTerapeuta(String terapeuta) {
         this.terapeuta = terapeuta;
     }
+
+    public String getTipoevento() {
+        return tipoevento;
+    }
+
+    public void setTipoevento(String tipoevento) {
+        this.tipoevento = tipoevento;
+    }
     
- 
+    
 
     public boolean isCalendar() {
         return calendar;
@@ -363,11 +372,23 @@ public class ScheduleView {
     
     public void onEventSelect(SelectEvent selectEvent) {
         event = (ScheduleEvent) selectEvent.getObject();
-        
-        visita =(Visita)event.getData();
-         cli=clienteService.getClienteById(visita.getCliente().getCliCodigo());
-      //  cli= visita.getCliente(); 
          
+        visita =(Visita)event.getData();
+        visita.setVisFecCreacion(event.getStartDate());
+        visita.setVisFecFin(event.getEndDate());
+        calendar=false;
+        
+        RequestContext context = RequestContext.getCurrentInstance();
+           if(visita.getCliente()==null)
+           {
+               visita.setVisPrioridad(visitaService.SP_Selecionar_TipoEvento(visita.getVisCodigo()));
+               tipoevento=event.getTitle();
+               context.execute("PF('dlgEventoDetalle').show();");
+           }else
+           {
+               cli=clienteService.getClienteById(visita.getCliente().getCliCodigo());
+      //  cli= visita.getCliente(); 
+       
        // visita
         /**************         N° de Sesiones                     ***********/
         List<EUltimaVisitaxCliente> lis= visitaService.getVisitasCliente(cli.getCliCodigo());
@@ -380,9 +401,6 @@ public class ScheduleView {
         }
         /*********************************************************************/
        
-        visita.setVisFecCreacion(event.getStartDate());
-        visita.setVisFecFin(event.getEndDate());
-       calendar=false;
        FacesContext fc = FacesContext.getCurrentInstance();
        fc.getExternalContext().getSessionMap().put("visActual", visita);
        fc.getExternalContext().getSessionMap().put("ultimavisita", visita);
@@ -392,6 +410,9 @@ public class ScheduleView {
         //------- Terapia ---------//
         terapia = terapiaService.terapiaByVisita(visita);
         fc.getExternalContext().getSessionMap().put("terActual", terapia);
+        context.execute("PF('eventDialog2').show();");
+           }
+         
     }
      
     public void change()
@@ -409,15 +430,26 @@ public class ScheduleView {
                      
                  /*   terapia.setTerUsuCreacion(cortar(ust, 0));
                     terapia.setTerDescripcion(cortar(ust, 1));*/
+                    if (visita.getCliente() != null) {
+                        Persona p = personaservice.getPersonaById(Integer.parseInt(terapia.getTerDescripcion()));
+                        terapia.setTerUsuCreacion(p.getPerNombres() + " " + p.getPerApellidoP() + " " + p.getPerApellidoM());
+                        String ust = usuarioservice.buscarporCodigo(Integer.parseInt(terapia.getTerDescripcion()));
+                        terapia.setTerDescripcion(ust);
+                        terapiaService.updateTerapia(terapia);
+                        terapia = terapiaService.terapiaByVisita(visita);
+                        visita.setVisPrioridad(0);
+                    }
                     
-                    Persona p = personaservice.getPersonaById(Integer.parseInt(terapia.getTerDescripcion()));
-                    terapia.setTerUsuCreacion(p.getPerNombres()+" "+p.getPerApellidoP()+" "+p.getPerApellidoM());
-                    String ust=usuarioservice.buscarporCodigo(Integer.parseInt(terapia.getTerDescripcion()));
-                    terapia.setTerDescripcion(ust);
-                    terapiaService.updateTerapia(terapia);  
-                    //visitaService.updateVisita(visita);
-                     terapia = terapiaService.terapiaByVisita(visita);
+                    //visitaService.updateVisita(visita); ARREGLAR
+                    visitaService.SP_ActualizaCita_DescEvento(visita);
+                    if(visita.getVisPrioridad()!=0)
+                    {
+                        tipoevento=visitaService.SP_SelectEvento(visita.getVisPrioridad());
+                        System.out.println("Tipo Evento : "+tipoevento);
+                        llenarCalendario();
+                    }
                 }
+                
             }
             
     
@@ -478,7 +510,7 @@ public class ScheduleView {
     }
             
     public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se movio la Cita", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
          System.out.println("Se movio la cita D: \nNueva Entrada : "+event.getScheduleEvent().getStartDate()+"\nNueva Salida : "+event.getScheduleEvent().getEndDate());
          Visita v = (Visita) event.getScheduleEvent().getData();
          Visita v1 = visitaService.getVisitaById(v.getVisCodigo());
@@ -486,9 +518,15 @@ public class ScheduleView {
          v1.setVisFecFin(event.getScheduleEvent().getEndDate());
          visitaService.updateVisita(v1);
         // visitaService.SP_ActualizarDiar(v1);
-         Terapia ter = terapiaService.terapiaByVisita(v);
+                 if(v1.getCliente().getCliCodigo()==0)
+        {
+            System.out.println("Se mueve el evento");
+        }else
+        {
+           Terapia ter = terapiaService.terapiaByVisita(v);
          ter.setTerFecRealizada(event.getScheduleEvent().getStartDate());
          terapiaService.updateTerapia(ter);
+        } 
          System.out.println("ID VISITA : "+ v.getVisCodigo() );
          addMessage(message);
     }
@@ -631,5 +669,6 @@ public class ScheduleView {
     public void INSERTAR_EVENTO()
     {
         visitaService.SP_Insertar_Eventos(visita);
+        llenarCalendario();
     }
 }

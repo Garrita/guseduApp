@@ -42,7 +42,7 @@
                 <p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
                     <p:menuitem value="Gestionar usuarios" url="/web/seguridad/gestionUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionUsuarios}" />
                     <p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
-                    <p:menuitem value="Gestionar Productos" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
+                    <p:menuitem value="Gestionar Productos" url="/web/producto/gestionProducto.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
                     <p:menuitem value="Citas"  />
                     <p:menuitem value="Venta de Productos"  />
                 </p:submenu>

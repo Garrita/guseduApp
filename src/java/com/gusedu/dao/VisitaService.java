@@ -53,4 +53,10 @@ public interface VisitaService {
         public List<EUltimaVisita> SP_LISTAR_VISITAS(Date fec_inicial,Date fec_final);
         
         public boolean SP_Insertar_Eventos(Visita visita);
+        
+        public int SP_Selecionar_TipoEvento(int vis_cod);
+        
+        public boolean SP_ActualizaCita_DescEvento(Visita visita);
+        
+        public String SP_SelectEvento(int cod_event);
 }

@@ -8,7 +8,7 @@
       <generator class="identity"/>
     </id>
     <many-to-one class="com.gusedu.model.Cliente" fetch="select" name="cliente">
-      <column name="cli_codigo" not-null="true"/>
+      <column name="cli_codigo" />
     </many-to-one>
     <property name="visCostoTotal" type="java.lang.Double">
       <column name="vis_costo_total" precision="22" scale="0"/>
