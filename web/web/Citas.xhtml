@@ -48,7 +48,7 @@
                                     <f:selectItems value="#{personaBean.listaTerapeutas}" var="tx"
                                                    itemValue="#{tx.perNombres} #{tx.perApellidoP} #{tx.perApellidoM}"
                                                    itemLabel="#{tx.perNombres} #{tx.perApellidoP} #{tx.perApellidoM}" />
-                                    <p:ajax event="change" listener="#{scheduleView.llenarCalendario()}" update=":#{p:component('schedule')}" />
+                                    <p:ajax event="change" listener="#{scheduleView.llenarCalendario()}" oncomplete="PF('myschedule').update();"  />
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Eventos" />
                                 <p:selectBooleanCheckbox value="#{scheduleView.valorEvento}"  >
@@ -302,17 +302,17 @@
                             <p:outputLabel  value="Teléfono movil : " />
                             <p:outputLabel  value="#{scheduleView.cli.persona.perTelMovil}" />
 
-                            <p:outputLabel for="from2" value="Fecha :" />
-                            <p:outputLabel id="from2" value="#{scheduleView.visita.visFecCreacion}" >
+                            <p:outputLabel for="from2" value="Fecha :" rendered="#{scheduleView.calendar eq false}" />
+                            <p:outputLabel id="from2" value="#{scheduleView.visita.visFecCreacion}" rendered="#{scheduleView.calendar eq false}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy " />
                             </p:outputLabel>
 
 
-                            <p:outputLabel  value="Hora :" />
+                            <p:outputLabel  value="Hora :" rendered="#{scheduleView.calendar eq false}" />
 
 
 
-                            <p:panelGrid    >
+                            <p:panelGrid  rendered="#{scheduleView.calendar eq false}"  >
                                 <p:outputLabel value="#{scheduleView.visita.visFecCreacion}" >
                                     <f:convertDateTime pattern="hh:mm a" />
                                 </p:outputLabel>
@@ -322,6 +322,14 @@
                                 </p:outputLabel>
                             </p:panelGrid>
 
+                                                        
+                             <p:outputLabel for="fromHD" value="Desde :" rendered="#{scheduleView.calendar ne false}" />
+                             <p:calendar id="fromHD" value="#{scheduleView.visita.visFecCreacion}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" rendered="#{scheduleView.calendar ne false}"  />
+
+                             <p:outputLabel for="toHD" value="Hasta :" rendered="#{scheduleView.calendar ne false}" />
+                             <p:calendar id="toHD" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" rendered="#{scheduleView.calendar ne false}" />
+
+                            
 
 
                             <p:outputLabel value="Tipo de Terapia : " />
@@ -493,8 +501,8 @@
                 
                 <h:form>
                 <p:dialog id="dlgDetalleEvento" widgetVar="dlgEventoDetalle" hideEffect="fade" dynamic="true" 
-                               modal="true" header="Registro de Eventos"  >
-                    <h:panelGrid id="pnlDetalleEvento" columns="2" cellspacing="10" >
+                          modal="true" header="Registro de Eventos"  >
+                    <h:panelGrid id="pnlDetalleEvento" columns="2" cellspacing="10"  >
                         
                             <p:outputLabel  value="Tipo de Evento :" />
                             <p:outputLabel value="#{scheduleView.tipoevento}" rendered="#{scheduleView.calendar eq false}" />
@@ -504,15 +512,15 @@
                                                itemValue="#{listaEventosD.idEvento}" itemLabel="#{listaEventosD.nombre}" />
                             </p:selectOneMenu>
                             
-                            <p:outputLabel for="fromE" value="Fecha :" />
-                            <p:outputLabel id="fromE" value="#{scheduleView.visita.visFecCreacion}" >
+                            <p:outputLabel for="fromE" value="Fecha :" rendered="#{scheduleView.calendar eq false}" />
+                            <p:outputLabel id="fromE" value="#{scheduleView.visita.visFecCreacion}" rendered="#{scheduleView.calendar eq false}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy " />
                             </p:outputLabel>
-                            <p:outputLabel  value="Hora :" />
+                            <p:outputLabel  value="Hora :" rendered="#{scheduleView.calendar eq false}" />
 
 
 
-                            <p:panelGrid    >
+                            <p:panelGrid  rendered="#{scheduleView.calendar eq false}"  >
                                 <p:outputLabel value="#{scheduleView.visita.visFecCreacion}" >
                                     <f:convertDateTime pattern="hh:mm a" />
                                 </p:outputLabel>
@@ -521,6 +529,14 @@
                                     <f:convertDateTime pattern="hh:mm a"  />
                                 </p:outputLabel>
                             </p:panelGrid>
+                            
+                             <p:outputLabel for="fromH" value="Desde :" rendered="#{scheduleView.calendar ne false}" />
+                             <p:calendar id="fromH" value="#{scheduleView.visita.visFecCreacion}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" rendered="#{scheduleView.calendar ne false}"  />
+
+                             <p:outputLabel for="toH" value="Hasta :" rendered="#{scheduleView.calendar ne false}" />
+                             <p:calendar id="toH" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" rendered="#{scheduleView.calendar ne false}" />
+
+                            
                               <p:outputLabel value="Descripción : " />
                             <h:outputLabel value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar eq false}" />
                             <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar ne false}" />
@@ -531,7 +547,7 @@
                             <p:commandButton icon="ui-icon-disk" title="Guardar" action="#{scheduleView.change}" update="pnlDetalleEvento" rendered="#{scheduleView.calendar ne false}" />
                             
                             <p:commandButton value="Eliminar Evento" oncomplete="PF('dlgDeleteCita').show();" />
-                            <p:commandButton value="Cerrar" oncomplete="PF('dlgEventoDetalle').hide();" update=":#{p:component('schedule')}" />
+                            <p:commandButton value="Cerrar" oncomplete="PF('myschedule').update();PF('dlgEventoDetalle').hide();"   />
                     </h:panelGrid>
                 </p:dialog>
                     </h:form>  

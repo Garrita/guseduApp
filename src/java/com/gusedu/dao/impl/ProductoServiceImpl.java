@@ -11,6 +11,7 @@ import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
 import com.gusedu.model.Visita;
 import com.gusedu.util.HibernateUtil;
+import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -294,14 +295,18 @@ public class ProductoServiceImpl
     public boolean SP_CrearCabeceraProducto(int cod_cli, int prod_cod,  String nom_item, int cantidad, double costo,int cod_vis) {
           boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
+         String empresa= StaticUtil.userLogged();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_CrearCabeceraProducto(:codigo_cliente,:prod_cod,:nom_item,:cantidad,:costo,:cod_vis) }");
+             Query q = session.createSQLQuery("{ CALL SP_CrearCabeceraProducto(:codigo_cliente,:prod_cod,:nom_item,:cantidad,:costo,:cod_vis,:empresa) }");
              q.setParameter("codigo_cliente", cod_cli);
              q.setParameter("prod_cod",prod_cod);
              q.setParameter("nom_item", nom_item);
              q.setParameter("cantidad", cantidad);
              q.setParameter("costo", costo);
              q.setParameter("cod_vis", cod_vis);
+             q.setParameter("empresa", empresa);
+             System.out.println("COD CLI : "+cod_cli+"\nPROD_COD :"+prod_cod+"\nNOM_ITEM : "+nom_item+
+                                "\nCANTIDAD :"+cantidad+"\nCOSTO : "+costo+"\nCOD_VIS : "+cod_vis+"\nEMPRESA : "+empresa);
              q.executeUpdate();
              resultado = true;
          }

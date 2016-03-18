@@ -446,8 +446,9 @@ public class ScheduleView {
                     {
                         tipoevento=visitaService.SP_SelectEvento(visita.getVisPrioridad());
                         System.out.println("Tipo Evento : "+tipoevento);
-                        llenarCalendario();
+                       
                     }
+                     llenarCalendario();
                 }
                 
             }

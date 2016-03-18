@@ -411,11 +411,13 @@ for(int i=0;i<result.size();i++){
     public boolean SP_CrearFactura(boolean llegada, int cli, int vis) {
          boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
+         String empresa= StaticUtil.userLogged();
          try {
-             Query q = session.createSQLQuery("{ CALL Crear_Cabecera(:llegada,:codigo_cliente,:codigo_visita) }");
+             Query q = session.createSQLQuery("{ CALL Crear_Cabecera(:llegada,:codigo_cliente,:codigo_visita,:empresa) }");
              q.setParameter("llegada", llegada);
              q.setParameter("codigo_cliente", cli);
              q.setParameter("codigo_visita", vis);
+             q.setParameter("empresa", empresa);
              q.executeUpdate();
              resultado = true;
          }
@@ -556,11 +558,13 @@ for(int i=0;i<result.size();i++){
       boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_ActualizaCita_DescEvento(:descripcion,:evento,:vis_cod) }");
+             Query q = session.createSQLQuery("{ CALL SP_ActualizaCita_DescEvento(:descripcion,:evento,:vis_cod,:fechaEntrada,:fechaSalida) }");
 
              q.setParameter("descripcion", visita.getVisDescripcion());
              q.setParameter("evento", visita.getVisPrioridad());
              q.setParameter("vis_cod", visita.getVisCodigo());
+             q.setParameter("fechaEntrada", visita.getVisFecCreacion());
+             q.setParameter("fechaSalida", visita.getVisFecFin());
              System.out.println("Descripcion : "+visita.getVisDescripcion()+"\nEvento : "+visita.getVisPrioridad()+
                      "\nVisita :"+visita.getVisCodigo());
              q.executeUpdate();
