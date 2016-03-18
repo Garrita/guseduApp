@@ -6,12 +6,16 @@
 package com.gusedu.dao.impl;
 
 import com.gusedu.dao.ProductoService;
+import com.gusedu.entidad.EProductoLog;
+import com.gusedu.entidad.EProductoLogAvanzado;
 import com.gusedu.entidad.detalle_factura;
 import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
 import com.gusedu.model.Visita;
 import com.gusedu.util.HibernateUtil;
+import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.hibernate.Query;
@@ -359,4 +363,106 @@ boolean resultado = false;
          }
          return resultado;
     }
+    
+            @Override
+     public boolean listarProductoLog()
+     {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         String usuario1 = StaticUtil.usuario();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ProductoLOG(:usuario) }");
+             q.setParameter("usuario", usuario1);
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_ProductoLOG : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
+     }
+     
+            @Override
+     public boolean listarProductoLogAvanzado()
+     {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         String usuario1 = StaticUtil.usuario();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ProductoLOG_Avanzado(:usuario) }");
+             q.setParameter("usuario", usuario1);
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_ProductoLOG_Avanzado : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
+     }
+     
+            @Override
+     public List<EProductoLog> MostrarProductoLog()
+     {
+        System.out.println("Se ejecuta MostrarProductoLog - ProductoServiceImpl");
+        List<EProductoLog> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            Query q = sesion.createSQLQuery("{ CALL SP_MostrarProductoLOG }");
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {
+                String usuario = (String) result[0];
+                String movimiento = (String) result[1];
+                Date fechaCreacion = (Date) (result[2]);
+                double costo = ((double) result[3]);
+                String descripcion = (String) result[4];
+                double stock = ((double) result[5]);
+                resultado.add(new EProductoLog(usuario,movimiento,fechaCreacion,costo,descripcion,stock));		 
+              }
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de Mostrar Productos Log : "+e.getMessage());
+        }
+        return resultado;
+     }
+     
+            @Override
+    public List<EProductoLogAvanzado> MostrarProductoLogAvanzado()
+     {
+        System.out.println("Se ejecuta MostrarProductoLogAvanzado - ProductoServiceImpl");
+        List<EProductoLogAvanzado> result5 = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            Query q = sesion.createSQLQuery("{ CALL SP_MostrarProductoLOG_Avanzado }");
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {
+                int codigo = (int) result[0];
+                String usuario = (String) result[1];
+                Date fecha = (Date) (result[2]);
+                String producto = (String) result[3];
+                double stockold = (double) result[4];
+                double stocknew = (double) result[5];
+                int stockminold = (int) result[6];
+                int stockminnew = (int) result[7];
+                double precioold = (double) result[8];
+                double precionew = (double) result[9];                     
+                result5.add(new EProductoLogAvanzado(codigo,usuario,fecha,producto,stockold,stocknew,stockminold,stockminnew,precioold,precionew));		 
+              }
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de Mostrar Productos Log Avanzado: "+e.getMessage());
+        }
+        return result5;
+     }
 }

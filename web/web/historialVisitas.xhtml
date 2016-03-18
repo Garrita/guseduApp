@@ -30,6 +30,41 @@
                                      update=":#{p:component('dialogParesByHistorial2')}" />
                 </p:column>
             </p:dataTable>
+            
+            
+            
+             <h:panelGrid>
+                <br/>
+                <p:dataTable var="rowName" value="#{historialTerapiaBean.rowNames}"
+                             rowIndexVar="rowIdx" emptyMessage="No hay pares" >
+                    <p:column headerText="" styleClass="ui-widget-header" width="250px;" >
+                        <h:outputText value="#{rowName}"/>
+                    </p:column>
+                    <p:columns var="columnName" value="#{historialTerapiaBean.colNames}" headerText="#{columnName}"
+                               columnIndexVar="colIdx">
+                        <ui:repeat value="#{historialTerapiaBean.data3D[rowIdx][colIdx]}" var="data">
+                            <h:outputText value="#{data}"/>
+                        </ui:repeat>
+                    </p:columns>
+                </p:dataTable>
+            </h:panelGrid>
+            
+            <p:outputLabel value="Fecha: " />
+            <p:selectOneMenu value="#{terapiaSintomaBean.terapia.terCodigo}"  >                 
+                <f:selectItem itemLabel="Seleccionar" itemValue="0" />
+                <f:selectItems value="#{historialTerapiaBean.listaterapia}" var="listitaTerapia"  
+                               itemValue="#{listitaTerapia.terCodigo}" itemLabel="#{terapiaSintomaBean.toShort(listitaTerapia.terFecRealizada)}" >
+                </f:selectItems>
+                <p:ajax listener="#{terapiaSintomaBean.llenarLISTITA(terapiaSintomaBean.terapia.terCodigo)}" 
+                        update=":#{p:component('PanelButton')}" />
+            </p:selectOneMenu>
+            <p:panel id="PanelButton" >
+                <h:panelGrid>
+                    <p:commandButton value="Nueva Síntoma" action="#{terapiaSintomaBean.inicializar()}" icon="ui-icon-plus"
+                                     id="btnAgregar" 
+                                     disabled="#{terapiaSintomaBean.disable}"/>                    
+                </h:panelGrid>                       
+            </p:panel>
 
             <p:dialog id="dialogParesByHistorial2"
                       header="Registrar pares de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM} de la #{historialVisitaBean.viscliente.visita} - #{historialVisitaBean.toShort(historialVisitaBean.viscliente.fechaCreacion)}" 

@@ -23,6 +23,7 @@ public class Producto  implements java.io.Serializable {
      private Double proExistencias;
      private String proSku;
      private String proUrlImagen;
+     private Integer proStockMin;
      private Set productoVisitas = new HashSet(0);
      private Set productoVisitas_1 = new HashSet(0);
 
@@ -33,7 +34,7 @@ public class Producto  implements java.io.Serializable {
     public Producto(TipoProducto tipoProducto) {
         this.tipoProducto = tipoProducto;
     }
-    public Producto(Modelo modelo, TipoProducto tipoProducto, UnidadMedida unidadMedida, Double proCostoUnitario, String proCurrencySymbol, String proDescripcionC, String proDescripcionL, String proDescripcionM, Double proExistencias, String proSku, String proUrlImagen, Set productoVisitas, Set productoVisitas_1) {
+    public Producto(Modelo modelo, TipoProducto tipoProducto, UnidadMedida unidadMedida, Double proCostoUnitario, String proCurrencySymbol, String proDescripcionC, String proDescripcionL, String proDescripcionM, Double proExistencias, String proSku, String proUrlImagen,Integer proStockMin ,Set productoVisitas, Set productoVisitas_1) {
        this.modelo = modelo;
        this.tipoProducto = tipoProducto;
        this.unidadMedida = unidadMedida;
@@ -45,6 +46,7 @@ public class Producto  implements java.io.Serializable {
        this.proExistencias = proExistencias;
        this.proSku = proSku;
        this.proUrlImagen = proUrlImagen;
+       this.proStockMin= proStockMin;
        this.productoVisitas = productoVisitas;
        this.productoVisitas_1 = productoVisitas_1;
     }
@@ -148,7 +150,15 @@ public class Producto  implements java.io.Serializable {
         this.productoVisitas_1 = productoVisitas_1;
     }
 
+    public Integer getProStockMin() {
+        return proStockMin;
+    }
 
+    public void setProStockMin(Integer proStockMin) {
+        this.proStockMin = proStockMin;
+    }
+
+    
 
 
 }

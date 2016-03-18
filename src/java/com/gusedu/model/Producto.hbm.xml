@@ -40,6 +40,9 @@
     <property name="proUrlImagen" type="string">
       <column name="pro_url_imagen"/>
     </property>
+    <property name="proStockMin" type="java.lang.Integer">
+      <column name="pro_stock_min"/>
+    </property>
     <set fetch="select" inverse="true" lazy="true" name="productoVisitas" table="producto_visita">
       <key>
         <column name="pro_codigo" not-null="true"/>
