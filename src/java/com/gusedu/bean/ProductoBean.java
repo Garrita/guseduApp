@@ -63,7 +63,7 @@ public class ProductoBean {
         clienteService = new ClienteServiceImpl();
         LISTAR_PRODUCTOS();
         LISTA_CLIPER();
-        MOSTRARLOGProducto();
+//        MOSTRARLOGProducto();
     }
 
     public String getQuery() {
