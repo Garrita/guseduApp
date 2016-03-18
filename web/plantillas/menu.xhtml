@@ -25,6 +25,7 @@
                     <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
                     <p:menuitem value="Estado Diario"  action="#{reporteEstBean.listarEstadoDiario()}"  />
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
+                    <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
 
@@ -87,6 +88,12 @@
             <h:form id="formBMPAR"  >
                 <ui:include src="/web/BMPar.xhtml" />
             </h:form>
+        </p:dialog>
+        <p:dialog header="Movimientos de Producto" id="dialogMovProd" widgetVar="dlgMovProd" showEffect="pop"
+                  width="1200px" height="550px" >
+            <h:form id="MovProduct">
+                <ui:include src="/web/MovimientoProducto.xhtml" />
+            </h:form>             
         </p:dialog>
         <p:dialog header="Ventas del Día" widgetVar="dlgVentas" showEffect="pop" id="dialogV"
                   width="50%"   >  

@@ -40,6 +40,13 @@ public class StaticUtil {
 /*  40*/        String username = ((Usuario)(Usuario)request.getSession().getAttribute("userLogged")).getUsuEmpresa();
 /*  41*/        return username;
             }
+            
+            public static String usuario() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+        String username = ((Usuario)(Usuario)request.getSession().getAttribute("userLogged")).getUsuUsuario();
+        return username;
+            }
 
             public static Date getFechaActual() {
 /*  45*/        Timestamp stamp = new Timestamp(System.currentTimeMillis());

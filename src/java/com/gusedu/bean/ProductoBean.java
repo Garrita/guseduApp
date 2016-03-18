@@ -10,6 +10,8 @@ import com.gusedu.dao.ProductoService;
 import com.gusedu.dao.impl.ClienteServiceImpl;
 import com.gusedu.dao.impl.ProductoServiceImpl;
 import com.gusedu.entidad.ClientePersona;
+import com.gusedu.entidad.EProductoLog;
+import com.gusedu.entidad.EProductoLogAvanzado;
 import com.gusedu.entidad.detalle_factura;
 import com.gusedu.model.Modelo;
 import com.gusedu.model.Producto;
@@ -47,6 +49,8 @@ public class ProductoBean {
     private int cantidadProducto;
     private int cod_cli;
     public List<detalle_factura> lista_detfact;
+    private List<EProductoLog> listarMovimientoLog;
+    private List<EProductoLogAvanzado> listarMovimientoLogAvanzado;
     
     public ProductoBean() {
         
@@ -59,6 +63,7 @@ public class ProductoBean {
         clienteService = new ClienteServiceImpl();
         LISTAR_PRODUCTOS();
         LISTA_CLIPER();
+//        MOSTRARLOGProducto();
     }
 
     public String getQuery() {
@@ -130,10 +135,12 @@ public class ProductoBean {
     {
          if(productoservice.updateProducto(producto))
         {
-            StaticUtil.correctMesage("Exito", "Se ha actualizo correctamente el producto");
+            productoservice.listarProductoLog();
+            productoservice.listarProductoLogAvanzado();
+            StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el producto");
         }else
         {
-            StaticUtil.errorMessage("Error", "No se pudo actualiza los datos del producto");
+            StaticUtil.errorMessage("Error", "No se pudo actualizar los datos del producto");
         }
     }
     
@@ -287,5 +294,29 @@ public class ProductoBean {
         System.out.println("Entro a Eliminar"+fact);
         productoservice.SP_EliminarProductoFactura(fact);
         lista_detfact= productoservice.SP_ListarProductosF(cod_cli);
+    }
+    
+    public void MOSTRARLOGProducto() 
+    {
+        System.out.println("Probando LOG de Producto");
+        listarMovimientoLog = productoservice.MostrarProductoLog();
+        listarMovimientoLogAvanzado = productoservice.MostrarProductoLogAvanzado();
+        System.out.println("Éxito!!!");
+    }
+
+    public List<EProductoLog> getListarMovimientoLog() {
+        return listarMovimientoLog;
+    }
+
+    public void setListarMovimientoLog(List<EProductoLog> listarMovimientoLog) {
+        this.listarMovimientoLog = listarMovimientoLog;
+    }
+
+    public List<EProductoLogAvanzado> getListarMovimientoLogAvanzado() {
+        return listarMovimientoLogAvanzado;
+    }
+
+    public void setListarMovimientoLogAvanzado(List<EProductoLogAvanzado> listarMovimientoLogAvanzado) {
+        this.listarMovimientoLogAvanzado = listarMovimientoLogAvanzado;
     }
 }

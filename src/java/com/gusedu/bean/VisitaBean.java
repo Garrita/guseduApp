@@ -330,12 +330,18 @@ LISTAR_PRODUCTOS();
                    // fc.getExternalContext().getSessionMap().put("ultimaterapia", ultimaterapia);
                     RequestContext.getCurrentInstance().update("frame5");
                 }
-/* 325*/        if (opciones.equals("HV")) {
-/* 327*/            ListarVisitas();
-/* 328*/            RequestContext context = RequestContext.getCurrentInstance();
+                if (opciones.equals("HV")) {
+                    objetoHTBean.llenamatriz();
+                    stBean.llenamatriz();
+                    ListarVisitas();
+                    RequestContext context = RequestContext.getCurrentInstance();
                     RequestContext.getCurrentInstance().update("dialogHistorialVisitas");
-/* 329*/            context.execute("PF('dlgHV').show();");
-/* 330*/            //RequestContext.getCurrentInstance().update("frame4");
+                    context.execute("PF('dlgHV').show();");
+                    TerapiaSintoma ultimaterapia = new TerapiaSintoma();
+                   // ultimaterapia = tersin;
+                    terapiasintoma  = ultimaterapia;
+                   // fc.getExternalContext().getSessionMap().put("ultimaterapia", ultimaterapia);
+                    RequestContext.getCurrentInstance().update("frame4");
                 }
 /* 332*/        if (opciones.equals("DP")) {
 /* 334*/            RequestContext context = RequestContext.getCurrentInstance();

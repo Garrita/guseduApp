@@ -1,5 +1,7 @@
 package com.gusedu.dao;
 
+import com.gusedu.entidad.EProductoLog;
+import com.gusedu.entidad.EProductoLogAvanzado;
 import com.gusedu.entidad.detalle_factura;
 import java.util.List;
 
@@ -37,4 +39,12 @@ public interface ProductoService {
 	public List<detalle_factura> SP_ListarProductosF(int cod_cli);
         
         public boolean SP_EliminarProductoFactura(int cod_cli);
+        
+        public boolean listarProductoLog();
+        
+        public boolean listarProductoLogAvanzado();
+        
+        public List<EProductoLog> MostrarProductoLog();
+        
+        public List<EProductoLogAvanzado> MostrarProductoLogAvanzado();
 }
