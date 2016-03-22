@@ -25,7 +25,7 @@
             </h:panelGrid>
             <br/>
             <p:outputLabel value="Fecha: " />
-            <p:selectOneMenu value="#{terapiaSintomaBean.terapia.terCodigo}"  >                 
+            <p:selectOneMenu value="#{terapiaSintomaBean.terapia.terCodigo}" id="Fechaselectcombo">                 
                 <f:selectItem itemLabel="Seleccionar" itemValue="0" />
                 <f:selectItems value="#{historialTerapiaBean.listaterapia}" var="listitaTerapia"  
                                itemValue="#{listitaTerapia.terCodigo}" itemLabel="#{terapiaSintomaBean.toShort(listitaTerapia.terFecRealizada)}" >
@@ -35,7 +35,7 @@
             </p:selectOneMenu>
             <p:panel id="PanelButton" >
                 <h:panelGrid>
-                    <p:commandButton value="Nueva Síntoma" action="#{terapiaSintomaBean.inicializar()}" icon="ui-icon-plus"
+                    <p:commandButton value="Nuevo Síntoma" action="#{terapiaSintomaBean.inicializar()}" icon="ui-icon-plus"
                                      id="btnAgregar" 
                                      oncomplete="PF('pantallitaIngresoHistorial').show();"
                                      update=":#{p:component('pnSintomaHistoria')}" disabled="#{terapiaSintomaBean.disable}"/>                    

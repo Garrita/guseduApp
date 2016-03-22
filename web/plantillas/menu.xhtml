@@ -26,6 +26,7 @@
                     <p:menuitem value="Estado Diario"  action="#{reporteEstBean.listarEstadoDiario()}"  />
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                     <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
+                    <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
 
@@ -93,6 +94,12 @@
                   width="1200px" height="550px" >
             <h:form id="MovProduct">
                 <ui:include src="/web/MovimientoProducto.xhtml" />
+            </h:form>             
+        </p:dialog>
+        <p:dialog header="Movimientos de Caja" id="dialogMovCaja" widgetVar="dlgMovCaja" showEffect="pop"
+                  width="1200px" height="550px" >
+            <h:form id="MovCaja">
+                <ui:include src="/web/MovimientoCaja.xhtml" />
             </h:form>             
         </p:dialog>
         <p:dialog header="Ventas del Día" widgetVar="dlgVentas" showEffect="pop" id="dialogV"

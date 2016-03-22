@@ -1,5 +1,7 @@
 package com.gusedu.estadistica;
 
+import com.gusedu.entidad.ECajaResumen;
+import java.util.Date;
 import java.util.List;
 
 public interface ReporteService {
@@ -13,5 +15,7 @@ public interface ReporteService {
 	public Reporte AcumuladoTerapias();
 	
 	public List<Reporte> listarProductos();
+        
+        public List<ECajaResumen> MostrarCajaResumen(Date fechitai, Date fechitaf);
 	
 }

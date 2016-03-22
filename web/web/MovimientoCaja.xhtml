@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form>
+            <p:outputLabel value="Movimiento Diario"></p:outputLabel>
+            <br/>
+            <p:panelGrid columns="6">
+                <p:outputLabel value="Fecha: " ></p:outputLabel>
+                <p:calendar id="event" value="#{reporteEstBean.fechita}" pattern="dd/MM/yyyy"
+                            maxdate="#{reporteEstBean.fechaGOD}"
+                            navigator="true"  yearRange="c-100:c" >
+                    <p:ajax event="dateSelect" listener="#{reporteEstBean.actualizar()}" update="movcaja"  />
+                </p:calendar>
+                <p:commandButton id="btnhoy"  value="Hoy" action="#{reporteEstBean.today}" update="event,movcaja" ></p:commandButton>
+            </p:panelGrid>
+            <br/>
+            <p:dataTable id="movcaja" var="caja" rows="11" style="width:600px"
+                         value="#{reporteEstBean.listarcajaresumen}" 
+                         emptyMessage="No se han registrado modificaciones"
+                         paginator="true" >	
+                <p:column headerText="Fecha" style="width:180px">
+                    <h:outputText value="#{caja.fecha}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Monto">
+                    <h:outputText value="#{caja.monto}"/>
+                </p:column>             
+            </p:dataTable>
+            <br/>
+            
+        </h:form>
+    </ui:composition>
+</html>
+
+

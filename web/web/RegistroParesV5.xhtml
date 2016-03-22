@@ -152,13 +152,13 @@
             </p:selectOneMenu>
             <p:panel id="PanelButton" >
                 <h:panelGrid>
-                    <p:commandButton value="Nueva Síntoma" action="#{terapiaSintomaBean.inicializar()}" icon="ui-icon-plus"
+                    <p:commandButton value="Nuevo Síntoma" action="#{terapiaSintomaBean.inicializar()}" icon="ui-icon-plus"
                                      id="btnAgregar" 
                                      oncomplete="PF('pantallitaIngresoHistorial').show();"
                                      update=":#{p:component('pnSintomaHistoria')}" disabled="#{terapiaSintomaBean.disable}"/>                    
                 </h:panelGrid>                       
             </p:panel>         
-            <p:dialog header="Agregar Síntoma" widgetVar="pantallitaIngresoHistorial" minHeight="100" id="pnSintomaHistoria" width="500">
+            <p:dialog header="Agregar síntoma" widgetVar="pantallitaIngresoHistorial" minHeight="100" id="pnSintomaHistoria" width="500">
                 <h:panelGrid columns="2" id="pnlInsertarSíntoma">
                     <p:outputLabel value="Agregar síntoma:  " for="autoSintoma" />
                     <p:autoComplete id="autoSintoma" queryDelay="100"
@@ -207,7 +207,7 @@
                     </p:commandButton>               
                 </p:column>
             </p:dataTable>           
-            <p:dialog header="Editar Síntomas" widgetVar="pantallitaEditarH" minHeight="100" width="500" id="formEditarSin">
+            <p:dialog header="Editar síntomas" widgetVar="pantallitaEditarH" minHeight="100" width="500" id="formEditarSin">
                 <h:panelGrid cellpadding="5" id="pnEditarTerSin">
                     <h:outputLabel value="Síntoma " />
                     <p:selectOneMenu  value="#{terapiaSintomaBean.datos.sintoma.sinCodigo}">

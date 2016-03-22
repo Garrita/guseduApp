@@ -1,5 +1,6 @@
 package com.gusedu.estadistica;
 
+import com.gusedu.entidad.ECajaResumen;
 import com.gusedu.util.HibernateUtil;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -10,8 +11,10 @@ import javax.persistence.PersistenceContext;
  
 
 import com.gusedu.util.StaticUtil;
+import java.util.Date;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
  
 public class ReporteImpl implements ReporteService{
@@ -248,4 +251,34 @@ public class ReporteImpl implements ReporteService{
 		return lista;
 	}
 
+        @Override
+        public List<ECajaResumen> MostrarCajaResumen(Date fechitai, Date fechitaf)
+        {
+            System.out.println("Se ejecuta MostrarCajaResumen - ReporteServiceImpl");
+            System.out.println("Fecha inicial: " + fechitai);
+            System.out.println("Fecha final: " + fechitaf);
+            List<ECajaResumen> resultado = new ArrayList<>();
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Transaction tx = null;
+            try {
+                tx = sesion.beginTransaction();
+                String empr = StaticUtil.userLogged();
+                Query q = sesion.createSQLQuery("{ CALL Reporte_CajaMensual1(:empr, :fechitai, :fechitaf)}");
+                q.setParameter("empr", empr);
+                q.setParameter("fechitai", fechitai);
+                q.setParameter("fechitaf", fechitaf);
+                List<Object[]> d=q.list();
+                for (Object[] result : d) 
+                {
+                    Date fecha = (Date) result[0];
+                    double monto = (double) result[1];
+                    resultado.add(new ECajaResumen(fecha,monto));		 
+                }
+            } 
+            catch(Exception e)
+            {
+                System.out.println("ERROR de Mostrar Caja Resumen : "+e.getMessage());
+            }
+            return resultado;
+            }
 }

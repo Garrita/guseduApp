@@ -353,4 +353,15 @@ public class TerapiaSintomaBean {
         SintomaTerapiaBean stBean = new SintomaTerapiaBean();
         stBean.llenamatriz();
     }
+        
+     public void REFRESH_SELECTONEMENU()
+     {
+         terapia = new Terapia();
+        terapia.setTipoTerapia(new TipoTerapia());
+        terapia.setVisita(new Visita());
+        
+        listaterapiasintoma = new ArrayList<>();
+     }
+        
+        
 }

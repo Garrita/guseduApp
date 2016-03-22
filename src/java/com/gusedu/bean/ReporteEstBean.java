@@ -5,12 +5,15 @@
  */
 package com.gusedu.bean;
 
+import com.gusedu.entidad.ECajaResumen;
 import com.gusedu.estadistica.Reporte;
 import com.gusedu.estadistica.ReporteClientes;
 import com.gusedu.estadistica.ReporteClientesXProd;
 import com.gusedu.estadistica.ReporteImpl;
 import com.gusedu.estadistica.ReporteService;
+import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -33,12 +36,15 @@ public class ReporteEstBean {
     public List<ReporteClientes> listaClientesByterapeutas;
     public List<ReporteClientesXProd> listaProductosXCliente;
     public List<Reporte> listarProductos;
+    public List<ECajaResumen> listarcajaresumen;
 	
 	private double costoT;
 	private double costoP;
 	private double costoTotal;
         private String Terapeuta;
         private String Product;
+        private Date fechita;
+        private Date fechaGOD;
     
     public ReporteEstBean() {
         reporteservice = new ReporteImpl();
@@ -49,6 +55,16 @@ public class ReporteEstBean {
         setTerapeuta(" ");
     }
 
+    public List<ECajaResumen> getListarcajaresumen() {
+        return listarcajaresumen;
+    }
+
+    public void setListarcajaresumen(List<ECajaResumen> listarcajaresumen) {
+        this.listarcajaresumen = listarcajaresumen;
+    }
+
+    
+    
     public String getTerapeuta() {
         return Terapeuta;
     }
@@ -181,7 +197,62 @@ public class ReporteEstBean {
 	{
 		System.out.println("HOLA : "+listaTerapiasByterapeutas.size());
 	}
+
+    @SuppressWarnings("deprecation")
+    public void actualizar()
+    {
+        fechaGOD = fechita;
+        
+        fechita.setHours(0);
+        fechita.setMinutes(0);
+        fechita.setSeconds(0);
+        System.out.println("Fecha inicial : "+fechita);
+        Date fecha8 = new Date();
+        fecha8= engañaFecha(fechita);
+        System.out.println("Fecha inicial : "+fecha8);
+        fechaGOD.setHours(23);
+        fechaGOD.setMinutes(59);
+        fechaGOD.setSeconds(59);
+        System.out.println("Probando Caja Resumen");
+        listarcajaresumen = reporteservice.MostrarCajaResumen(fecha8,fechaGOD);
+        
+        System.out.println("Fecha final: " + fechaGOD);
+    }
     
+    public Date engañaFecha(Date fecha)
+    {
+        return fecha;
+    }
     
+    @SuppressWarnings("deprecation")
+    public void today()
+    {
+            Date fecha2 = new Date();
+            fecha2.setHours(23);
+            fecha2.setMinutes(59);
+            fecha2.setSeconds(59);
+            fechita = fecha2;
+            actualizar();
+    }
+	
+    public Date getFechita() {
+        return fechita;
+    }
+
+    public void setFechita(Date fechita) {
+        this.fechita = fechita;
+    }
+
+    public Date getFechaGOD() {
+        return fechaGOD;
+    }
+
+    public void setFechaGOD(Date fechaGOD) {
+        this.fechaGOD = fechaGOD;
+    }
     
+    public void CAJARESUMEN()
+    {
+        listarcajaresumen = reporteservice.MostrarCajaResumen(fechita,fechaGOD);
+    }
 }

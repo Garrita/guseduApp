@@ -246,6 +246,7 @@ LISTAR_PRODUCTOS();
         VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
         HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
         SintomaTerapiaBean stBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+        TerapiaSintomaBean tsBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
         TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
         Visita vis = visitaService.buscarVisita(client);
               //  TerapiaSintoma tersin = terapiasintomaService.buscarTerapiaSintoma(client);
@@ -321,6 +322,7 @@ LISTAR_PRODUCTOS();
                 if (opciones.equals("HT")) {
                    objetoHTBean.llenamatriz();
                    stBean.llenamatriz();
+                   tsBean.REFRESH_SELECTONEMENU();
                     RequestContext context = RequestContext.getCurrentInstance();
                     RequestContext.getCurrentInstance().update("dialoghistorialTerapia");
                     context.execute("PF('dlgHTe').show();");
@@ -388,7 +390,7 @@ LISTAR_PRODUCTOS();
             public void probando() {
 /* 380*/        opciones = "S";
             }
-
+            
             public void Prueba() {
 /* 385*/        FacesContext fc = FacesContext.getCurrentInstance();
 /* 386*/        Cliente cli = (Cliente)fc.getExternalContext().getSessionMap().get("cliente");
