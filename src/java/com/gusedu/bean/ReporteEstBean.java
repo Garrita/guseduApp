@@ -6,6 +6,9 @@
 package com.gusedu.bean;
 
 import com.gusedu.entidad.ECajaResumen;
+import com.gusedu.entidad.ECajaResumen1;
+import com.gusedu.entidad.ECajaResumenMensual;
+import com.gusedu.entidad.ECajaResumenMensual1;
 import com.gusedu.estadistica.Reporte;
 import com.gusedu.estadistica.ReporteClientes;
 import com.gusedu.estadistica.ReporteClientesXProd;
@@ -37,6 +40,11 @@ public class ReporteEstBean {
     public List<ReporteClientesXProd> listaProductosXCliente;
     public List<Reporte> listarProductos;
     public List<ECajaResumen> listarcajaresumen;
+    public List<ECajaResumen1> listacajaresumen1;
+    public List<ECajaResumenMensual> listarcajaresumenmensual;
+    public List<ECajaResumenMensual1> listarcajaresumenmensual1;
+    
+    public List<String> listatipostring;
 	
 	private double costoT;
 	private double costoP;
@@ -45,14 +53,40 @@ public class ReporteEstBean {
         private String Product;
         private Date fechita;
         private Date fechaGOD;
+        private String mes;
+        private String año;
     
     public ReporteEstBean() {
         reporteservice = new ReporteImpl();
+        listatipostring = new ArrayList<>();
         setCostoP(0);
         setCostoT(0);
 	setCostoTotal(0);
         setProduct(" ");
         setTerapeuta(" ");
+        
+        Date año = new Date();
+        int a=2010;
+        for (int i = a; i <= (año.getYear()+ 1900); i++) 
+        {
+            listatipostring.add((i)+"");
+        }
+    }
+
+    public List<String> getListatipostring() {
+        return listatipostring;
+    }
+
+    public void setListatipostring(List<String> listatipostring) {
+        this.listatipostring = listatipostring;
+    }
+    
+    public List<ECajaResumenMensual1> getListarcajaresumenmensual1() {
+        return listarcajaresumenmensual1;
+    }
+
+    public void setListarcajaresumenmensual1(List<ECajaResumenMensual1> listarcajaresumenmensual1) {
+        this.listarcajaresumenmensual1 = listarcajaresumenmensual1;
     }
 
     public List<ECajaResumen> getListarcajaresumen() {
@@ -63,7 +97,21 @@ public class ReporteEstBean {
         this.listarcajaresumen = listarcajaresumen;
     }
 
-    
+    public List<ECajaResumen1> getListacajaresumen1() {
+        return listacajaresumen1;
+    }
+
+    public void setListacajaresumen1(List<ECajaResumen1> listacajaresumen1) {
+        this.listacajaresumen1 = listacajaresumen1;
+    }
+
+    public List<ECajaResumenMensual> getListarcajaresumenmensual() {
+        return listarcajaresumenmensual;
+    }
+
+    public void setListarcajaresumenmensual(List<ECajaResumenMensual> listarcajaresumenmensual) {
+        this.listarcajaresumenmensual = listarcajaresumenmensual;
+    }
     
     public String getTerapeuta() {
         return Terapeuta;
@@ -215,7 +263,7 @@ public class ReporteEstBean {
         fechaGOD.setSeconds(59);
         System.out.println("Probando Caja Resumen");
         listarcajaresumen = reporteservice.MostrarCajaResumen(fecha8,fechaGOD);
-        
+        listacajaresumen1 = reporteservice.MostrarCajaDetalle(fecha8,fechaGOD);
         System.out.println("Fecha final: " + fechaGOD);
     }
     
@@ -231,6 +279,7 @@ public class ReporteEstBean {
             fecha2.setHours(23);
             fecha2.setMinutes(59);
             fecha2.setSeconds(59);
+            
             fechita = fecha2;
             actualizar();
     }
@@ -253,6 +302,34 @@ public class ReporteEstBean {
     
     public void CAJARESUMEN()
     {
+        today();
         listarcajaresumen = reporteservice.MostrarCajaResumen(fechita,fechaGOD);
+        listacajaresumen1 = reporteservice.MostrarCajaDetalle(fechita,fechaGOD);
+        listarcajaresumenmensual = reporteservice.MostrarCajaResumenMensual(mes,año);
+        listarcajaresumenmensual1 = reporteservice.MostrarCajaMensualDetalle(mes,año);       
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAño() {
+        return año;
+    }
+
+    public void setAño(String año) {
+        this.año = año;
+    }
+    
+    public void ESCOGERMES()
+    {
+        System.out.println("Probando la elección de mes");
+        listarcajaresumenmensual = reporteservice.MostrarCajaResumenMensual(mes,año);
+        listarcajaresumenmensual1 = reporteservice.MostrarCajaMensualDetalle(mes,año);
+        System.out.println(mes);
     }
 }

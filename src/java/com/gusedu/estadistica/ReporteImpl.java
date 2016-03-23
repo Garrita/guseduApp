@@ -1,6 +1,9 @@
 package com.gusedu.estadistica;
 
 import com.gusedu.entidad.ECajaResumen;
+import com.gusedu.entidad.ECajaResumen1;
+import com.gusedu.entidad.ECajaResumenMensual;
+import com.gusedu.entidad.ECajaResumenMensual1;
 import com.gusedu.util.HibernateUtil;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -252,33 +255,138 @@ public class ReporteImpl implements ReporteService{
 	}
 
         @Override
-        public List<ECajaResumen> MostrarCajaResumen(Date fechitai, Date fechitaf)
-        {
-            System.out.println("Se ejecuta MostrarCajaResumen - ReporteServiceImpl");
-            System.out.println("Fecha inicial: " + fechitai);
-            System.out.println("Fecha final: " + fechitaf);
-            List<ECajaResumen> resultado = new ArrayList<>();
-            Session sesion = HibernateUtil.getSessionFactory().openSession();
-            Transaction tx = null;
-            try {
-                tx = sesion.beginTransaction();
-                String empr = StaticUtil.userLogged();
-                Query q = sesion.createSQLQuery("{ CALL Reporte_CajaMensual1(:empr, :fechitai, :fechitaf)}");
-                q.setParameter("empr", empr);
-                q.setParameter("fechitai", fechitai);
-                q.setParameter("fechitaf", fechitaf);
-                List<Object[]> d=q.list();
-                for (Object[] result : d) 
-                {
-                    Date fecha = (Date) result[0];
-                    double monto = (double) result[1];
-                    resultado.add(new ECajaResumen(fecha,monto));		 
-                }
-            } 
-            catch(Exception e)
+    public List<ECajaResumen> MostrarCajaResumen(Date fechitai, Date fechitaf)
+    {
+        System.out.println("Se ejecuta MostrarCajaResumen - ReporteServiceImpl");
+        System.out.println("Fecha inicial: " + fechitai);
+        System.out.println("Fecha final: " + fechitaf);
+        List<ECajaResumen> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            String empr = StaticUtil.userLogged();
+            Query q = sesion.createSQLQuery("{ CALL Reporte_CajaDiarioResumen(:empr, :fechitai, :fechitaf)}");
+            q.setParameter("empr", empr);
+            q.setParameter("fechitai", fechitai);
+            q.setParameter("fechitaf", fechitaf);
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
             {
-                System.out.println("ERROR de Mostrar Caja Resumen : "+e.getMessage());
+                Date fecha = (Date) result[0];
+                double monto = (double) result[1];
+                resultado.add(new ECajaResumen(fecha,monto));		 
             }
-            return resultado;
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de Mostrar Caja Resumen : "+e.getMessage());
+        }
+        return resultado;
+        }
+    
+        @Override
+    public List<ECajaResumen1> MostrarCajaDetalle(Date fechitai, Date fechitaf)
+    {
+        System.out.println("Se ejecuta MostrarCajaResumen1 - ReporteServiceImpl");
+        System.out.println("Fecha inicial: " + fechitai);
+        System.out.println("Fecha final: " + fechitaf);
+        List<ECajaResumen1> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            String empr = StaticUtil.userLogged();
+            Query q = sesion.createSQLQuery("{ CALL Reporte_CajaDiarioDetalle(:empr, :fechitai, :fechitaf)}");
+            q.setParameter("empr", empr);
+            q.setParameter("fechitai", fechitai);
+            q.setParameter("fechitaf", fechitaf);
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {
+                int cod_factura = (int) result[0];
+                String cliente = (String) result[1];
+                double monto = (double) result[2];
+                Date fecha = (Date) result[3];
+                String factura_real = (String) result[4];
+                int cod_cliente = (int) result[5];
+                int estado = (int) result[6];
+                int cod_visita = (int) result[7];
+                String empresa = (String) result[8];
+                resultado.add(new ECajaResumen1(cod_factura,cliente,monto,fecha,factura_real,cod_cliente,estado,cod_visita,empresa));		 
             }
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de Mostrar Caja Resumen Detalle : "+e.getMessage());
+        }
+        return resultado;
+        }
+    
+        @Override
+     public List<ECajaResumenMensual> MostrarCajaResumenMensual(String mes,String año)
+    {
+        System.out.println("Se ejecuta MostrarCajaResumenMensual - ReporteServiceImpl");
+        List<ECajaResumenMensual> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            String empr = StaticUtil.userLogged();
+            Query q = sesion.createSQLQuery("{ CALL Reporte_CajaMensualResumen(:empr, :mes, :año)}");
+            q.setParameter("empr", empr);
+            q.setParameter("mes", mes);
+            q.setParameter("año", año);
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {
+                Date fecha = (Date) result[0];
+                double monto = (double) result[1];
+                resultado.add(new ECajaResumenMensual(fecha,monto));		 
+            }
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de Mostrar Caja Resumen : "+e.getMessage());
+        }
+        return resultado;
+    }
+     
+        @Override
+     public List<ECajaResumenMensual1> MostrarCajaMensualDetalle(String mes,String año)
+    {
+        System.out.println("Se ejecuta MostrarCajaMensualDetalle - ReporteServiceImpl");
+        List<ECajaResumenMensual1> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = sesion.beginTransaction();
+            String empr = StaticUtil.userLogged();
+            System.out.println("EMPRESA : "+empr+"\nMES : "+mes+"\nAÑO : "+año);
+            Query q = sesion.createSQLQuery("{ CALL Reporte_CajaMensualDetalle(:empr, :mes, :año)}");
+            q.setParameter("empr", empr);
+            q.setParameter("mes", mes);
+            q.setParameter("año", año);
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {
+                int cod_factura = (int) result[0];
+                String cliente = (String) result[1];
+                double monto = (double) result[2];
+                Date fecha = (Date) result[3];
+                String factura_real = (String) result[4];
+                int cod_cliente = (int) result[5];
+                int estado = (int) result[6];
+                int cod_visita = (int) result[7];
+                String empresa = (String) result[8];
+                resultado.add(new ECajaResumenMensual1(cod_factura,cliente,monto,fecha,factura_real,cod_cliente,estado,cod_visita,empresa));		 
+            }
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de Mostrar Caja Mensual Detalle : "+e.getMessage());
+        }
+        return resultado;
+        }
 }
