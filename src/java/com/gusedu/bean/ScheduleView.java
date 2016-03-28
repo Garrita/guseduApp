@@ -635,8 +635,8 @@ public class ScheduleView {
     {
        cli.setCliCodigo(cli_codigo);
        cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),new Date(),0);
-       lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
-      
+      // lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
+      LISTAR();
     }
     
     public void UPDATE_FACTURA()
@@ -648,6 +648,10 @@ public class ScheduleView {
     public void LISTAR()
     {
                lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
+                       FacesContext fc = FacesContext.getCurrentInstance();
+        VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
+        System.out.println(cab_fact.getCod_factura());
+        objetoBean.llenarlista(cab_fact.getCod_factura());
     }
       public void onRowEdit(RowEditEvent event) {
         detalle_factura detfact ;
@@ -671,5 +675,10 @@ public class ScheduleView {
     {
         visitaService.SP_Insertar_Eventos(visita);
         llenarCalendario();
+    }
+    
+    public double DEVOLVER_MONTO()
+    {
+        return cab_fact.getMonto();
     }
 }

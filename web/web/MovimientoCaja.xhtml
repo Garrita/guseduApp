@@ -6,141 +6,153 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-        <h:form>
-            <p:accordionPanel>
-                <p:tab title="Movimiento Diario">
-                    <p:panelGrid columns="6">
-                        <p:outputLabel value="Fecha: " ></p:outputLabel>
-                        <p:calendar id="event" value="#{reporteEstBean.fechita}" pattern="dd/MM/yyyy"
-                                    maxdate="#{reporteEstBean.fechaGOD}"
-                                    navigator="true"  yearRange="c-100:c" >
-                            <p:ajax event="dateSelect" listener="#{reporteEstBean.actualizar()}" update="movcajadresumen,movcajaddetalle"  />
-                        </p:calendar>
-                        <p:commandButton id="btnhoy"  value="Hoy" action="#{reporteEstBean.today}" update="event,movcajadresumen,movcajaddetalle" ></p:commandButton>
-                    </p:panelGrid>
-                    <br/>
-                    <p:panelGrid columns="2">
-                        <p:dataTable id="movcajadresumen" var="caja" rows="11" style="width:400px"
-                                     value="#{reporteEstBean.listarcajaresumen}" 
-                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-                                     emptyMessage="No se han registrado modificaciones"
-                                     paginator="true" >	
-                            <f:facet name="{Exporters}">
-                                <h:commandLink>
-                                    <p:graphicImage name="images/Excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="movcajadresumen" fileName="MovimientoCajaDiarioResumen" />
-                                </h:commandLink>
+        <p:accordionPanel>
+            <p:tab title="Movimiento Diario">
+                <p:panelGrid columns="6">
+                    <p:outputLabel value="Fecha: " ></p:outputLabel>
+                    <p:calendar id="event" value="#{reporteEstBean.fechita}" pattern="dd/MM/yyyy"
+                                maxdate="#{reporteEstBean.fechaGOD}"
+                                navigator="true"  yearRange="c-100:c" >
+                        <p:ajax event="dateSelect" listener="#{reporteEstBean.actualizar()}" update="movcajadresumen,movcajaddetalle"  />
+                    </p:calendar>
+                    <p:commandButton id="btnhoy"  value="Hoy" action="#{reporteEstBean.today}" update="event,movcajadresumen,movcajaddetalle" ></p:commandButton>
+                </p:panelGrid>
+                <br/>
+                <p:panelGrid columns="2">
+                    <p:dataTable id="movcajadresumen" var="caja" rows="11" style="width:400px"
+                                 value="#{reporteEstBean.listarcajaresumen}" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 emptyMessage="No se han registrado modificaciones"
+                                 paginator="true" >	
+                        <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="images/Excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="movcajadresumen" fileName="MovimientoCajaDiarioResumen" />
+                            </h:commandLink>
+                        </f:facet>
+                        <p:column style="width:120px">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
                             </f:facet>
-                            <p:column style="width:120px">
-                                <f:facet name="header">
-                                    <h:outputText value="Fecha"/>
-                                </f:facet>
-                                <h:outputText value="#{caja.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Monto"/>
-                                </f:facet>
-                                <h:outputText value="#{caja.monto}"/>
-                            </p:column>             
-                        </p:dataTable>
-                        <p:dataTable id="movcajaddetalle" var="caja" rows="11" style="width:700px"
-                                     value="#{reporteEstBean.listacajaresumen1}" 
-                                     emptyMessage="No se han registrado modificaciones"
-                                     paginator="true" 
-                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}">	
-                            <f:facet name="{Exporters}">
-                                <h:commandLink>
-                                    <p:graphicImage name="images/Excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="movcajaddetalle" fileName="MovimientoCajaDiarioDetalle" />
-                                </h:commandLink>
+                            <h:outputText value="#{caja.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Monto"/>
                             </f:facet>
-                            <p:column headerText="Fecha" style="width:120px">
-                                <h:outputText value="#{caja.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="Cod Factura">
-                                <h:outputText value="#{caja.cod_factura}"/>
-                            </p:column> 
-                            <p:column headerText="Cliente">
-                                <h:outputText value="#{caja.cliente}"/>
-                            </p:column> 
-                            <p:column headerText="Monto">
-                                <h:outputText value="#{caja.monto}"/>
-                            </p:column>             
-                        </p:dataTable>
-                    </p:panelGrid>
-                </p:tab>
-                <p:tab title="Movimiento Mensual">
-                    <p:panelGrid columns="6">
-                        <p:outputLabel value="Año: " />
-                        <p:selectOneMenu value="#{reporteEstBean.año}">
-                            <f:selectItem itemLabel="Seleccionar año" itemValue="0" />
-                            <f:selectItems value="#{reporteEstBean.listatipostring}" var="listaños"
-                                           itemValue="#{listaños}" itemLabel="#{listaños}">
-                            </f:selectItems>
-                            <p:ajax listener="#{reporteEstBean.ESCOGERMES()}" 
-                                    update=":#{p:component('movcajadresumenmensual')}, :#{p:component('movcajaddetallemensual')}" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Mes: " />
-                        <p:selectOneMenu value="#{reporteEstBean.mes}"  >                 
-                            <f:selectItem itemLabel="Seleccionar" itemValue="0" />
-                            <f:selectItem itemLabel="Enero" itemValue="01" />
-                            <f:selectItem itemLabel="Febrero" itemValue="02" />
-                            <f:selectItem itemLabel="Marzo" itemValue="03" />
-                            <f:selectItem itemLabel="Abril" itemValue="04" />
-                            <f:selectItem itemLabel="Mayo" itemValue="05" />
-                            <f:selectItem itemLabel="Junio" itemValue="06" />
-                            <f:selectItem itemLabel="Julio" itemValue="07" />
-                            <f:selectItem itemLabel="Agosto" itemValue="08" />
-                            <f:selectItem itemLabel="Setiembre" itemValue="09" />
-                            <f:selectItem itemLabel="Octubre" itemValue="10" />
-                            <f:selectItem itemLabel="Noviembre" itemValue="11" />
-                            <f:selectItem itemLabel="Diciembre" itemValue="12" />
-                            <p:ajax listener="#{reporteEstBean.ESCOGERMES()}" 
-                                    update=":#{p:component('movcajadresumenmensual')}, :#{p:component('movcajaddetallemensual')}" />
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2">
-                        <p:dataTable id="movcajadresumenmensual" var="caja" rows="11" style="width:400px"
-                                     value="#{reporteEstBean.listarcajaresumenmensual}" 
-                                     emptyMessage="No se han registrado modificaciones"
-                                     paginator="true" >	
-                            <p:column headerText="Fecha" style="width:120px">
-                                <h:outputText value="#{caja.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="Monto">
-                                <h:outputText value="#{caja.monto}"/>
-                            </p:column>             
-                        </p:dataTable>
-                        <p:dataTable id="movcajaddetallemensual" var="caja" rows="11" style="width:700px"
-                                     value="#{reporteEstBean.listarcajaresumenmensual1}" 
-                                     emptyMessage="No se han registrado modificaciones"
-                                     paginator="true" >	
-                            <p:column headerText="Fecha" style="width:120px">
-                                <h:outputText value="#{caja.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="Cod Factura">
-                                <h:outputText value="#{caja.cod_factura}"/>
-                            </p:column> 
-                            <p:column headerText="Cliente">
-                                <h:outputText value="#{caja.cliente}"/>
-                            </p:column> 
-                            <p:column headerText="Monto">
-                                <h:outputText value="#{caja.monto}"/>
-                            </p:column>             
-                        </p:dataTable>
-                    </p:panelGrid>
-                </p:tab>
-            </p:accordionPanel>
-        </h:form>
+                            <h:outputText value="#{caja.monto}"/>
+                        </p:column>             
+                    </p:dataTable>
+                    <p:dataTable id="movcajaddetalle" var="caja" rows="11" style="width:700px"
+                                 value="#{reporteEstBean.listacajaresumen1}" 
+                                 emptyMessage="No se han registrado modificaciones"
+                                 paginator="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}">	
+                        <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="images/Excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="movcajaddetalle" fileName="MovimientoCajaDiarioDetalle" />
+                            </h:commandLink>
+                        </f:facet>
+                        <p:column headerText="Fecha" style="width:120px">
+                            <h:outputText value="#{caja.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nro Factura">
+                            <h:outputText value="#{caja.cod_factura}"/>
+                        </p:column> 
+                        <p:column headerText="Cliente">
+                            <h:outputText value="#{caja.cliente}"/>
+                        </p:column> 
+                        <p:column headerText="Monto">
+                            <h:outputText value="#{caja.monto}"/>
+                        </p:column>             
+                    </p:dataTable>
+                </p:panelGrid>
+            </p:tab>
+            <p:tab title="Movimiento Mensual">
+                <p:panelGrid columns="6">
+                    <p:outputLabel value="Año: " />
+                    <p:selectOneMenu value="#{reporteEstBean.año}">
+                        <f:selectItem itemLabel="Seleccionar año" itemValue="0" />
+                        <f:selectItems value="#{reporteEstBean.listatipostring}" var="listaños"
+                                       itemValue="#{listaños}" itemLabel="#{listaños}">
+                        </f:selectItems>
+                        <p:ajax listener="#{reporteEstBean.ESCOGERMES()}" 
+                                update=":#{p:component('movcajadresumenmensual')}, :#{p:component('movcajaddetallemensual')}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Mes: " />
+                    <p:selectOneMenu value="#{reporteEstBean.mes}"  >                 
+                        <f:selectItem itemLabel="Seleccionar" itemValue="0" />
+                        <f:selectItem itemLabel="Enero" itemValue="01" />
+                        <f:selectItem itemLabel="Febrero" itemValue="02" />
+                        <f:selectItem itemLabel="Marzo" itemValue="03" />
+                        <f:selectItem itemLabel="Abril" itemValue="04" />
+                        <f:selectItem itemLabel="Mayo" itemValue="05" />
+                        <f:selectItem itemLabel="Junio" itemValue="06" />
+                        <f:selectItem itemLabel="Julio" itemValue="07" />
+                        <f:selectItem itemLabel="Agosto" itemValue="08" />
+                        <f:selectItem itemLabel="Setiembre" itemValue="09" />
+                        <f:selectItem itemLabel="Octubre" itemValue="10" />
+                        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                        <p:ajax listener="#{reporteEstBean.ESCOGERMES()}" 
+                                update=":#{p:component('movcajadresumenmensual')}, :#{p:component('movcajaddetallemensual')}" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:dataTable id="movcajadresumenmensual" var="caja" rows="11" style="width:400px"
+                                 value="#{reporteEstBean.listarcajaresumenmensual}" 
+                                 emptyMessage="No se han registrado modificaciones"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 paginator="true" >	
+                        <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="images/Excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="movcajadresumenmensual" fileName="MovimientoCajaMensualResumen" />
+                            </h:commandLink>
+                        </f:facet>
+                        <p:column headerText="Fecha" style="width:120px">
+                            <h:outputText value="#{caja.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Monto">
+                            <h:outputText value="#{caja.monto}"/>
+                        </p:column>             
+                    </p:dataTable>
+                    <p:dataTable id="movcajaddetallemensual" var="caja" rows="11" style="width:700px"
+                                 value="#{reporteEstBean.listarcajaresumenmensual1}" 
+                                 emptyMessage="No se han registrado modificaciones"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 paginator="true" >
+                        <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="images/Excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="movcajaddetallemensual" fileName="MovimientoCajaMensualDetalle" />
+                            </h:commandLink>
+                        </f:facet>
+                        <p:column headerText="Fecha" style="width:120px">
+                            <h:outputText value="#{caja.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nro Factura">
+                            <h:outputText value="#{caja.cod_factura}"/>
+                        </p:column> 
+                        <p:column headerText="Cliente">
+                            <h:outputText value="#{caja.cliente}"/>
+                        </p:column> 
+                        <p:column headerText="Monto">
+                            <h:outputText value="#{caja.monto}"/>
+                        </p:column>             
+                    </p:dataTable>
+                </p:panelGrid>
+            </p:tab>
+        </p:accordionPanel>
     </ui:composition>
 </html>
 

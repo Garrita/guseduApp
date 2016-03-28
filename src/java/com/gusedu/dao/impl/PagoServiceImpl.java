@@ -124,7 +124,7 @@ public class PagoServiceImpl implements PagoService{
         try {
             tx = sesion.beginTransaction();
             pago = (Pago) sesion.load(Pago.class, visita);
-            System.out.println("ID VISITA : " + pago.getVisita().getVisCodigo() + " TIPO PAGO : "+pago.getTipoPago().getTpagoCodigo());
+            System.out.println("ID VISITA : " + pago.getFactura().getCodFactura() + " TIPO PAGO : "+pago.getTipoPago().getTpagoCodigo());
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -165,7 +165,7 @@ public class PagoServiceImpl implements PagoService{
         Session sesion = HibernateUtil.getSessionFactory().openSession();
         List<Pago> result = new ArrayList<>();
         try {
-             String sql = "from Pago where visita.visCodigo=:cod_visita";
+             String sql = "from Pago where factura.codFactura=:cod_visita";
              Query q = sesion.createQuery(sql);
              q.setParameter("cod_visita", visita);
              result =  q.list();
@@ -176,7 +176,7 @@ public class PagoServiceImpl implements PagoService{
             /*if (tx != null) {
                 tx.rollback();
             }  */
-            System.out.println(e.getMessage());
+            System.out.println("Error de allPagosByVisita : "+e.getMessage());
         } finally {
             sesion.flush();
             sesion.close();

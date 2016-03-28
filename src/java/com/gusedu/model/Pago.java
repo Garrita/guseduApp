@@ -11,16 +11,17 @@ public class Pago  implements java.io.Serializable {
 
      private Integer pagoCodigo;
      private TipoPago tipoPago;
-     private Visita visita;
+     private CabeceraFactura factura;
      private Double monto;
 
     public Pago() {
     }
 
-    public Pago(TipoPago tipoPago, Visita visita, Double monto) {
-       this.tipoPago = tipoPago;
-       this.visita = visita;
-       this.monto = monto;
+    public Pago(Integer pagoCodigo, TipoPago tipoPago, CabeceraFactura factura, Double monto) {
+        this.pagoCodigo = pagoCodigo;
+        this.tipoPago = tipoPago;
+        this.factura = factura;
+        this.monto = monto;
     }
    
     public Integer getPagoCodigo() {
@@ -37,13 +38,15 @@ public class Pago  implements java.io.Serializable {
     public void setTipoPago(TipoPago tipoPago) {
         this.tipoPago = tipoPago;
     }
-    public Visita getVisita() {
-        return this.visita;
+
+    public CabeceraFactura getFactura() {
+        return factura;
     }
-    
-    public void setVisita(Visita visita) {
-        this.visita = visita;
+
+    public void setFactura(CabeceraFactura factura) {
+        this.factura = factura;
     }
+
     public Double getMonto() {
         return this.monto;
     }
