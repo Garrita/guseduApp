@@ -9,6 +9,7 @@ import com.gusedu.dao.VisitaService;
 import com.gusedu.entidad.Calendario;
 import com.gusedu.entidad.EUltimaVisita;
 import com.gusedu.entidad.EUltimaVisitaxCliente;
+import com.gusedu.entidad.PacientePresencial;
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.Visita;
@@ -342,7 +343,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SPsaveVisitaxTerapia : "+e.getMessage());
              resultado=false;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -403,7 +407,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SPdeleteVisita : "+e.getMessage());
              resultado=false;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -425,7 +432,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_CrearFactura : "+e.getMessage());
              resultado=false;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -449,7 +459,12 @@ for(int i=0;i<result.size();i++){
                          int cli_codigo=(int) result[4];
                          String descripcion=(String) result[5];
                          //Boolean llegada=(Boolean) result[6];
-                         boolean llegada = Boolean.parseBoolean(result[6]+"");
+                         boolean llegada=false;
+                         if(result[6].toString().equals("1") || result[6].toString().equals("2"))
+                         {
+                             llegada=true;
+                         }
+        
                          String tte_codigo=(String) result[7];
                         
                 lista.add(new Calendario(nombre, fec_creacion, fec_fin,vis_codigo, cli_codigo, descripcion, llegada,tte_codigo));
@@ -480,7 +495,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_CrearFactura : "+e.getMessage());
              resultado=false;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -532,7 +550,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_Insertar_Eventos : "+e.getMessage());
              resultado=false;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -549,7 +570,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_Selecionar_TipoEvento : "+e.getMessage());
              resultado=0;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -574,7 +598,10 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_ActualizaCita_DescEvento : "+e.getMessage());
              resultado=false;
-         }
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 
@@ -591,7 +618,69 @@ for(int i=0;i<result.size();i++){
          {
              System.out.println("ERROR de SP_SelectEvento : "+e.getMessage());
              resultado="";
+         } finally {
+            session.flush();
+            session.close();
+        }
+         return resultado;
+    }
+
+    @Override
+    public List<PacientePresencial> SP_ListarPacienteEnEspera(String terapeuta) {
+                System.out.println("Se ejecuta SP_ListarPacienteEnEspera - VisitaServiceImpl");
+         List<PacientePresencial> lista= new ArrayList<>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+          String empresa = StaticUtil.userLogged();
+             Query q = session.createSQLQuery("{ CALL SP_ListarPacienteEnEspera(:empresa,:ter) }");
+               q.setParameter("empresa",empresa);
+               q.setParameter("ter",terapeuta);
+          
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+				
+                        
+                          int posicion= Integer.parseInt(((BigInteger) result[0]).toString()) ;
+                          String paciente  = (String) result[1] ;
+                          Date fecha = (Date) result[2];
+                          int cod_cli= ((int) result[3] );
+                          int cod_vis= ((int) result[4]) ;
+                          int cod_ter= ((int) result[5] );
+
+                        
+                        
+                        lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
+			}
+        } catch (Exception e) {
+            System.out.println("Error SP_ListarPacienteEnEspera : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;
+    }
+
+    @Override
+    public boolean SP_CerrarSesion(int vis) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_CerrarSesion(:cod_vis) }");
+
+             q.setParameter("cod_vis", vis);
+
+             q.executeUpdate();
+             resultado = true;
          }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_CerrarSesion : "+e.getMessage());
+             resultado=false;
+         
+         } finally {
+            session.flush();
+            session.close();
+        }
          return resultado;
     }
 }

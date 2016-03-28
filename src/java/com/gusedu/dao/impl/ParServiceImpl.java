@@ -6,12 +6,12 @@
 package com.gusedu.dao.impl;
 
 import com.gusedu.dao.ParService;
+import com.gusedu.entidad.ParX;
 import com.gusedu.model.*;
 import com.gusedu.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -361,4 +361,52 @@ public class ParServiceImpl
         }
           return lista; 
     }
+
+    @Override
+    public List<ParX> SP_LISTAR_PARES() {
+        List<ParX> lista= new ArrayList<>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+    
+             Query q = session.createSQLQuery("{ CALL SP_LISTAR_PARES() }");
+
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {	
+                                 int par_codigo = (int) result[0];   
+                                 String par_nom= (String) result[1]; 
+                          
+                                   lista.add(new ParX(par_codigo, par_nom));
+                   	}
+        } catch (Exception e) {
+            System.out.println("Error SP_LISTAR_PARES : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista; 
+    }
+
+    @Override
+    public Par SP_FIND_PAR(String nom_par) {
+       Par obj = new Par();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+         
+             Query q = session.createSQLQuery("{ CALL SP_FIND_PAR(:nom_par) }");
+               q.setParameter("nom_par",nom_par);
+			Object[] d =   (Object[]) q.uniqueResult();
+                         int cod_par=(int) d[0];
+
+                         obj.setParCodigo(cod_par);
+
+        } catch (Exception e) {
+            System.out.println("Error en SP_FIND_PAR : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return obj;  
+    }
+
+
 }

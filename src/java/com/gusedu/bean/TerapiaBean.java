@@ -230,6 +230,13 @@ public class TerapiaBean {
                 }
                 System.out.println("PRUEBA FINALIZADA..... END");
             }
+            
+            public void listado_Terapeuta(int id_ter)
+            {
+                clear();
+                terapia.setTerCodigo(id_ter);
+                listarTerapiaPar = terapiaService.getAllTerapiaParbyTerapia(terapia);
+            }
 
             public void clear() {
 /* 244*/        terapia = new Terapia();
@@ -468,6 +475,27 @@ public class TerapiaBean {
                 }
             } 
       
+      
+     public void addPar3SP_Terapeuta(Integer idTerapia,Integer idpar) {
+        if (!ParExistenteV2(idpar)) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            Terapia terapia= new Terapia();
+            terapia.setTerCodigo(idTerapia);
+
+            Par par = new Par();
+            par.setParCodigo(idpar);
+            TerapiaPar tp = new TerapiaPar();
+            tp.setPar(par);
+            tp.setTerapia(terapia);
+            tp.setTxpActivo(true);
+            
+            terapiaparService.SPsaveTerapiaPar(tp);
+            StaticUtil.correctMesage("Exito", "Se agregó el par");
+            StaticUtil.keepMessages();
+            listarTerapiaPar = terapiaService.getAllTerapiaParbyTerapia(terapia);
+        }
+    }
+      
          public boolean ParExistenteV2(int idpar) {
         boolean valor = false;   
         listarTerapiaPar = terapiaService.getAllTerapiaParbyTerapia(terapia);
@@ -493,6 +521,12 @@ public class TerapiaBean {
         System.out.println("Tamaño : " + listarTerapiaPar.size());
     }
     
+    public void LISTAR_PARES_POR_PACIENTE(int t)
+    {
+        terapia.setTerCodigo(t);
+        listarTerapiaPar = terapiaService.getAllTerapiaParbyTerapia(terapia);
+        System.out.println("Tamaño : " + listarTerapiaPar.size());
+    }
     
     public void papu()
     {
@@ -530,4 +564,26 @@ public class TerapiaBean {
         datos.setPar(new Par());
         listado();
     }
+     public void ELIMINAR_T(int a)
+    {
+        System.out.println("Eliminando enfermedad par...");
+        terapiaparService.deleteTerapiaPar(datos);
+        datos = new TerapiaPar();
+        datos.setTerapia(new Terapia());
+        datos.setPar(new Par());
+       
+    }
+     
+   public void BuscarEliminar_T(int codigo,int ter)
+    {
+        System.out.println("ENTRE AL METODO PS" + codigo);
+        BUSCARXID(codigo);
+        ELIMINAR_T(codigo);
+        LISTAR_PARES_POR_PACIENTE(ter);
+    }
+   
+   public void LIMPIAR_LISTA()
+   {
+       listarTerapiaPar = new ArrayList<>();
+   }
 }

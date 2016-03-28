@@ -220,7 +220,7 @@ public class ReporteEstBean {
             costoTotal=0;
             listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas();
             listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta);
-            listaProductosXCliente = reporteservice.listarProductosXCliente(Product);
+            //listaProductosXCliente = reporteservice.listarProductosXCliente(Product);
 		listarProductos=reporteservice.listarProductos();
 		for(int i=0;i<listaTerapiasByterapeutas.size();i++)
 		{

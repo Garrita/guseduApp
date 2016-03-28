@@ -1,5 +1,6 @@
 package com.gusedu.dao;
 
+import com.gusedu.entidad.ParX;
 import java.util.List;
 
 import com.gusedu.model.Enfermedad;
@@ -48,5 +49,9 @@ public interface ParService {
 	public List<Par> paresByPunto(Punto p1);
 	
         public List<Par> SP_ORDENAMIENTO_PAR(int valor);
+        
+        public List<ParX> SP_LISTAR_PARES();
+        
+        public Par SP_FIND_PAR(String nom_par);
 }
 
