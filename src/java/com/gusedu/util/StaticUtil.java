@@ -7,6 +7,8 @@ package com.gusedu.util;
 
 import com.gusedu.model.Usuario;
 import java.sql.Timestamp;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -214,4 +216,9 @@ public class StaticUtil {
                 }
 /* 201*/        return salida;
             }
+            
+            public static String removeDiacriticalMarks(String string) {
+    return Normalizer.normalize(string, Form.NFD)
+        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+}
 }

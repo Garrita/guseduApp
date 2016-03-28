@@ -3,6 +3,7 @@ package com.gusedu.dao;
 import com.gusedu.entidad.Calendario;
 import com.gusedu.entidad.EUltimaVisita;
 import com.gusedu.entidad.EUltimaVisitaxCliente;
+import com.gusedu.entidad.PacientePresencial;
 import java.util.Date;
 import java.util.List;
 
@@ -59,4 +60,8 @@ public interface VisitaService {
         public boolean SP_ActualizaCita_DescEvento(Visita visita);
         
         public String SP_SelectEvento(int cod_event);
+        
+        public List<PacientePresencial> SP_ListarPacienteEnEspera(String terapeuta);
+        
+        public boolean SP_CerrarSesion(int vis);
 }

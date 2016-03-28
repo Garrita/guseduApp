@@ -137,7 +137,7 @@ public class Auth {
                                // usuario.getTipoUsuario().getTusCodigo()==2 || usuario.getTipoUsuario().getTusCodigo()==3
 				 if(usuario.getTipoUsuario().getTusCodigo()==2  ) // Terapeuta
 				 {
-					return "/web/Principal?faces-redirect=true";
+					return "/web/terapeuta/Principal?faces-redirect=true";
 				 }
                                  if(usuario.getTipoUsuario().getTusCodigo()==3  ) // Administrador
 				 {
