@@ -32,4 +32,6 @@ public interface PagoService {
     public List<Pago> allPagosByVisita(int visita);
     
     public List<EPago> allReport(Date fec_ini,Date fec_fin);
+    
+    public boolean SP_ValidarPagos(int pag,int fac,double monto);
 }

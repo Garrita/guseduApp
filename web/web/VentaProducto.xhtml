@@ -44,7 +44,8 @@
                               value="#{productoBean.costoParcial} #{productoBean.producto.proCurrencySymbol}" />
                 <p:commandButton icon="ui-icon-plus"
                                  value="Agregar Producto"  
-                                 actionListener="#{productoBean.ADD_PRODUCTO()}" />
+                                 actionListener="#{productoBean.ADD_PRODUCTO()}" 
+                                 update=":#{p:component('tablaVentaProductos')}" />
                 <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
                                  oncomplete="PF('dlgTP_F').show();" update=":#{p:component('productosf')}" />
                   <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
@@ -124,7 +125,7 @@
 							 
 							<p:column>
 								<p:commandButton icon="ui-icon-close" 
-				update=":#{p:component('productosf')}"
+				update=":#{p:component('productosf')},:#{p:component('tablaVentaProductos')}"
                                                                                  action="#{productoBean.ELIMINAR(prof.cod_det_factura)}" />
 							</p:column>
 						</p:dataTable>

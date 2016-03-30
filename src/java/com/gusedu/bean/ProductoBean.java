@@ -63,6 +63,7 @@ public class ProductoBean {
         clienteService = new ClienteServiceImpl();
         LISTAR_PRODUCTOS();
         LISTA_CLIPER();
+        cantidadProducto=1;
 //        MOSTRARLOGProducto();
     }
 
@@ -111,6 +112,7 @@ public class ProductoBean {
         {
             StaticUtil.errorMessage("Error", "No se pudo registrar los datos del producto");
         }
+        cantidadProducto=1;
                 
     }
     
@@ -135,7 +137,7 @@ public class ProductoBean {
     {
          if(productoservice.updateProducto(producto))
         {
-            productoservice.listarProductoLog();
+            //productoservice.listarProductoLog();
             productoservice.listarProductoLogAvanzado();
             StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el producto");
         }else
@@ -275,11 +277,22 @@ public class ProductoBean {
     public void preProducto(int idProducto)
     {
         producto = productoservice.getProductoById(idProducto);
+        calculaCostoParcial();
     }
     
     public void ADD_PRODUCTO()
     {
-        productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0);
+       
+         if( productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0))
+        {
+             productoservice.listarProductoLogAvanzado();
+            StaticUtil.correctMesage("Exito", "Se ha registrado correctamente los datos del producto");
+            LISTAR_PRODUCTOS();
+        }else
+        {
+            StaticUtil.errorMessage("Error", "No se pudo registrar los datos del producto");
+        }
+    
     }
     
     public void MOSTRAR()
@@ -294,12 +307,13 @@ public class ProductoBean {
         System.out.println("Entro a Eliminar"+fact);
         productoservice.SP_EliminarProductoFactura(fact);
         lista_detfact= productoservice.SP_ListarProductosF(cod_cli);
+        LISTAR_PRODUCTOS();
     }
     
     public void MOSTRARLOGProducto() 
     {
         System.out.println("Probando LOG de Producto");
-        listarMovimientoLog = productoservice.MostrarProductoLog();
+        //listarMovimientoLog = productoservice.MostrarProductoLog();
         listarMovimientoLogAvanzado = productoservice.MostrarProductoLogAvanzado();
         System.out.println("Éxito!!!");
     }

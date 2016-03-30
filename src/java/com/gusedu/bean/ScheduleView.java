@@ -28,6 +28,7 @@ import com.gusedu.model.TipoCliente;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 import com.gusedu.util.StaticUtil;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -635,8 +636,20 @@ public class ScheduleView {
     {
        cli.setCliCodigo(cli_codigo);
        cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),new Date(),0);
-      // lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
-      LISTAR();
+       lista_detfact = new ArrayList<>();
+       
+       if(cab_fact!=null)
+       {
+              lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
+              LISTAR();
+       }else
+       {
+            lista_detfact = new ArrayList<>();
+           FacesContext fc = FacesContext.getCurrentInstance();
+        VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
+        objetoBean.limpiarLista();
+       }
+    
     }
     
     public void UPDATE_FACTURA()
@@ -651,6 +664,7 @@ public class ScheduleView {
                        FacesContext fc = FacesContext.getCurrentInstance();
         VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
         System.out.println(cab_fact.getCod_factura());
+        fc.getExternalContext().getSessionMap().put("cab_fact", cab_fact.getCod_factura());
         objetoBean.llenarlista(cab_fact.getCod_factura());
     }
       public void onRowEdit(RowEditEvent event) {

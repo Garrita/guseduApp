@@ -12,6 +12,7 @@ import com.gusedu.model.CabeceraFactura;
 import com.gusedu.model.Pago;
 import com.gusedu.model.TipoPago;
 import com.gusedu.model.Visita;
+import com.gusedu.util.StaticUtil;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -95,7 +96,20 @@ public class PagoBean {
         pago = p;
           FacesContext fc = FacesContext.getCurrentInstance();
         //VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
-        updatePagos();
+          int f=(int) fc.getExternalContext().getSessionMap().get("cab_fact");
+
+        if(pagoservice.SP_ValidarPagos(pago.getPagoCodigo(),f, pago.getMonto()))
+        {
+                    updatePagos();
+        }else
+        {
+            StaticUtil.errorMessage("Precaución", "El monto de los pagos no puede exceder al total");
+            StaticUtil.keepMessages();
+             VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
+  
+
+        objetoBean.llenarlista(f);
+        }
         inicializar();
     }
     

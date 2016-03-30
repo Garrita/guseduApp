@@ -208,5 +208,27 @@ public class PagoServiceImpl implements PagoService{
          }
          return resultado;
     }
+
+    @Override
+    public boolean SP_ValidarPagos(int pag,int fac, double monto) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ValidarPagos(:cod_pag,:cod_fac,:val_mon) }");
+             q.setParameter("cod_pag", pag);
+             q.setParameter("cod_fac", fac);
+             q.setParameter("val_mon", monto);
+             resultado = Boolean.parseBoolean( q.uniqueResult().toString());
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_ValidarPagos : "+e.getMessage());
+             resultado=false;
+         } finally {
+            session.flush();
+            session.close();
+        }
+         return resultado;
+    }
     
 }

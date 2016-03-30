@@ -500,8 +500,10 @@ LISTAR_PRODUCTOS();
             
             visitaService.updateVisita(v2);*/
             costoParcial = 0.0;
-            cantidadProducto = 0.0;
+            cantidadProducto = 1.0;
             mostrarFormProducto = -1;
+            productoService.listarProductoLogAvanzado();
+            LISTAR_PRODUCTOS();
                 } else {
             System.out.println("ERROR, DEBUGEAR.");
                 }
@@ -679,5 +681,10 @@ LISTAR_PRODUCTOS();
         public void changeVisita(Visita v)
         {
             visita=v;
+        }
+        
+        public void limpiarLista()
+        {
+            listaPagoByVisita= new ArrayList<>();
         }
 }
