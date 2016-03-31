@@ -14,8 +14,9 @@ import com.gusedu.estadistica.ReporteClientes;
 import com.gusedu.estadistica.ReporteClientesXProd;
 import com.gusedu.estadistica.ReporteImpl;
 import com.gusedu.estadistica.ReporteService;
-import com.gusedu.model.DetalleFactura;
 import com.gusedu.util.StaticUtil;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -55,9 +56,24 @@ public class ReporteEstBean {
         private Date fechaGOD;
         private Date fechita1;
         private Date fechaGOD1;
+        private Date fechaactual;
         private String mes;
         private String año;
     
+    public String toShort(Date fecha)
+    {
+        String cadena;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if(fecha==null)
+        {
+            cadena= "fail";
+        }else
+        {
+            cadena=sdf.format(fecha);
+        }
+        return cadena;
+    }
+            
     public ReporteEstBean() {
         reporteservice = new ReporteImpl();
         listatipostring = new ArrayList<>();
@@ -73,6 +89,20 @@ public class ReporteEstBean {
         {
             listatipostring.add((i)+"");
         }
+        
+        Date fec= new Date();
+        fechaactual=fec;
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        String strFecha = "2013-01-01";
+        Date fechax = null;
+        try {
+        fechax = formatoDelTexto.parse(strFecha);
+        } catch (ParseException ex) {
+        ex.printStackTrace();
+        }
+        fechita1=fechax;
+        fechaGOD1= fec;
+        RequestContext.getCurrentInstance().update("dialogV");
     }
 
     public List<String> getListatipostring() {
@@ -218,11 +248,15 @@ public class ReporteEstBean {
     public void today1()
     {
         Date fecha2 = new Date();
-        fecha2.setHours(23);
-        fecha2.setMinutes(59);
-        fecha2.setSeconds(59);
-
-        fechita1 = fecha2;
+        fecha2.setHours(0);
+        fecha2.setMinutes(0);
+        fecha2.setSeconds(0);
+        fechita1=fecha2;
+        Date fecha3 = new Date();
+        fecha3.setHours(23);
+        fecha3.setMinutes(59);
+        fecha3.setSeconds(59);
+        fechaGOD1=fecha3;
         listarEstadoDiario();
     }
 
@@ -241,18 +275,25 @@ public class ReporteEstBean {
     public void setFechaGOD1(Date fechaGOD1) {
         this.fechaGOD1 = fechaGOD1;
     }
+
+    public Date getFechaactual() {
+        return fechaactual;
+    }
+
+    public void setFechaactual(Date fechaactual) {
+        this.fechaactual = fechaactual;
+    }
    
     @SuppressWarnings("deprecation")
     public void listarEstadoDiario()
     {
-        fechaGOD1 = fechita1;       
-        fechita1.setHours(0);
-        fechita1.setMinutes(0);
-        fechita1.setSeconds(0);
+        if(fechaGOD1.before(fechita1))
+        {
+            StaticUtil.errorMessage("Error", "Ingreso de fechas incorrecto");
+            return ;
+        }      
         System.out.println("Fecha inicial : "+fechita1);
-        Date fecha8 = new Date();
-        fecha8= engañaFecha(fechita1);
-        System.out.println("Fecha inicial : "+fecha8);
+        System.out.println("Fecha final : "+fechaGOD1);
         fechaGOD1.setHours(23);
         fechaGOD1.setMinutes(59);
         fechaGOD1.setSeconds(59);
@@ -261,10 +302,10 @@ public class ReporteEstBean {
         costoP=0;
         costoT=0;
         costoTotal=0;
-        listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas(fecha8,fechaGOD1);
-        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta,fecha8,fechaGOD1);
-        listaProductosXCliente = reporteservice.listarProductosXCliente(Product,fecha8,fechaGOD1);
-        listarProductos=reporteservice.listarProductos(fecha8,fechaGOD1);
+        listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas(fechita1,fechaGOD1);
+        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta,fechita1,fechaGOD1);
+        listaProductosXCliente = reporteservice.listarProductosXCliente(Product,fechita1,fechaGOD1);
+        listarProductos=reporteservice.listarProductos(fechita1,fechaGOD1);
         for(int i=0;i<listaTerapiasByterapeutas.size();i++)
         {
             costoT+=listaTerapiasByterapeutas.get(i).getCosto();

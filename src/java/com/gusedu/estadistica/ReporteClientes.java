@@ -5,12 +5,15 @@
  */
 package com.gusedu.estadistica;
 
+import java.util.Date;
+
 /**
  *
  * @author user
  */
 public class ReporteClientes {
     
+    private Date fecha;
     private String Cliente;
     private String tipoTer;
     private double Monto;
@@ -20,12 +23,21 @@ public class ReporteClientes {
         
     }
 
-    public ReporteClientes(String Cliente, String tipoTer, double Monto) {
+    public ReporteClientes(Date fecha, String Cliente, String tipoTer, double Monto) {
+        this.fecha = fecha;
         this.Cliente = Cliente;
         this.tipoTer = tipoTer;
         this.Monto = Monto;
     }
-    
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     public String getCliente() {
         return Cliente;
     }

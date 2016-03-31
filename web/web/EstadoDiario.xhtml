@@ -6,15 +6,22 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-        <h:form>
-            <p:panelGrid columns="6">
+        <h:form>          
+            <p:panelGrid columns="6" >            
                 <p:outputLabel value="Fecha: " ></p:outputLabel>
                 <p:calendar id="event1" value="#{reporteEstBean.fechita1}" pattern="dd/MM/yyyy"
                             maxdate="#{reporteEstBean.fechaGOD1}"
                             navigator="true"  yearRange="c-100:c" >
-                    <p:ajax event="dateSelect" listener="#{reporteEstBean.listarEstadoDiario()}" update="tablaVntas,tablaVntasProd,outL"  />
+                    <p:ajax event="dateSelect" listener="#{reporteEstBean.listarEstadoDiario()}" update="tablaVntas,tablaVntasProd,outL,event2" />
                 </p:calendar>
-                <p:commandButton id="btnhoyED"  value="Hoy" action="#{reporteEstBean.today1()}" update="event1,tablaVntas,tablaVntasProd,outL" >
+                
+                <p:outputLabel value="Fecha final : " ></p:outputLabel>
+                <p:calendar id="event2" value="#{reporteEstBean.fechaGOD1}" 
+                            navigator="true"  yearRange="c-100:c" pattern="dd/MM/yyyy"
+                            maxdate="#{reporteEstBean.fechaactual}" mindate="#{reporteEstBean.fechita1}" >
+                    <p:ajax event="dateSelect" listener="#{reporteEstBean.listarEstadoDiario()}" update="tablaVntas,tablaVntasProd,outL,event1" />
+                </p:calendar>
+                <p:commandButton id="btnhoyED"  value="Hoy" action="#{reporteEstBean.today1()}" update="event2,event1,tablaVntas,tablaVntasProd,outL" >
                 </p:commandButton>
             </p:panelGrid>
             <br/>
@@ -39,9 +46,12 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:panelGrid id="pnlClienteByTeraeuta"  style="width:300px">
-                        <p:dataTable id="tabl" var="cvrt"
+                        <p:dataTable id="tabl" var="cvrt" scrollable="true" scrollHeight="75"
                                      value="#{reporteEstBean.listaClientesByterapeutas}" 
                                      emptyMessage="No hay terapias por el momento">
+                            <p:column headerText="Fecha" width="8%">
+                                <h:outputText value="#{reporteEstBean.toShort(cvrt.fecha)}" />
+                            </p:column>
                             <p:column headerText="Cliente" width="8%">
                                 <h:outputText value="#{cvrt.cliente}" />
                             </p:column>
@@ -82,9 +92,12 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:panelGrid style="width:300px">
-                        <p:dataTable id="tablaProductoXCliente" var="cvrt1"
+                        <p:dataTable id="tablaProductoXCliente" var="cvrt1" scrollable="true" scrollHeight="75"
                                      value="#{reporteEstBean.listaProductosXCliente}" 
                                      emptyMessage="No hay productos por el momento">
+                            <p:column headerText="Fecha" width="8%">
+                                <h:outputText value="#{reporteEstBean.toShort(cvrt1.fecha)}" />
+                            </p:column>
                             <p:column headerText="Cliente" width="8%">
                                 <h:outputText value="#{cvrt1.cliente}" />
                             </p:column>

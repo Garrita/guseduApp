@@ -102,11 +102,12 @@ public class ReporteImpl implements ReporteService{
                 List<Object[]> d=q.list();
                 for (Object[] result : d) 
                 {
-                    String Cliente = (String) result[0];
-                    String TipoTer = (String) result[1];
-                    double Monto = (double) result[2];
-                    System.out.println("Cliente: "+result[0] + "\nMonto: " + result[1] + "\nTipo Terapia: " + result[2]);
-                    lista.add(new ReporteClientes(Cliente,TipoTer,Monto));
+                    Date fecha = (Date) result[0];
+                    String Cliente = (String) result[1];
+                    String TipoTer = (String) result[2];
+                    double Monto = (double) result[3];
+                    System.out.println("Fecha: " + result[0] + "\nCliente: "+result[1] + "\nMonto: " + result[2] + "\nTipo Terapia: " + result[3]);
+                    lista.add(new ReporteClientes(fecha,Cliente,TipoTer,Monto));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -134,12 +135,13 @@ public class ReporteImpl implements ReporteService{
                 List<Object[]> d=q.list();
                 for (Object[] result : d) 
                 {
-                    String Cliente = (String) result[0];
-                    String TipoTer = (String) result[1];
-                    double precioU = (double) result[2];
-                    int cant = (int) result[3];
-                    double Monto = (double) result[4];
-                    lista.add(new ReporteClientesXProd(Cliente,TipoTer,precioU,cant,Monto));
+                    Date fecha = (Date) result[0];
+                    String Cliente = (String) result[1];
+                    String TipoTer = (String) result[2];
+                    double precioU = (double) result[3];
+                    int cant = (int) result[4];
+                    double Monto = (double) result[5];
+                    lista.add(new ReporteClientesXProd(fecha,Cliente,TipoTer,precioU,cant,Monto));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

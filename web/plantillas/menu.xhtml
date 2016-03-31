@@ -23,7 +23,7 @@
                     <p:menuitem value="Pares"  onclick="PF('dlgHT').show();"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaPares}" />
                     <p:menuitem value="Pares por Enfermedad"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorEnfermedad}" />
                     <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
-                    <p:menuitem value="Estado Diario" oncomplete="PF('dlgVentas').show();" action="#{reporteEstBean.ESTADODIARIO()}" update=":#{p:component('EstDiario')}" />
+                    <p:menuitem value="Estado de Caja" oncomplete="PF('dlgVentas').show();" action="#{reporteEstBean.ESTADODIARIO()}" update=":#{p:component('EstDiario')}" />
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                     <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
                     <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
@@ -102,8 +102,8 @@
                 <ui:include src="/web/MovimientoCaja.xhtml" />
             </h:form>             
         </p:dialog>
-        <p:dialog header="Estado Diario" widgetVar="dlgVentas" showEffect="pop" id="dialogV" width="1200px"
-                  height="550px" >  
+        <p:dialog widgetVar="dlgVentas" header="Estado de Caja"
+                  showEffect="pop" id="dialogV" width="1200px" height="550px" >  
             <h:form id="EstDiario">
                 <ui:include src="/web/EstadoDiario.xhtml" />
             </h:form>  
