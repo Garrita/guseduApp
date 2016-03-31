@@ -14,6 +14,7 @@ import com.gusedu.estadistica.ReporteClientes;
 import com.gusedu.estadistica.ReporteClientesXProd;
 import com.gusedu.estadistica.ReporteImpl;
 import com.gusedu.estadistica.ReporteService;
+import com.gusedu.model.DetalleFactura;
 import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,8 +32,7 @@ import org.primefaces.event.ToggleEvent;
 @ManagedBean
 @SessionScoped
 public class ReporteEstBean {
-
-    
+  
     ReporteService reporteservice;
     
     public List<Reporte> listaTerapiasByterapeutas;
@@ -53,6 +53,8 @@ public class ReporteEstBean {
         private String Product;
         private Date fechita;
         private Date fechaGOD;
+        private Date fechita1;
+        private Date fechaGOD1;
         private String mes;
         private String año;
     
@@ -194,7 +196,7 @@ public class ReporteEstBean {
     {
         System.out.println("Row State : "+event.getVisibility());
         System.out.println("Model : "+((Reporte)event.getData()).getNombre());
-        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(((Reporte)event.getData()).getNombre());
+        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(((Reporte)event.getData()).getNombre(),fechita1,fechaGOD1);
         for (int i = 0; i < listaClientesByterapeutas.size(); i++) {
             System.out.println("Cliente : "+listaClientesByterapeutas.get(i).getCliente()+"\nTipo Terapia : "+
                     listaClientesByterapeutas.get(i).getTipoTer());
@@ -205,41 +207,80 @@ public class ReporteEstBean {
     {
         System.out.println("Row State : "+event.getVisibility());
         System.out.println("Model : "+((Reporte)event.getData()).getNombre());
-        listaProductosXCliente = reporteservice.listarProductosXCliente(((Reporte)event.getData()).getNombre());
+        listaProductosXCliente = reporteservice.listarProductosXCliente(((Reporte)event.getData()).getNombre(),fechita1,fechaGOD1);
         for (int i = 0; i < listaProductosXCliente.size(); i++) {
             System.out.println("Cliente : "+listaProductosXCliente.get(i).getCliente()+"\nItem : "+
                     listaProductosXCliente.get(i).getItem());
         }
     }
-        public void listarEstadoDiario()
+    
+    @SuppressWarnings("deprecation")
+    public void today1()
+    {
+        Date fecha2 = new Date();
+        fecha2.setHours(23);
+        fecha2.setMinutes(59);
+        fecha2.setSeconds(59);
+
+        fechita1 = fecha2;
+        listarEstadoDiario();
+    }
+
+    public Date getFechita1() {
+        return fechita1;
+    }
+
+    public void setFechita1(Date fechita1) {
+        this.fechita1 = fechita1;
+    }
+
+    public Date getFechaGOD1() {
+        return fechaGOD1;
+    }
+
+    public void setFechaGOD1(Date fechaGOD1) {
+        this.fechaGOD1 = fechaGOD1;
+    }
+   
+    @SuppressWarnings("deprecation")
+    public void listarEstadoDiario()
+    {
+        fechaGOD1 = fechita1;       
+        fechita1.setHours(0);
+        fechita1.setMinutes(0);
+        fechita1.setSeconds(0);
+        System.out.println("Fecha inicial : "+fechita1);
+        Date fecha8 = new Date();
+        fecha8= engañaFecha(fechita1);
+        System.out.println("Fecha inicial : "+fecha8);
+        fechaGOD1.setHours(23);
+        fechaGOD1.setMinutes(59);
+        fechaGOD1.setSeconds(59);
+        Terapeuta = "";
+        Product = "";
+        costoP=0;
+        costoT=0;
+        costoTotal=0;
+        listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas(fecha8,fechaGOD1);
+        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta,fecha8,fechaGOD1);
+        listaProductosXCliente = reporteservice.listarProductosXCliente(Product,fecha8,fechaGOD1);
+        listarProductos=reporteservice.listarProductos(fecha8,fechaGOD1);
+        for(int i=0;i<listaTerapiasByterapeutas.size();i++)
         {
-            Terapeuta = "";
-            Product = "";
-            costoP=0;
-            costoT=0;
-            costoTotal=0;
-            listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas();
-            listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta);
-            //listaProductosXCliente = reporteservice.listarProductosXCliente(Product);
-		listarProductos=reporteservice.listarProductos();
-		for(int i=0;i<listaTerapiasByterapeutas.size();i++)
-		{
-                    costoT+=listaTerapiasByterapeutas.get(i).getCosto();
-			//setCostoT(getCostoT() + listaTerapiasByterapeutas.get(i).getCosto());
-		}
-		
-		for(int i=0;i<listarProductos.size();i++)
-		{
-                        costoP+=listarProductos.get(i).getCosto();
-			//setCostoP(getCostoP() + listarProductos.get(i).getCosto());
-		}
-                costoTotal=costoP+costoT;
-		//setCostoTotal(getCostoT()+getCostoP());
-                RequestContext.getCurrentInstance().update("dialogV");
-                RequestContext context = RequestContext.getCurrentInstance();
-             context.execute("PF('dlgVentas').show();");
-              
+            costoT+=listaTerapiasByterapeutas.get(i).getCosto();
+            //setCostoT(getCostoT() + listaTerapiasByterapeutas.get(i).getCosto());
         }
+
+        for(int i=0;i<listarProductos.size();i++)
+        {
+            costoP+=listarProductos.get(i).getCosto();
+            //setCostoP(getCostoP() + listarProductos.get(i).getCosto());
+        }
+        System.out.println("Costo Terapia: " + costoT + "\n" + "Costo Producto: " + costoP);
+        costoTotal=costoP+costoT;
+        System.out.println("Costo Total: " + costoTotal);
+        //setCostoTotal(getCostoT()+getCostoP());
+    }
         
         public void prueba()
 	{
@@ -275,13 +316,13 @@ public class ReporteEstBean {
     @SuppressWarnings("deprecation")
     public void today()
     {
-            Date fecha2 = new Date();
-            fecha2.setHours(23);
-            fecha2.setMinutes(59);
-            fecha2.setSeconds(59);
-            
-            fechita = fecha2;
-            actualizar();
+        Date fecha2 = new Date();
+        fecha2.setHours(23);
+        fecha2.setMinutes(59);
+        fecha2.setSeconds(59);
+
+        fechita = fecha2;
+        actualizar();
     }
 	
     public Date getFechita() {
@@ -307,6 +348,15 @@ public class ReporteEstBean {
         listacajaresumen1 = reporteservice.MostrarCajaDetalle(fechita,fechaGOD);
         listarcajaresumenmensual = reporteservice.MostrarCajaResumenMensual(mes,año);
         listarcajaresumenmensual1 = reporteservice.MostrarCajaMensualDetalle(mes,año);       
+    }
+    
+    public void ESTADODIARIO()
+    {
+        today1();
+        listaTerapiasByterapeutas=reporteservice.listarTerapiaByterapeutas(fechita1,fechaGOD1);  
+        listaClientesByterapeutas = reporteservice.listarClientesByterapeutas(Terapeuta,fechita1,fechaGOD1);
+        listarProductos=reporteservice.listarProductos(fechita1,fechaGOD1);
+        listaProductosXCliente = reporteservice.listarProductosXCliente(Product,fechita1,fechaGOD1);
     }
 
     public String getMes() {

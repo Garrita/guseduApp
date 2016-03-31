@@ -23,7 +23,7 @@
                     <p:menuitem value="Pares"  onclick="PF('dlgHT').show();"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaPares}" />
                     <p:menuitem value="Pares por Enfermedad"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorEnfermedad}" />
                     <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
-                    <p:menuitem value="Estado Diario"  action="#{reporteEstBean.listarEstadoDiario()}"  />
+                    <p:menuitem value="Estado Diario" oncomplete="PF('dlgVentas').show();" action="#{reporteEstBean.ESTADODIARIO()}" update=":#{p:component('EstDiario')}" />
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                     <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
                     <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
@@ -102,102 +102,11 @@
                 <ui:include src="/web/MovimientoCaja.xhtml" />
             </h:form>             
         </p:dialog>
-        <p:dialog header="Ventas del Día" widgetVar="dlgVentas" showEffect="pop" id="dialogV"
-                  width="50%"   >  
-
-            <p:dataTable id="tablaVntas" var="pac"
-                         value="#{reporteEstBean.listaTerapiasByterapeutas}" 
-                         emptyMessage="No hay visitas por el momento" >
-                <p:ajax event="rowToggle" listener="#{reporteEstBean.onRowToggle}" />  
-                <f:facet name="header">
-                    Terapias
-                </f:facet>
-                <p:column headerText="Ver" width="4%">
-                    <p:rowToggler />
-                </p:column>
-                <p:column headerText="Cant." width="8%">
-                    <h:outputText value="#{pac.cantidad}" />
-                </p:column>
-                <p:column headerText="Terapeuta" width="20%">
-                    <h:outputText value="#{pac.nombre}" />
-                </p:column>
-                <p:column headerText="Costo" width="10%">
-                    <h:outputText value="S/. #{pac.costo}" />
-                </p:column>
-                <p:rowExpansion>
-                    <p:panelGrid id="pnlClienteByTeraeuta"  style="width:300px">
-                        <p:dataTable id="tabl" var="cvrt"
-                                     value="#{reporteEstBean.listaClientesByterapeutas}" 
-                                     emptyMessage="No hay terapias por el momento">
-                            <p:column headerText="Cliente" width="8%">
-                                <h:outputText value="#{cvrt.cliente}" />
-                            </p:column>
-                            <p:column headerText="Tipo Terapia" width="12%">
-                                <h:outputText value="#{cvrt.tipoTer}" />
-                            </p:column>
-                            <p:column headerText="Monto" width="8%">
-                                <h:outputText value="S/. #{cvrt.monto}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:panelGrid>
-                </p:rowExpansion>
-                <f:facet name="footer">
-                    <p:outputLabel
-                        value="Total : S/. #{reporteEstBean.costoT}"
-                        style="margin-right: -70%;" />
-                </f:facet>
-            </p:dataTable>
-            <br/>
-            <p:dataTable id="tablaVntasProd" var="pro"
-                         value="#{reporteEstBean.listarProductos}" 
-                         emptyMessage="No hay visitas por el momento" >
-                <p:ajax event="rowToggle" listener="#{reporteEstBean.onRowToggle1}" />
-                <f:facet name="header">
-                    Productos
-                </f:facet>
-                <p:column headerText="Ver" width="4%">
-                    <p:rowToggler  />
-                </p:column>
-                <p:column headerText="Cant." width="8%">
-                    <h:outputText value="#{pro.cantidad}" />
-                </p:column>
-                <p:column headerText="Producto" width="20%">
-                    <h:outputText value="#{pro.nombre}" />
-                </p:column>
-                <p:column headerText="Costo" width="10%">
-                    <h:outputText value="S/. #{pro.costo}" />
-                </p:column>
-                <p:rowExpansion>
-                    <p:panelGrid style="width:300px">
-                        <p:dataTable id="tablaProductoXCliente" var="cvrt1"
-                                     value="#{reporteEstBean.listaProductosXCliente}" 
-                                     emptyMessage="No hay productos por el momento">
-                            <p:column headerText="Cliente" width="8%">
-                                <h:outputText value="#{cvrt1.cliente}" />
-                            </p:column>
-                            <p:column headerText="Producto" width="8%">
-                                <h:outputText value="#{cvrt1.item}" />
-                            </p:column>
-                            <p:column headerText="Precio Unitario" width="8%">
-                                <h:outputText value="#{cvrt1.precioU}" />
-                            </p:column>
-                            <p:column headerText="Cant." width="5%">
-                                <h:outputText value="#{cvrt1.cantidad}" />
-                            </p:column>
-                            <p:column headerText="Monto" width="8%">
-                                <h:outputText value="S/. #{cvrt1.monto}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:panelGrid>
-                </p:rowExpansion>
-                <f:facet name="footer">
-                    <p:outputLabel
-                        value="Total  : S/. #{reporteEstBean.costoP}"
-                        style="margin-right: -70%;" />
-                </f:facet>
-            </p:dataTable>
-            <p:spacer width="255" height="20" ></p:spacer>
-            <p:outputLabel value="TOTAL : S/. #{reporteEstBean.costoTotal}"  />
+        <p:dialog header="Estado Diario" widgetVar="dlgVentas" showEffect="pop" id="dialogV" width="1200px"
+                  height="550px" >  
+            <h:form id="EstDiario">
+                <ui:include src="/web/EstadoDiario.xhtml" />
+            </h:form>  
         </p:dialog>
 
         <p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"

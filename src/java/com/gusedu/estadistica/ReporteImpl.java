@@ -28,35 +28,36 @@ public class ReporteImpl implements ReporteService{
 	@SuppressWarnings("unchecked")
  
         @Override
-	public List<Reporte> listarTerapiaByterapeutas() {
+	public List<Reporte> listarTerapiaByterapeutas(Date fechitai, Date fechitaf) 
+        {
             System.out.println("Se ejecuta listarTerapiaByterapeutas - ReporteImpl");
-		List<Reporte> lista= new ArrayList<>();
-                
-                
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                 try {
+            List<Reporte> lista= new ArrayList<>();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            try {
              //tx = sesion.beginTransaction();
-          String empresa = StaticUtil.userLogged();
-             Query q = session.createSQLQuery("{ CALL Reporte_TerapiasbyTerapeutas(:empresa) }");
-                    q.setParameter("empresa",empresa);
-			
-			List<Object[]> d=q.list();
-			for (Object[] result : d) {
-				
-				String CANTIDAD = ((BigInteger) result[0]).toString();
-				String NOMBRE = (String) result[1];
-				double COSTO = (double) result[2];
-				lista.add(new Reporte(CANTIDAD, NOMBRE, COSTO));
-			}
-        } catch (Exception e) {
-            /*if (tx != null) {
-                tx.rollback();
-            }   */
-            System.out.println(e.getMessage());
-        } finally {
-            session.flush();
-            session.close();
-        }
+            String empresa = StaticUtil.userLogged();
+            Query q = session.createSQLQuery("{ CALL Reporte_TerapiasbyTerapeutas(:empresa, :fechitai, :fechitaf) }");
+            q.setParameter("empresa",empresa);
+            q.setParameter("fechitai", fechitai);
+            q.setParameter("fechitaf", fechitaf);
+
+            List<Object[]> d=q.list();
+            for (Object[] result : d) {
+
+                    String CANTIDAD = ((BigInteger) result[0]).toString();
+                    String NOMBRE = (String) result[1];
+                    double COSTO = (double) result[2];
+                    lista.add(new Reporte(CANTIDAD, NOMBRE, COSTO));
+            }
+            } catch (Exception e) {
+                /*if (tx != null) {
+                    tx.rollback();
+                }   */
+                System.out.println(e.getMessage());
+            } finally {
+                session.flush();
+                session.close();
+            }
                 
                 /* try {
                      String empresa = StaticUtil.userLogged();
@@ -85,17 +86,19 @@ public class ReporteImpl implements ReporteService{
 	}
 
         @Override
-        public List<ReporteClientes> listarClientesByterapeutas(String Terapeuta)
+        public List<ReporteClientes> listarClientesByterapeutas(String Terapeuta,Date fechitai, Date fechitaf)
         {
             System.out.println("Se ejecuta listarClientesByterapeutas - ReporteImpl");
             List<ReporteClientes> lista= new ArrayList<>();
             Session session = HibernateUtil.getSessionFactory().openSession();
              try {
             String empresa = StaticUtil.userLogged();
-            Query q = session.createSQLQuery("{ CALL Reporte_ClientesbyTerapeuta(:empresa,:Terapeuta) }");
+            Query q = session.createSQLQuery("{ CALL Reporte_ClientesbyTerapeuta(:empresa, :Terapeuta, :fechitai, :fechitaf) }");
                 q.setParameter("Terapeuta",Terapeuta);
                 q.setParameter("empresa",empresa);
-
+                q.setParameter("fechitai", fechitai);
+                q.setParameter("fechitaf", fechitaf);
+                
                 List<Object[]> d=q.list();
                 for (Object[] result : d) 
                 {
@@ -115,17 +118,19 @@ public class ReporteImpl implements ReporteService{
         }
         
         @Override
-        public List<ReporteClientesXProd> listarProductosXCliente(String Product)
+        public List<ReporteClientesXProd> listarProductosXCliente(String Product,Date fechitai, Date fechitaf)
         {
             System.out.println("Se ejecuta listarProductosXCliente - ReporteImpl");
             List<ReporteClientesXProd> lista= new ArrayList<>();
             Session session = HibernateUtil.getSessionFactory().openSession();
              try {
             String empresa = StaticUtil.userLogged();
-            Query q = session.createSQLQuery("{ CALL Reporte_ProductosbyCliente(:empresa,:producto) }");
+            Query q = session.createSQLQuery("{ CALL Reporte_ProductosbyCliente(:empresa, :producto, :fechitai, :fechitaf) }");
                 q.setParameter("empresa",empresa);
                 q.setParameter("producto",Product);
-
+                q.setParameter("fechitai", fechitai);
+                q.setParameter("fechitaf", fechitaf);
+                
                 List<Object[]> d=q.list();
                 for (Object[] result : d) 
                 {
@@ -194,7 +199,7 @@ public class ReporteImpl implements ReporteService{
 	}
 
 	@Override
-	public List<Reporte> listarProductos() {
+	public List<Reporte> listarProductos(Date fechitai, Date fechitaf) {
             System.out.println("Se ejecuta listarProductos - ReporteImpl");
 		List<Reporte> lista= new ArrayList<>();
                 
@@ -203,9 +208,10 @@ public class ReporteImpl implements ReporteService{
                  try {
              //tx = sesion.beginTransaction();
           String empresa = StaticUtil.userLogged();
-             Query q = session.createSQLQuery("{ CALL Reporte_Cant_Prod(:empresa) }");
+             Query q = session.createSQLQuery("{ CALL Reporte_Cant_Prod(:empresa, :fechitai, :fechitaf) }");
                     q.setParameter("empresa",empresa);
-			
+                    q.setParameter("fechitai", fechitai);
+                    q.setParameter("fechitaf", fechitaf);
 			List<Object[]> d=q.list();
 			for (Object[] result : d) {
 				
