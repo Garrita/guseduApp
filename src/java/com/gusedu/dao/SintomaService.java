@@ -1,5 +1,6 @@
 package com.gusedu.dao;
 
+import com.gusedu.entidad.ESintomaCliente;
 import com.gusedu.entidad.ESintomaTerapia;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface SintomaService {
 	public boolean deleteSintoma(Sintoma sintoma);
 	
 	public Sintoma getById(Integer id);
+        
+        public List<ESintomaCliente> SP_LISTAR_SINTOMAS();
 	
     //Sintoma Par:
         public List<SintomaPar> getAllPar();

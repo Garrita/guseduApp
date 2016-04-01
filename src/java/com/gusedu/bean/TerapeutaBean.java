@@ -6,11 +6,15 @@
 package com.gusedu.bean;
 
 import com.gusedu.dao.ParService;
+import com.gusedu.dao.SintomaService;
 import com.gusedu.dao.VisitaService;
 import com.gusedu.dao.impl.ParServiceImpl;
+import com.gusedu.dao.impl.SintomaServiceImpl;
 import com.gusedu.dao.impl.VisitaServiceImpl;
+import com.gusedu.entidad.ESintomaCliente;
 import com.gusedu.entidad.PacientePresencial;
 import com.gusedu.entidad.ParX;
+import com.gusedu.model.Sintoma;
 import com.gusedu.model.TerapiaSintoma;
 import com.gusedu.util.StaticUtil;
 import java.text.SimpleDateFormat;
@@ -33,19 +37,25 @@ public class TerapeutaBean {
    private List<PacientePresencial> lista;
    VisitaService visitaService;
    ParService parService;
+   SintomaService sintomaService;
    
    private List<ParX> listaParX;
+   private List<ESintomaCliente> listasintomacliente;
    private ParX par;
+   private ESintomaCliente sintoma;
    private boolean val;
     
     public TerapeutaBean() {
         visitaService= new VisitaServiceImpl();
         parService = new ParServiceImpl();
+        sintomaService = new SintomaServiceImpl();
         pacientePresencial = new PacientePresencial();
         listarPacienteEnEspera();
         listarX();
+        listarX1();
         val=false;
         par = new ParX();
+        sintoma = new ESintomaCliente();
     }
 
     public PacientePresencial getPacientePresencial() {
@@ -54,6 +64,14 @@ public class TerapeutaBean {
 
     public void setPacientePresencial(PacientePresencial pacientePresencial) {
         this.pacientePresencial = pacientePresencial;
+    }
+
+    public List<ESintomaCliente> getListasintomacliente() {
+        return listasintomacliente;
+    }
+
+    public void setListasintomacliente(List<ESintomaCliente> listasintomacliente) {
+        this.listasintomacliente = listasintomacliente;
     }
 
     public boolean isVal() {
@@ -74,7 +92,13 @@ public class TerapeutaBean {
         this.par = par;
     }
 
-    
+    public ESintomaCliente getSintoma() {
+        return sintoma;
+    }
+
+    public void setSintoma(ESintomaCliente sintoma) {
+        this.sintoma = sintoma;
+    }
     
     public List<PacientePresencial> getLista() {
         return lista;
@@ -115,12 +139,18 @@ public class TerapeutaBean {
         listaParX = parService.SP_LISTAR_PARES();
     }
    
+    public void listarX1()
+    {
+       listasintomacliente = new ArrayList<>();
+       listasintomacliente = sintomaService.SP_LISTAR_SINTOMAS();
+    }
     
     public String toShort(Date fecha)
     {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         return sdf.format(fecha);
     }
+    
     public void PROBA()
     {
         for (int i = 0; i < lista.size(); i++) {
@@ -131,6 +161,9 @@ public class TerapeutaBean {
                 FacesContext fc = FacesContext.getCurrentInstance();
                 TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
                 objetoTBean.LISTAR_PARES_POR_PACIENTE(pacientePresencial.getCod_ter());
+                
+                TerapiaSintomaBean objetoTSBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
+                objetoTSBean.LISTAR_SINTOMAS_POR_PACIENTE(pacientePresencial.getCod_cli());
             }
         }
     }
@@ -149,6 +182,21 @@ public class TerapeutaBean {
                 }
     return puntosFiltrados;
 }
+    
+    public List autoCompletar1(String query) 
+    {
+        List sintomasFiltrados = new ArrayList();
+        for (int i = 0; i < listasintomacliente.size(); i++) 
+        {
+            ESintomaCliente sint = (ESintomaCliente)listasintomacliente.get(i);
+            if (StaticUtil.removeDiacriticalMarks(sint.getSinDescripcion().toLowerCase()).startsWith(StaticUtil.removeDiacriticalMarks(query.toLowerCase()))) 
+            {
+                sintomasFiltrados.add(sintoma);
+            }
+        }
+        return sintomasFiltrados;
+    }
+    
     public void INSERTAR_PAR()
     {
         if(pacientePresencial.getCod_ter()!=0 )
@@ -174,6 +222,23 @@ public class TerapeutaBean {
         TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
         objetoTBean.LISTAR_PARES_POR_PACIENTE(pacientePresencial.getCod_ter());
         
+    }
+    
+    public void INSERTAR_SINTOMA()
+    {
+        if(pacientePresencial.getCod_ter()!=0 )
+        {
+            System.out.println("Codigo de síntoma : "+ sintoma.getSinCodigo());
+            FacesContext fc = FacesContext.getCurrentInstance();
+            TerapiaSintomaBean tsBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
+            tsBean.addSintoma_Terapeuta(pacientePresencial.getCod_ter(),sintoma.getSinCodigo());
+        }else
+        {
+             StaticUtil.errorMessage("Precaución", "Seleccione un paciente");
+            StaticUtil.keepMessages();
+        }
+        sintoma = new ESintomaCliente();
+        sintoma.setSinDescripcion("");
     }
     
     public void PRUEBA(int val)

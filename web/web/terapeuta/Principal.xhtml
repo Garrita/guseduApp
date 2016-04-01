@@ -98,55 +98,30 @@
                     </p:tab>
                     <p:tab title="Síntomas">
                         <h:form id="formTerapiaSintoma2">
-                            <p:outputLabel value="Fecha: " />
-                            <p:selectOneMenu value="#{terapiaSintomaBean.terapia.terCodigo}" id="Fechaselectcombo">                 
-                                <f:selectItem itemLabel="Seleccionar" itemValue="0" />
-                                <f:selectItems value="#{historialTerapiaBean.listaterapia}" var="listitaTerapia"  
-                                               itemValue="#{listitaTerapia.terCodigo}" itemLabel="#{terapiaSintomaBean.toShort(listitaTerapia.terFecRealizada)}" >
-                                </f:selectItems>
-                                <p:ajax listener="#{terapiaSintomaBean.llenarLISTITA(terapiaSintomaBean.terapia.terCodigo)}" 
-                                        update=":#{p:component('tablaSinTerapeuta')}, :#{p:component('PanelButton')}" />
-                            </p:selectOneMenu>
-                            <p:panel id="PanelButton" >
-                                <h:panelGrid>
-                                    <p:commandButton value="Nuevo Síntoma" action="#{terapiaSintomaBean.inicializar()}" icon="ui-icon-plus"
-                                                     id="btnAgregar" 
-                                                     oncomplete="PF('pantallitaIngresoHistorial').show();"
-                                                     update=":#{p:component('pnSintomaHistoria')}" disabled="#{terapiaSintomaBean.disable}"/>                    
-                                </h:panelGrid>                       
-                            </p:panel> 
-                            <p:dialog header="Agregar Síntoma" widgetVar="pantallitaIngresoHistorial" minHeight="100" id="pnSintomaHistoria" width="500">
-                                <br></br>
-                                <h:panelGrid columns="2" id="pnlInsertarSíntoma">
-                                    <p:outputLabel value="Agregar síntoma:  " for="autoSintoma" />
+                            <p:panel  id="pnl1" >
+                                <p:focus context="pnl1" />
+                                <p:panelGrid columns="3" id="pnlTerPar1"  >
+                                    <p:outputLabel value="Síntoma : " />
                                     <p:autoComplete id="autoSintoma" queryDelay="100"
                                                     value="#{terapiaSintomaBean.sintoma}"  
                                                     completeMethod="#{terapiaSintomaBean.autoCompletarSintoma}" var="sin"
                                                     itemLabel="#{sin.sinDescripcion}" itemValue="#{sin}"
                                                     converter="sintomaConverter" panelStyleClass="ui-themes">
                                     </p:autoComplete> 
+                                    <br/>
                                     <p:outputLabel value="Comentario: " style="width:200px" />
                                     <p:inputTextarea id="txtarea1" value="#{terapiaSintomaBean.comentario}" style="width:350px" />
-                                    <h:outputLabel value="¿Presenta este síntoma?: " />
-                                    <p:inputSwitch value="#{terapiaSintomaBean.datos.txsActivo}" offLabel="No" onLabel="Si" >
-                                    </p:inputSwitch>
-                                </h:panelGrid>
-                                <br/>
-                                <p:commandButton value="Guardar" id="btnAgregar1"  process="@form" icon="ui-icon-disk"
-                                                 oncomplete="PF('pantallitaIngresoHistorial').hide();"
-                                                 action="#{terapiaSintomaBean.addSintoma()}"
-                                                 update=":#{p:component('tablaSinTerapeuta')}, :#{p:component('autoSintoma')}" >
-                                </p:commandButton>
-                                <br/>
-                            </p:dialog>
+                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_SINTOMA()}" update=":#{p:component('tablaSinTerapeuta')},:#{p:component('pnl1')},:#{p:component('formTerapiaSintoma1')}" />
+                                </p:panelGrid>
+                            </p:panel> 
                         </h:form>
                         <h:form id="formTerapiaSintoma1">
                             <br/>
-                            <p:dataTable emptyMessage="Seleccione una fecha de terapia" 
-                                         id="tablaSinTerapeuta" var="sxt" value="#{terapiaSintomaBean.listaterapiasintoma}"
-                                         paginator="true" rows="4" >
+                            <p:dataTable emptyMessage="No registra síntomas el paciente"
+                                         id="tablaSinTerapeuta" var="sxt" value="#{terapiaSintomaBean.listaterapiasintx}"
+                                         paginator="true" rows="8" >
                                 <p:column headerText="Síntoma">
-                                    <p:outputLabel value="#{sxt.sintoma.sinDescripcion}" />
+                                    <p:outputLabel value="#{sxt.sinDescripcion}" />
                                 </p:column>
                                 <p:column headerText="Comentario">
                                     <p:outputLabel value="#{sxt.txsComentario}" />
@@ -161,7 +136,6 @@
                                     <p:commandButton id="ajax51" icon="ui-icon-trash"
                                                      action="#{terapiaSintomaBean.BuscarEliminar(sxt.txsCodigo)}"
                                                      update=":#{p:component('tablaSinTerapeuta')},:#{p:component('formTerapiaSintoma1')}">
-                                        <f:actionListener binding="#{sintomaTerapiaBean.llenamatriz()}" rendered="true"/>
                                         <p:confirm header="Confirmación" message="¿Estás seguro de eliminar este síntoma?" icon="ui-icon-alert" />
                                     </p:commandButton>               
                                 </p:column>

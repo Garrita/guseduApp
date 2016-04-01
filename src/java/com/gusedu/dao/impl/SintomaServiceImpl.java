@@ -6,6 +6,7 @@
 package com.gusedu.dao.impl;
 
 import com.gusedu.dao.SintomaService;
+import com.gusedu.entidad.ESintomaCliente;
 import com.gusedu.entidad.ESintomaTerapia;
 import com.gusedu.model.SintomaPar;
 import com.gusedu.model.Sintoma;
@@ -339,5 +340,28 @@ public class SintomaServiceImpl implements SintomaService, Serializable {
             session.close();
         }
           return lista;     
+    }
+    
+    @Override
+    public List<ESintomaCliente> SP_LISTAR_SINTOMAS() 
+    {
+        List<ESintomaCliente> lista= new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Query q = session.createSQLQuery("{ CALL SP_LISTAR_SINTOMAS() }");
+            List<Object[]> d=q.list();
+            for (Object[] result : d) {	
+                     int sint_codigo = (int) result[0];   
+                     String sint_nom= (String) result[1]; 
+
+                       lista.add(new ESintomaCliente(sint_codigo, sint_nom));
+            }
+        } catch (Exception e) {
+            System.out.println("Error SP_LISTAR_SINTOMAS : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista; 
     }
 }

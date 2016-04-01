@@ -5,6 +5,7 @@
  */
 package com.gusedu.dao;
 
+import com.gusedu.entidad.TerapiaSintomaX;
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.Terapia;
@@ -30,4 +31,6 @@ public interface TerapiaSintomaService {
     public List<TerapiaSintoma> getAllTerapiaSintoma(Terapia ter);
     
     public TerapiaSintoma buscarTerapiaSintoma(Cliente cliente);
+    
+    public List<TerapiaSintomaX> SP_LISTAR_SINTOMAS_CLIENTE(int cod_cli);
 }

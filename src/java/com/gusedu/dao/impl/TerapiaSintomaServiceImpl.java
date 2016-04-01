@@ -6,10 +6,12 @@
 package com.gusedu.dao.impl;
 
 import com.gusedu.dao.TerapiaSintomaService;
+import com.gusedu.entidad.TerapiaSintomaX;
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaSintoma;
 import com.gusedu.util.HibernateUtil;
+import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -192,5 +194,34 @@ public class TerapiaSintomaServiceImpl implements TerapiaSintomaService {
             sesion.close();
         }
         return result;
+    }
+    
+            @Override
+    public List<TerapiaSintomaX> SP_LISTAR_SINTOMAS_CLIENTE(int cod_cli)
+    {
+        System.out.println("Se ejecuta SP_LISTAR_SINTOMAS_CLIENTE - TerapiaSintomaServiceImpl");
+        List<TerapiaSintomaX> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            String empr = StaticUtil.userLogged();
+            Query q = sesion.createSQLQuery("{ CALL SP_LISTARSINTOMAS_CLIENTE(:cod_cli)}");
+            q.setParameter("cod_cli", cod_cli);
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {              
+                int txscodigo = (int)result[0];
+                String sindescr = (String)result[1];
+                String comentario = (String)result[2];
+                boolean txsactivo = (boolean)result[3];
+                resultado.add(new TerapiaSintomaX(txscodigo,sindescr,comentario,txsactivo));		 
+            }
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR de SP_LISTAR_SINTOMAS_CLIENTE : "+e.getMessage());
+        }
+        return resultado;
     }
 }

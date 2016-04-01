@@ -522,7 +522,7 @@ public class TerapiaBean {
     }
     
     public void LISTAR_PARES_POR_PACIENTE(int t)
-    {
+    {   
         terapia.setTerCodigo(t);
         listarTerapiaPar = terapiaService.getAllTerapiaParbyTerapia(terapia);
         System.out.println("Tamaño : " + listarTerapiaPar.size());

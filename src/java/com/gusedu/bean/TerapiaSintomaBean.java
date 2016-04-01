@@ -11,9 +11,12 @@ import com.gusedu.dao.TerapiaSintomaService;
 import com.gusedu.dao.impl.SintomaServiceImpl;
 import com.gusedu.dao.impl.TerapiaServiceImpl;
 import com.gusedu.dao.impl.TerapiaSintomaServiceImpl;
+import com.gusedu.entidad.TerapiaSintomaX;
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaVisita;
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TerapiaSintoma;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
@@ -46,8 +49,12 @@ public class TerapiaSintomaBean {
     private Terapia terapia;
     private boolean disable;
     private String comentario;
+    private Visita visita;
+    private Cliente cliente;
     
     private List<TerapiaSintoma> listaterapiasintoma;
+    private List<TerapiaPar> listaterapiapar;
+    private List<TerapiaSintomaX> listaterapiasintx;
     
     public String toShort(Date fecha)
     {
@@ -57,6 +64,8 @@ public class TerapiaSintomaBean {
     
     public TerapiaSintomaBean() 
     {
+        visita = new Visita();
+        cliente = new Cliente();
         terapiaservice = new TerapiaServiceImpl();
         sintomaService = new SintomaServiceImpl();
         terapiasintomaService = new TerapiaSintomaServiceImpl();
@@ -85,7 +94,6 @@ public class TerapiaSintomaBean {
         datos = new TerapiaSintoma();
         datos.setTerapia(new Terapia());
         datos.setSintoma(new Sintoma());
-        setDisable(true);
     }
 
     public TerapiaSintoma getDatos() {
@@ -116,6 +124,23 @@ public class TerapiaSintomaBean {
     public void setSintoma(Sintoma sintoma) {
         this.sintoma = sintoma;
     }
+
+    public List<TerapiaPar> getListaterapiapar() {
+        return listaterapiapar;
+    }
+
+    public void setListaterapiapar(List<TerapiaPar> listaterapiapar) {
+        this.listaterapiapar = listaterapiapar;
+    }
+
+    public List<TerapiaSintomaX> getListaterapiasintx() {
+        return listaterapiasintx;
+    }
+
+    public void setListaterapiasintx(List<TerapiaSintomaX> listaterapiasintx) {
+        this.listaterapiasintx = listaterapiasintx;
+    }
+
     
     public void AGREGAR()
     {
@@ -361,5 +386,58 @@ public class TerapiaSintomaBean {
         terapia.setVisita(new Visita());       
      }
         
+     public void LISTARTERAPIASXCLIENTE(int c)
+     {
+        terapia = new Terapia();
+        terapia.setTipoTerapia(new TipoTerapia());
+        terapia.setVisita(new Visita()); 
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Cliente cli = (Cliente) fc.getExternalContext().getSessionMap().get("cliente");
+        listaterapiapar = terapiaservice.getAllParbyCliente(cli);
+     }
         
+     public void addSintoma_Terapeuta(Integer idTerapia,Integer idsintoma) 
+     {
+        if (!SintomaExistente(idsintoma)) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            Terapia terapia= new Terapia();
+            terapia.setTerCodigo(idTerapia);
+            
+            Sintoma sintoma = new Sintoma();
+            sintoma.getSinCodigo();
+            
+            TerapiaSintoma txs = new TerapiaSintoma();
+            sintoma.setSinCodigo(idsintoma);
+            txs.setTerapia(terapia);
+            txs.setSintoma(sintoma);
+            txs.setTxsActivo(true);
+            
+            terapiasintomaService.saveTerapiaSintoma(txs);
+            StaticUtil.correctMesage("Exito", "Se agregó el síntoma");
+            StaticUtil.keepMessages();
+            listaterapiasintoma = terapiasintomaService.getAllTerapiaSintoma(terapia);
+        }
+    }
+     
+    public boolean SintomaExistente(int idsintoma) 
+    {
+        boolean valor = false;   
+        listaterapiasintoma = terapiasintomaService.getAllTerapiaSintoma(terapia);
+        for (Iterator iterator = listaterapiasintoma.iterator(); iterator.hasNext();) 
+        {
+            TerapiaSintoma s = (TerapiaSintoma)iterator.next();
+            if (s.getSintoma().getSinCodigo().intValue() == idsintoma) 
+            {
+                StaticUtil.errorMessage("Error", "El par ya ha sido agregado");
+                return true;
+            }
+        }
+        return valor;
+    }   
+    
+    public void LISTAR_SINTOMAS_POR_PACIENTE(int cli)
+    {   
+        listaterapiasintx = terapiasintomaService.SP_LISTAR_SINTOMAS_CLIENTE(cli);
+        System.out.println("Tamaño : " + listaterapiasintx.size());
+    }
 }

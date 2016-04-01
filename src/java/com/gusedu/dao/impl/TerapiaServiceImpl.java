@@ -411,6 +411,7 @@ public class TerapiaServiceImpl
 /* 441*/        return resultado;
             }
 
+         
             public List<TerapiaPar> getAllParbyCliente(Cliente cliente) {
                 System.out.println("Se ejecuta getAllParbyCliente - TerapiaServiceImpl");
         List<TerapiaPar> result = new ArrayList();
