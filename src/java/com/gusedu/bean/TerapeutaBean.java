@@ -11,6 +11,7 @@ import com.gusedu.dao.impl.ParServiceImpl;
 import com.gusedu.dao.impl.VisitaServiceImpl;
 import com.gusedu.entidad.PacientePresencial;
 import com.gusedu.entidad.ParX;
+import com.gusedu.model.TerapiaSintoma;
 import com.gusedu.util.StaticUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

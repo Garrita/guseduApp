@@ -387,18 +387,17 @@ public class ParServiceImpl
     }
 
     @Override
-    public Par SP_FIND_PAR(String nom_par) {
-       Par obj = new Par();
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                 try {
-         
-             Query q = session.createSQLQuery("{ CALL SP_FIND_PAR(:nom_par) }");
-               q.setParameter("nom_par",nom_par);
-			Object[] d =   (Object[]) q.uniqueResult();
-                         int cod_par=(int) d[0];
-
-                         obj.setParCodigo(cod_par);
-
+    public Par SP_FIND_PAR(String nom_par) 
+    {
+        Par obj = new Par();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try 
+        {       
+            Query q = session.createSQLQuery("{ CALL SP_FIND_PAR(:nom_par) }");
+            q.setParameter("nom_par",nom_par);
+            Object[] d =   (Object[]) q.uniqueResult();
+            int cod_par=(int) d[0];
+            obj.setParCodigo(cod_par);
         } catch (Exception e) {
             System.out.println("Error en SP_FIND_PAR : "+e.getMessage());
         } finally {

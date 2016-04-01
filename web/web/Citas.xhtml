@@ -411,7 +411,7 @@
                     </h:form>
                 </p:dialog>
                 <p:dialog id="dialogParesByHistorial"
-                          header="Registrar pares de #{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM}"
+                          header="Registrar pares de #{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM} de la #{scheduleView.sesion.visita} - #{scheduleView.toShort(scheduleView.sesion.fechaCreacion)}"
                           widgetVar="dlgParesTHV2" showEffect="pop" width="80%"  >
                     <h:form id="frameHistoria" style="width:500px;height:500px">
                        <ui:include src="RegistroParesV5.xhtml" />  

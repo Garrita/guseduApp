@@ -268,7 +268,7 @@ post();
 		//return "pm:consultarPares?transition=flip";
 	}
                 
-                public void cargarParWeb(int id)
+        public void cargarParWeb(int id)
 	{
 		parSeleccionado = parService.parById(id); 
 	           System.out.println("P1 : "+parSeleccionado.getPuntoByPunCodigoP1().getPunNombre()+
@@ -277,6 +277,7 @@ post();
                            "\nDescripcion : "+parSeleccionado.getParDescripcion()+
                            "\nGrupo : "+parSeleccionado.getGrupo().getGruNombre());
         }
+                
        	public void removePar() {
 		parService.deletePar(parSeleccionado);
 		parSeleccionado = new Par();

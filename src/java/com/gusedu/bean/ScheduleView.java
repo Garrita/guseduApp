@@ -28,6 +28,7 @@ import com.gusedu.model.TipoCliente;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 import com.gusedu.util.StaticUtil;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -89,6 +90,20 @@ public class ScheduleView {
     private boolean valorEvento;
     private String tipoevento;
     
+    public String toShort(Date fecha)
+    {
+        String cadena;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if(fecha==null)
+        {
+            cadena= "fail";
+        }else
+        {
+            cadena=sdf.format(fecha);
+        }
+        return cadena;
+    }
+        
     public ScheduleView() {
         visitaService = new VisitaServiceImpl();
         terapiaService = new TerapiaServiceImpl();

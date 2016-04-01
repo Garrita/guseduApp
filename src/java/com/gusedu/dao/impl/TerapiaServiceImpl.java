@@ -344,6 +344,7 @@ public class TerapiaServiceImpl
 /* 328*/        return result;
             }
 
+            @Override
             public List<TerapiaPar> getAllTerapiaParbyTerapia(Terapia terapia) {
                 System.out.println("Se ejecuto getAllTerapiaParbyTerapia - TerapiaServiceImpl");
        List<TerapiaPar> result = new ArrayList();

@@ -356,11 +356,9 @@ public class TerapiaSintomaBean {
         
      public void REFRESH_SELECTONEMENU()
      {
-         terapia = new Terapia();
+        terapia = new Terapia();
         terapia.setTipoTerapia(new TipoTerapia());
-        terapia.setVisita(new Visita());
-        
-        listaterapiasintoma = new ArrayList<>();
+        terapia.setVisita(new Visita());       
      }
         
         
