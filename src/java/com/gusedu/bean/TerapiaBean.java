@@ -478,7 +478,6 @@ public class TerapiaBean {
       
      public void addPar3SP_Terapeuta(Integer idTerapia,Integer idpar) {
         if (!ParExistenteV2(idpar)) {
-            FacesContext fc = FacesContext.getCurrentInstance();
             Terapia terapia= new Terapia();
             terapia.setTerCodigo(idTerapia);
 
@@ -488,7 +487,7 @@ public class TerapiaBean {
             tp.setPar(par);
             tp.setTerapia(terapia);
             tp.setTxpActivo(true);
-            
+
             terapiaparService.SPsaveTerapiaPar(tp);
             StaticUtil.correctMesage("Exito", "Se agregó el par");
             StaticUtil.keepMessages();

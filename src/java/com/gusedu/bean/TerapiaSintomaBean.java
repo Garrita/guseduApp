@@ -163,6 +163,9 @@ public class TerapiaSintomaBean {
         datos.setSintoma(new Sintoma());
         listarSintoma();
         llenarLISTITA(terapia.getTerCodigo());
+         FacesContext fc = FacesContext.getCurrentInstance();
+        TerapeutaBean objetoTBean = (TerapeutaBean)fc.getExternalContext().getSessionMap().get("terapeutaBean");
+        objetoTBean.PASARBEAN();   
     }
     
     public void ELIMINAR()
@@ -180,6 +183,7 @@ public class TerapiaSintomaBean {
     {
         llenarLISTITA(tersintoma);
         datos = terapiasintomaService.getByParameters(tersintoma);
+        terapia=datos.getTerapia();
         System.out.println("Terapia: " + datos.getTerapia().getTerDescripcion() + "\n" +
                            "Sintoma:" + datos.getSintoma().getSinDescripcion());
     }
@@ -188,6 +192,9 @@ public class TerapiaSintomaBean {
     {
         BUSCARXID(codigo);
         ELIMINAR();
+                FacesContext fc = FacesContext.getCurrentInstance();
+        TerapeutaBean objetoTBean = (TerapeutaBean)fc.getExternalContext().getSessionMap().get("terapeutaBean");
+        objetoTBean.PASARBEAN();   
     }
     
     public void GUARDARDATOS() 
@@ -378,7 +385,7 @@ public class TerapiaSintomaBean {
         SintomaTerapiaBean stBean = new SintomaTerapiaBean();
         stBean.llenamatriz();
     }
-        
+               
      public void REFRESH_SELECTONEMENU()
      {
         terapia = new Terapia();
@@ -396,26 +403,27 @@ public class TerapiaSintomaBean {
         listaterapiapar = terapiaservice.getAllParbyCliente(cli);
      }
         
-     public void addSintoma_Terapeuta(Integer idTerapia,Integer idsintoma) 
+     public void addSintoma_Terapeuta(int ter) 
      {
-        if (!SintomaExistente(idsintoma)) {
-            FacesContext fc = FacesContext.getCurrentInstance();
-            Terapia terapia= new Terapia();
-            terapia.setTerCodigo(idTerapia);
+        if (!SintomaExistente(sintoma.getSinCodigo())) {
+          
+             
+            terapia.setTerCodigo(ter);
+       
             
-            Sintoma sintoma = new Sintoma();
-            sintoma.getSinCodigo();
             
             TerapiaSintoma txs = new TerapiaSintoma();
-            sintoma.setSinCodigo(idsintoma);
             txs.setTerapia(terapia);
             txs.setSintoma(sintoma);
+            txs.setTxsComentario(comentario);
             txs.setTxsActivo(true);
             
             terapiasintomaService.saveTerapiaSintoma(txs);
+            sintoma = new Sintoma();
+             
+            comentario="";
             StaticUtil.correctMesage("Exito", "Se agregó el síntoma");
             StaticUtil.keepMessages();
-            listaterapiasintoma = terapiasintomaService.getAllTerapiaSintoma(terapia);
         }
     }
      
@@ -428,7 +436,7 @@ public class TerapiaSintomaBean {
             TerapiaSintoma s = (TerapiaSintoma)iterator.next();
             if (s.getSintoma().getSinCodigo().intValue() == idsintoma) 
             {
-                StaticUtil.errorMessage("Error", "El par ya ha sido agregado");
+                StaticUtil.errorMessage("Error", "El síntoma ya ha sido agregado");
                 return true;
             }
         }

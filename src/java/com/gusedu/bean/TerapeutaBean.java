@@ -228,10 +228,11 @@ public class TerapeutaBean {
     {
         if(pacientePresencial.getCod_ter()!=0 )
         {
-            System.out.println("Codigo de síntoma : "+ sintoma.getSinCodigo());
+            
             FacesContext fc = FacesContext.getCurrentInstance();
             TerapiaSintomaBean tsBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
-            tsBean.addSintoma_Terapeuta(pacientePresencial.getCod_ter(),sintoma.getSinCodigo());
+            tsBean.addSintoma_Terapeuta(pacientePresencial.getCod_ter());
+            tsBean.LISTAR_SINTOMAS_POR_PACIENTE(pacientePresencial.getCod_cli());
         }else
         {
              StaticUtil.errorMessage("Precaución", "Seleccione un paciente");
@@ -257,5 +258,12 @@ public class TerapeutaBean {
         objetoTBean.LIMPIAR_LISTA();
         val=false;
         
+    }
+    
+    public void PASARBEAN()
+    {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        TerapiaSintomaBean objetoTSBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
+        objetoTSBean.LISTAR_SINTOMAS_POR_PACIENTE(pacientePresencial.getCod_cli());
     }
 }
