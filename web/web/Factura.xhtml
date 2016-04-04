@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
 
-        <h:form> 
+        <h:form id="formFactura" > 
             <p:panel header="Factura" >
                 <p:panelGrid columns="6" >
                     <p:outputLabel value="N° de Factura Virtual : " />
@@ -22,12 +22,13 @@
                 </p:panelGrid>
                 <br/>
                 <br/>
+                <p:remoteCommand name="rc_x" action="#{scheduleView.REFRESCAR()}" />
                 <p:dataTable value="#{scheduleView.lista_detfact}" var="det_fact" id="tablaFactura"
                              paginatorAlwaysVisible="false" editable="true"
                              paginator="true" rows="15" 
                              emptyMessage="No hay items por el momento" >
 
-                    <p:ajax event="rowEdit" listener="#{scheduleView.onRowEdit}" update=":#{p:component('tablaFactura')}" />
+                    <p:ajax event="rowEdit" oncomplete="rc_x();" listener="#{scheduleView.onRowEdit}"  />
                     <p:ajax event="rowEditCancel"  update=":#{p:component('tablaFactura')}" />
 
                     <p:column headerText="Item" >
@@ -53,8 +54,8 @@
                         <p:rowEditor />
                     </p:column>
                     <f:facet name="footer">
-                        <p:outputLabel
-                            value="Costo Total : #{scheduleView.cab_fact.monto}"
+                        <p:outputLabel id="pie_factura"
+                            value="Costo Total : #{scheduleView.mont}"
                             style="margin-right: -80%;" >
                             <f:convertNumber currencySymbol="S/." type="currency"/>
                         </p:outputLabel>
@@ -62,15 +63,16 @@
                 </p:dataTable>   
             </p:panel>
             <p:panel header="Tipos de Pago">
-                <p:dataTable id="pagosT" var="pagT" value="#{visitaBean.listaPagoByVisita}"
+                <p:remoteCommand name="rc" action="#{pagoBean.VALIDAR()}"  />
+                <p:dataTable id="pagosT" var="pagT" value="#{pagoBean.listaPagoByVisita}"
                              emptyMessage="No hay pagos registrados de esta visita"
                              editable="true"
+                             editMode="cell"
                              style="width: 350px" >
                     <f:facet name="header">
                         Pagos
                     </f:facet>
-                    <p:ajax event="rowEdit" listener="#{pagoBean.onRowEdit}" update=":#{p:component('pagosT')}" />
-                    <p:ajax event="rowEditCancel"  update=":#{p:component('pagosT')}" />
+                    <p:ajax event="cellEdit" listener="#{pagoBean.onCellEdit}" update=":#{p:component('pagosT')}"  />
                     <p:column  headerText="Forma de Pago">
                         <p:outputLabel value="#{pagT.tipoPago.nombre}" />
                     </p:column>
@@ -80,11 +82,9 @@
                             <f:facet name="input"><p:inputText id="montoInput" value="#{pagT.monto}" style="width:100%"/></f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column style="width:32px">
-                        <p:rowEditor />
-                    </p:column>
                 </p:dataTable>
             </p:panel>
+            <p:commandButton value="Registrar y Validar Pago" oncomplete="rc()" />
         </h:form>
     </ui:composition>
 </html>

@@ -47,4 +47,6 @@ public interface ProductoService {
         public List<EProductoLog> MostrarProductoLog();
         
         public List<EProductoLogAvanzado> MostrarProductoLogAvanzado();
+        
+        public List<String> SP_ValidarStockMinimo();
 }

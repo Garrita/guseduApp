@@ -51,6 +51,7 @@ public class ProductoBean {
     public List<detalle_factura> lista_detfact;
     private List<EProductoLog> listarMovimientoLog;
     private List<EProductoLogAvanzado> listarMovimientoLogAvanzado;
+    private List<String> existencias;
     
     public ProductoBean() {
         
@@ -65,8 +66,42 @@ public class ProductoBean {
         LISTA_CLIPER();
         cantidadProducto=1;
 //        MOSTRARLOGProducto();
+        
+        
+        validador();
+        
     }
 
+    public void validador()
+    {
+        existencias= new ArrayList<>();
+        existencias=productoservice.SP_ValidarStockMinimo();
+        String val="";
+        int tam=existencias.size();
+       if(tam>0)
+        {
+            for (int i = 0; i < tam; i++) {
+                if((i+1)==tam)
+                {
+                    val+=existencias.get(i);
+                }else
+                {
+                    val+=existencias.get(i)+",";
+                }
+            }
+            StaticUtil.errorMessage("Precaución", "Los siguientes productos estan por agotarse : "+val);
+        }
+    }
+    
+    public List<String> getExistencias() {
+        return existencias;
+    }
+
+    public void setExistencias(List<String> existencias) {
+        this.existencias = existencias;
+    }
+
+    
     public String getQuery() {
         return query;
     }
@@ -288,6 +323,7 @@ public class ProductoBean {
              productoservice.listarProductoLogAvanzado();
             StaticUtil.correctMesage("Exito", "Se ha registrado correctamente los datos del producto");
             LISTAR_PRODUCTOS();
+            validador();
         }else
         {
             StaticUtil.errorMessage("Error", "No se pudo registrar los datos del producto");

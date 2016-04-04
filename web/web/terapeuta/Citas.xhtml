@@ -10,7 +10,7 @@
 
     <body>
 
-        <ui:composition template="./../plantillas/PlantillaPrincipal.xhtml">
+        <ui:composition template="./../../plantillas/PlantillaPrincipal.xhtml">
 
             <ui:define name="titulo">
                 Calendario de Citas
@@ -38,11 +38,11 @@
                                  update=":#{p:component('table')}"  />
                 <p:panelGrid columns="2" >
                     <h:form> 
-                        <h:panelGrid columnClasses="value">
+                        <h:panelGrid columnClasses="value" width="980">
                             
                             <h3 style="margin-top: 0">Calendario de Citas</h3>
                             <h:panelGrid columns="2" >
-                                <p:outputLabel value="Terapeuta : " />
+                                <p:outputLabel value="Agenda de : " />
                                      <p:selectOneMenu id="idTe" value="#{scheduleView.terapeuta}" >
                                     <f:selectItem itemLabel="Todos" itemValue="" />
                                     <f:selectItems value="#{personaBean.listaTerapeutas}" var="tx"
@@ -50,243 +50,23 @@
                                                    itemLabel="#{tx.perNombres} #{tx.perApellidoP} #{tx.perApellidoM}" />
                                     <p:ajax event="change" listener="#{scheduleView.llenarCalendario()}" oncomplete="PF('myschedule').update();"  />
                                 </p:selectOneMenu>
-                                <p:outputLabel value="Eventos" />
-                                <p:selectBooleanCheckbox value="#{scheduleView.valorEvento}"  >
-                                    <p:ajax   listener="#{scheduleView.CHANGE_VALUE()}" />
-                                </p:selectBooleanCheckbox>
                             </h:panelGrid>
                             
                        
                             <p:schedule id="schedule" value="#{scheduleView.eventModel}" view="agendaWeek"
-                                        widgetVar="myschedule" timeZone="GMT-5" locale="es"   > 
+                                        widgetVar="myschedule" timeZone="GMT-5" locale="es"  draggable="false" resizable="false" > 
 
-                                <p:ajax  event="dateSelect" listener="#{scheduleView.before}" update=":#{p:component('eventDetails')},:#{p:component('messages')}"   />
                                 <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}"  update=":#{p:component('eventDetails2')},:#{p:component('pnlDetalleEvento')}"  />
-                                <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update=":#{p:component('messages')}" />
-                                <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update=":#{p:component('messages')}" />
 
                             </p:schedule>
                         </h:panelGrid>
                     </h:form>
 
-                    <h:form>
-                        <p:commandButton value="Nuevo Paciente" id="btnNuevoC" update=":#{p:component('dialogCalendar')}"	
-                                         action="#{personaBean.inicializar()}" oncomplete="PF('dlg1').show();" 
-                                         styleClass="ui-priority-primary" />
-
-
-
-
-                        <br/>
-                        <br/>
-                        <p:selectOneListbox id="basic" value="#{scheduleView.codigo}" filter="true" filterMatchMode="contains" style="width: 300px;" scrollHeight="600"  >
-                            <f:selectItems value="#{pacienteBean.clientesxfecha}" var="theme" 
-                                           itemLabel="#{theme.nombresPersona} #{theme.apellidoPPersona} #{theme.apellidoMPersona}" 
-                                           itemValue="#{theme.codCliente}" />
-                            <p:ajax    listener="#{scheduleView.paciente()}" /> 
-                        </p:selectOneListbox>
-
-                    </h:form>
-
-
                 </p:panelGrid>
 
 
-                <h:form>
-                    <p:growl showDetail="true" autoUpdate="true" />
-                    <p:dialog id="dialogCalendar" header="Nuevo Paciente" widgetVar="dlg1"
-                              showEffect="pop" modal="true">
 
-
-
-                        <p:panel id="panelJx"  >
-                            <h:panelGrid columns="4" id="panelRegistro"  >
-                                <p:outputLabel for="perDni" value="DNI: " />
-                                <p:inputText value="#{personaBean.persona.perDni}" id="perDni" maxlength="8" required="true" requiredMessage="El campo DNI es obligatorio" >
-                                    <pe:keyFilter mask="num" />  
-                                </p:inputText>
-
-                                <p:outputLabel for="perFecNac" value="Fecha de nacimiento: " /> 
-                                <p:calendar value="#{personaBean.persona.perFecNacimiento}" yearRange="c-100:c" maxdate="new Date();"
-                                            id="perFecNac" pattern="dd/MM/yyyy" navigator="true" >
-                                    <p:ajax event="dateSelect" listener="#{personaBean.validaEdad}" update=":#{p:component('perEdadx')}" />
-                                </p:calendar>
-
-
-                                <p:outputLabel for="perNombre" value="Nombre: " />
-                                <p:inputText value="#{personaBean.persona.perNombres}" id="perNombre" required="true" requiredMessage="Se requiere llenar el nombre" >
-
-                                </p:inputText>
-
-                                <p:outputLabel for="perEdadx" value="Edad : " />
-                                <p:inputText value="#{personaBean.persona.perEdad}" id="perEdadx" maxlength="3"   validatorMessage="Solo se aceptan numeros positivos" >
-                                    <pe:keyFilter mask="num" /> 
-                                    <f:validateDoubleRange minimum="0" maximum="250" />
-                                </p:inputText>
-
-                                <p:outputLabel for="perApePaterno" value="Apellido paterno: " />
-                                <p:inputText value="#{personaBean.persona.perApellidoP}" required="true" requiredMessage="Se requiere llenar los apellidos"
-                                             id="perApePaterno" >
-
-                                </p:inputText>
-
-                                <p:outputLabel for="perTelFijo" value="Teléfono fijo: " />
-                                <p:inputText	id="perTelFijo"  value="#{personaBean.persona.perTelFijo}" />
-
-                                <p:outputLabel for="perApeMaterno" value="Apellido materno: " />
-                                <p:inputText value="#{personaBean.persona.perApellidoM}" 
-                                             id="perApeMaterno" >
-
-                                </p:inputText>
-
-
-                                <p:outputLabel for="perTelMovil" value="Teléfono móvil: " />
-                                <p:inputText type="tel" 
-                                             value="#{personaBean.persona.perTelMovil}" id="perTelMovil" maxlength="12" >
-                                    <pe:keyFilter mask="num" />  
-                                </p:inputText>
-
-
-                                <p:outputLabel value="Departamento : " />
-                                <p:selectOneMenu id="idDepa" 
-                                                 value="#{ubigoBean.idDepartamento}"
-                                                 >
-                                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
-                                    <f:selectItems value="#{ubigoBean.listadepa}" var="tt"
-                                                   itemValue="#{tt.idDepa}" itemLabel="#{tt.departamento}" />
-                                    <p:ajax event="change" 
-                                            update=":#{p:component('idProv')},
-                                            :#{p:component('idDis')}"
-                                            listener="#{ubigoBean.LISTA_PROVINCIAS()}" 
-                                            />
-                                </p:selectOneMenu>
-
-                                <p:outputLabel for="perCorreo" value="Correo: " />
-                                <p:inputText value="#{personaBean.persona.perCorreo}" id="perCorreo" style="width: 310px"    >
-                                    <f:validateRegex
-                                        pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
-                                </p:inputText>
-
-
-                                <p:outputLabel value="Provincia : " />
-                                <p:selectOneMenu id="idProv" 
-                                                 value="#{ubigoBean.idProvincia}"
-                                                 >
-                                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
-                                    <f:selectItems value="#{ubigoBean.listapro}" var="u_prov"
-                                                   itemValue="#{u_prov.idProv}" itemLabel="#{u_prov.provincia}" />
-                                    <p:ajax event="change" 
-                                            update=":#{p:component('idDis')}"
-                                            listener="#{ubigoBean.LISTA_DISTRITO()}" 
-                                            />
-                                </p:selectOneMenu>
-
-
-
-
-
-                                <p:outputLabel for="perSexo" value="Sexo: " />
-                                <p:selectOneButton id="perSexo" value="#{personaBean.persona.perSexo}">
-                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
-                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
-                                </p:selectOneButton>
-
-
-
-                                <p:outputLabel value="Distrito : " />
-                                <p:selectOneMenu id="idDis" 
-                                                 value="#{ubigoBean.idDistrito}"
-                                                 >
-                                    <f:selectItem itemLabel="Seleccione un tipo" itemValue="#{null}" />
-                                    <f:selectItems value="#{ubigoBean.listadis}" var="u_dis"
-                                                   itemValue="#{u_dis.idDist}" itemLabel="#{u_dis.distrito}" />
-                                </p:selectOneMenu>
-
-
-                                <p:outputLabel for="perEstadoCivil" value="Estado civil: " />
-                                <p:selectOneButton id="perEstadoCivil"
-                                                   value="#{personaBean.persona.perEstadoCivil}">
-                                    <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
-                                    <f:selectItem itemLabel="Casado" itemValue="Casado" />
-                                    <f:selectItem itemLabel="Viudo" itemValue="Viudo" />
-                                    <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
-                                </p:selectOneButton>
-
-                                <p:outputLabel for="perDireccion" value="Dirección: " />
-                                <p:inputText value="#{personaBean.persona.perDireccion}" id="perDireccion" style="width: 310px" />
-
-
-                                <p:outputLabel for="perComo" value="¿Cómo se enteró de Gusedu?" />
-                                <p:selectOneRadio id="perComo" value="#{personaBean.persona.perEnteroGusedu}" layout="grid" columns="2" >
-                                    <f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
-                                    <f:selectItem itemLabel="Web" itemValue="Web" />
-                                    <f:selectItem itemLabel="Amigos" itemValue="Amigos" />
-                                    <f:selectItem itemLabel="Familiares" itemValue="Familiares" />
-                                    <f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
-                                </p:selectOneRadio>
-
-                                <p:commandButton id="proceRegx" value="Registrar"  update=":#{p:component('basic')}"
-                                                 action="#{personaBean.registroPacienteV2()}" icon="ui-icon-check"    />
-                                <p:commandButton value="Cancelar" icon="ui-icon-cancel"
-                                                 action="#{personaBean.cancel}" immediate="true" />
-                            </h:panelGrid>
-                            <p:blockUI block=":#{p:component('panelJx')}" trigger=":#{p:component('proceRegx')}" />
-                        </p:panel>
-                    </p:dialog>
-
-                </h:form>
-
-                <h:form id="formCalendario" >
-                    <p:dialog widgetVar="eventDialog" id="eventDialogP" header="Detalle de Cita" 
-                              showEffect="clip" hideEffect="clip" modal="true" focus="iTipoTerapia2" >
-                        <p:panel id="pnlCitas" >
-                            <h:panelGrid id="eventDetails" columns="2">
-                                <p:outputLabel for="title" value="Paciente : " />
-                                <p:outputLabel id="title" value="#{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM}"  />
-
-                                <p:outputLabel for="from" value="Desde :" />
-                                <p:calendar id="from" value="#{scheduleView.visita.visFecCreacion}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
-
-                                <p:outputLabel for="to" value="Hasta :" />
-                                <p:calendar id="to" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
-
-                                <p:outputLabel for="iTipoTerapia2" value="Tipo de Terapia : " />
-                                <p:selectOneMenu id="iTipoTerapia2" 
-                                                 value="#{scheduleView.terapia.tipoTerapia.tteCodigo}" 
-                                                 required="true" requiredMessage="Seleccionar una Terapia" >
-                                    <f:selectItem itemLabel="Seleccione un tipo" itemValue="#{null}" />
-                                    <f:selectItems value="#{terapiaBean.tipoTerapias}" var="tt"
-                                                   itemValue="#{tt.tteCodigo}" itemLabel="#{tt.tteNombre}" />                         
-                                </p:selectOneMenu>
-
-                                <p:outputLabel for="prueba" value="Terapeuta : " />
-                                <p:selectOneMenu id="prueba" value="#{scheduleView.terapia.terUsuCreacion}" required="true" requiredMessage="Requiere que seleccione un terapeuta" >
-                                    <f:selectItem itemLabel="Seleccione Terapeuta" itemValue="#{null}" />
-                                    <f:selectItems value="#{personaBean.listaTerapeutas}" var="tte"
-                                                   itemValue="#{tte.perNombres} #{tte.perApellidoP} #{tte.perApellidoM}|#{tte.perCodigo}"
-                                                   itemLabel="#{tte.perNombres} #{tte.perApellidoP} #{tte.perApellidoM}" />
-
-
-
-
-                                </p:selectOneMenu>
-
-                                <p:outputLabel value="Observación : " />
-                                <p:inputTextarea value="#{scheduleView.visita.visDescripcion}"  />
-
-                                <p:commandButton id="addButton" value="Guardar" actionListener="#{scheduleView.addEvent}" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('myschedule').update();if (args &amp;&amp; !args.validationFailed)PF('eventDialog').hide();" update=":#{p:component('eventDetails')}" />
-                                <p:commandButton actionListener="#{scheduleView.cancel()}" value="Cancelar" oncomplete="PF('eventDialog').hide();"  />
-                                <f:facet name="footer">
-                                    <p:message for="iTipoTerapia2" />
-                                    <p:message for="prueba" />
-                                </f:facet>
-
-
-
-                            </h:panelGrid>
-                        </p:panel>
-                    </p:dialog>  
-                </h:form>
+      
                 <h:form id="Calendario2" >
                     <p:dialog widgetVar="eventDialog2" header="Detalle de Cita" showEffect="clip" hideEffect="clip">
                         <h:panelGrid id="eventDetails2" columns="2"  cellspacing="10"  >
@@ -361,19 +141,10 @@
                             <h:outputLabel value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar eq false}" />
                             <p:inputTextarea value="#{scheduleView.visita.visDescripcion}" rendered="#{scheduleView.calendar ne false}" />
 
-                            <h:panelGrid columns="2"  >
-                                <h:outputText value="Marcar llegada : " />
-                                <p:selectBooleanCheckbox value="#{scheduleView.visita.visLlegada }" disabled="#{scheduleView.visita.visLlegada }" >
-                                    <p:ajax  listener="#{scheduleView.CREAR_FACTURA}" oncomplete="PF('eventDialog2').hide();PF('dlgPnlPay').show();" />                  
-                                </p:selectBooleanCheckbox>
-                            </h:panelGrid>
-                            <p:outputLabel />
-                            <p:commandButton icon="ui-icon-pencil" title="Editar" action="#{scheduleView.change}" update="eventDetails2" rendered="#{scheduleView.calendar eq false}" />    
-                            <p:commandButton icon="ui-icon-disk" title="Guardar" action="#{scheduleView.change}" update="eventDetails2" rendered="#{scheduleView.calendar ne false}" />
-                            <p:commandButton 
-                                styleClass="ui-btn-inline" value="Eliminar Cita"
 
-                                oncomplete="PF('dlgDeleteCita').show();" />
+                                <h:outputText value="Marcar llegada : " />
+                                <p:outputLabel value="SI" rendered="#{scheduleView.visita.visLlegada eq true}" />
+                                <p:outputLabel value="NO" rendered="#{scheduleView.visita.visLlegada eq false}" />
                             <p:commandButton id="movieBtn" 
                                              value="Ver Pares" icon="ui-icon-search"
                                              actionListener="#{historialVisitaBean.obtenerTerapiaV2()}"
@@ -385,50 +156,24 @@
                                              update=":#{p:component('dialogParesByHistorial')}" >
                                 <f:actionListener binding="#{historialTerapiaBean.llenadomatriz()}" />
                             </p:commandButton>
-                            <p:commandButton value="Venta de Productos" update=":#{p:component('dialogProduct')}" oncomplete="PF('dlgProduct').show();"  />
-                            <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura')}" action="#{scheduleView.BUSCARFACTURA()}" oncomplete="PF('dlgFactura').show();" />
                             <p:commandButton id="addButton2" value="Cerrar" action="#{scheduleView.cleaner()}" oncomplete="PF('myschedule').update();PF('eventDialog2').hide();"  />
 
                         </h:panelGrid>
                     </p:dialog>  
-                    <p:blockUI block=":#{p:component('pnlCitas')}" trigger=":#{p:component('addButton')}" />
+               
                 </h:form> 
 
 
 
-                <p:dialog header="¿Eliminar? " widgetVar="dlgDeleteCita"
-                          showEffect="pop" closable="false" modal="true">
-                    <h:form>
-                        <p:commandButton value="Aceptar" styleClass="ui-btn-inline"
-                                         icon="ui-icon-check" 
-                                         actionListener="#{scheduleView.ELIMINARCITA()}" 
-                                         update=":#{p:component('schedule')}"
-                                         oncomplete="PF('dlgDeleteCita').hide();PF('eventDialog2').hide();PF('dlgEventoDetalle').hide();" />
-
-                        <p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-                                         icon="ui-icon-delete" actionListener="#{usuarioBean.cancelar}"
-                                         oncomplete="PF('dlgDeleteCita').hide();" />
-                    </h:form>
-                </p:dialog>
+         
                 <p:dialog id="dialogParesByHistorial"
                           header="Registrar pares de #{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM}"
                           widgetVar="dlgParesTHV2" showEffect="pop" width="80%"  >
                     <h:form id="frameHistoria" style="width:500px;height:500px">
-                       <ui:include src="RegistroParesV5.xhtml" />  
+                        <ui:include src="../RegistroParesV5.xhtml" />  
                     </h:form>   
                 </p:dialog>
 
-
-
-                <p:dialog id="dialogProduct" header="Venta de Productos - #{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM}" widgetVar="dlgProduct"
-                          showEffect="pop" modal="true" width="850px" height="550px">          
-                     <ui:include src="Producto.xhtml" />        
-                </p:dialog>
-
-                <p:dialog id="dialogFactura" widgetVar="dlgFactura" header="Factura de #{scheduleView.cli.persona.perNombres} #{scheduleView.cli.persona.perApellidoP} #{scheduleView.cli.persona.perApellidoM}"  
-                          showEffect="pop" modal="true" width="850px" height="550px" >   
-                     <ui:include src="Factura.xhtml" /> 
-                </p:dialog>
 
                 <h:form id="formMoviePanel"  >
                     <p:dialog id="moviePanel"  widgetVar="moviePanel" hideEffect="fade" dynamic="true"
@@ -477,7 +222,7 @@
 
                 <h:form>
                     <p:dialog  id="Evento" widgetVar="dlgEvento" hideEffect="fade" dynamic="true" 
-                               modal="true" header="Registro de Eventos" focus="tippEvENTO" >
+                               modal="true" header="Registro de Eventos" >
                         <p:panelGrid columns="2" >
                             <p:outputLabel for="fromE" value="Desde :" />
                             <p:calendar id="fromE" value="#{scheduleView.visita.visFecCreacion}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
@@ -486,7 +231,7 @@
                             <p:calendar id="toE" value="#{scheduleView.visita.visFecFin}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
 
                             <p:outputLabel value="Tipo de evento" />
-                            <p:selectOneMenu id="tippEvENTO" value="#{scheduleView.visita.visPrioridad}">
+                            <p:selectOneMenu value="#{scheduleView.visita.visPrioridad}">
                                 <f:selectItem itemLabel="Selecionar" itemValue="" />
                                 <f:selectItems value="#{eventoBean.listar}" var="listaEventos"  
                                                itemValue="#{listaEventos.idEvento}" itemLabel="#{listaEventos.nombre}" />

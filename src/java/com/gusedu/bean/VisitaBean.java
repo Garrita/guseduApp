@@ -504,6 +504,10 @@ LISTAR_PRODUCTOS();
             mostrarFormProducto = -1;
             productoService.listarProductoLogAvanzado();
             LISTAR_PRODUCTOS();
+            
+            ProductoBean objetoBean = (ProductoBean)fc.getExternalContext().getSessionMap().get("productoBean");
+            objetoBean.validador();
+            
                 } else {
             System.out.println("ERROR, DEBUGEAR.");
                 }
@@ -677,7 +681,7 @@ LISTAR_PRODUCTOS();
                                "\n MONTO :  "+ listaPagoByVisita.get(i).getMonto());
         }
     }              
-        
+              
         public void changeVisita(Visita v)
         {
             visita=v;

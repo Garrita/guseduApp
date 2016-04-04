@@ -89,6 +89,7 @@ public class ScheduleView {
     private double valorTerapia;
     private boolean valorEvento;
     private String tipoevento;
+    private double mont;
     
     public ScheduleView() {
         visitaService = new VisitaServiceImpl();
@@ -112,16 +113,30 @@ public class ScheduleView {
         
         sesion = new EUltimaVisitaxCliente();
         cab_fact= new cabecera_factura();
-        terapeuta="";
+        
         valorTerapia=150;
         valorEvento=false;
+        mont=0;
+        validarCalendario();
+ 
+    }
+    
+    public void validarCalendario()
+    {
+        if(!"Terapeuta".equals(StaticUtil.usuario_tipo()))
+        {
+            terapeuta="";
+        }else
+        {
+            terapeuta=StaticUtil.usuario_nombre();
+        }
         llenarCalendario();
     }
     
     public void llenarCalendario()
     {
         eventModel = new DefaultScheduleModel();
-        
+        System.out.println("Nombre : "+StaticUtil.usuario_nombre()+"\nTipo : "+StaticUtil.usuario_tipo());
         //listaVisita=visitaService.getVisitasByEmpresa();   
         List<Calendario> listaCalendario = visitaService.SP_Calendario(terapeuta);
         for ( int i=0;i<listaCalendario.size();i++)
@@ -176,6 +191,14 @@ public class ScheduleView {
 
     public void setTipoevento(String tipoevento) {
         this.tipoevento = tipoevento;
+    }
+
+    public double getMont() {
+        return mont;
+    }
+
+    public void setMont(double mont) {
+        this.mont = mont;
     }
     
     
@@ -624,30 +647,49 @@ public class ScheduleView {
     }
     
     
+    public void REFRESCAR()
+    {
+        RequestContext.getCurrentInstance().update("formFactura");
+    }
     
     public void BUSCARFACTURA()
     {
+        FacesContext fc = FacesContext.getCurrentInstance();
         System.out.println("Codigo Cliente : "+cli.getCliCodigo()+"\nFec : "+visita.getVisFecCreacion()+"\nCod : "+visita.getVisCodigo());
         cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),visita.getVisFecCreacion(),visita.getVisCodigo());
-        LISTAR();
+        if(cab_fact!=null)
+        {
+            mont=cab_fact.getMonto();
+            System.out.println("Monto ::: "+mont);
+            fc.getExternalContext().getSessionMap().put("cod_fact_monto", mont);
+            LISTAR();
+        }else
+        {
+            lista_detfact = new ArrayList<>();
+            
+        PagoBean objetoBean = (PagoBean)fc.getExternalContext().getSessionMap().get("pagoBean");
+        objetoBean.Limpiar();
+        }
     }
     
     public void BUSCARFACTURA_EXTERNO(int cli_codigo)
     {
+        FacesContext fc = FacesContext.getCurrentInstance();
        cli.setCliCodigo(cli_codigo);
        cab_fact= facturaService.SP_ObtenerCabecera(cli.getCliCodigo(),new Date(),0);
        lista_detfact = new ArrayList<>();
        
        if(cab_fact!=null)
        {
-              lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
+           mont=cab_fact.getMonto();
+            fc.getExternalContext().getSessionMap().put("cod_fact_monto", mont);
               LISTAR();
        }else
        {
             lista_detfact = new ArrayList<>();
-           FacesContext fc = FacesContext.getCurrentInstance();
-        VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
-        objetoBean.limpiarLista();
+           
+        PagoBean objetoBean = (PagoBean)fc.getExternalContext().getSessionMap().get("pagoBean");
+        objetoBean.Limpiar();
        }
     
     }
@@ -662,20 +704,28 @@ public class ScheduleView {
     {
                lista_detfact=facturaService.SP_ListaDetalle(cab_fact.getCod_factura());
                        FacesContext fc = FacesContext.getCurrentInstance();
-        VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
+        //VisitaBean objetoBean = (VisitaBean)fc.getExternalContext().getSessionMap().get("visitaBean");
+        PagoBean pBean = (PagoBean)fc.getExternalContext().getSessionMap().get("pagoBean");
         System.out.println(cab_fact.getCod_factura());
         fc.getExternalContext().getSessionMap().put("cab_fact", cab_fact.getCod_factura());
-        objetoBean.llenarlista(cab_fact.getCod_factura());
+        //objetoBean.llenarlista(cab_fact.getCod_factura());
+        int a = cab_fact.getCod_factura();
+        System.out.println("VALOR  DE A : "+a);
+        pBean.llenarlista(a);
+        
     }
       public void onRowEdit(RowEditEvent event) {
         detalle_factura detfact ;
         detfact = (detalle_factura) event.getObject();
         double val = terapia.getTerCosto();
-        terapia.setTerCosto(detfact.getPrecio_unitario());
+        if(val!=0)
+        {
+            terapia.setTerCosto(detfact.getPrecio_unitario());
          terapiaService.updateTerapia(terapia);
           System.out.println("TERAPIA : "+terapia.getTerCodigo()+"-VISITA : "+visita.getVisCodigo()+"-Valor :"+val);
          terapiaService.SP_CambiarPrecioTerapia(terapia.getTerCodigo(), visita.getVisCodigo(), val);
          BUSCARFACTURA();
+        }
     }
       
     public void REGISTRAR_PRECIO_TERAPIA()

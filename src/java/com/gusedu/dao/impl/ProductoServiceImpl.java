@@ -469,4 +469,22 @@ boolean resultado = false;
         }
         return result5;
      }
+
+    @Override
+    public List<String> SP_ValidarStockMinimo() {
+        List<String> resultado = new ArrayList<>();
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = sesion.beginTransaction();
+            Query q = sesion.createSQLQuery("{ CALL SP_ValidarStockMinimo }");
+            resultado=q.list();
+
+        } 
+        catch(Exception e)
+        {
+            System.out.println("ERROR SP_ValidarStockMinimo: "+e.getMessage());
+        }
+        return resultado;
+    }
 }

@@ -15,8 +15,8 @@
             <p:commandButton value="Pruebita" id="btnPruebita" actionListener="#{scheduleView.llenarCalendario()}" style="display: none;" />
             <p:menubar>
                 <p:menuitem value="Inicio"  url="/web/Principal.jsf"   />
-                <p:menuitem icon="ui-icon-document" value="Calendario de Citas"   update=":#{p:component('schedule')}"  url="/web/Citas.jsf" rendered="#{auth.userLogged.tipoUsuario.calendarioCitas}" />
-
+                <p:menuitem icon="ui-icon-document" value="Calendario de Citas"   action="#{menuBean.MENU_CALENDARIO()}" rendered="#{auth.userLogged.tipoUsuario.calendarioCitas}" />
+                <p:menuitem value="Terapias" url="/web/terapeuta/Principal.jsf" icon="ui-icon-document" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 2}" />
                 <p:submenu label="Consultas" icon="ui-icon-pencil" >
                     <p:menuitem value="Historial de visitas"  action="#{historialVisitaBean.MENU_HISTORIAL()}" rendered="#{auth.userLogged.tipoUsuario.historialVisita}" />
                     <p:menuitem value="Puntos" url="#" icon="ui-icon-arrowreturnthick-1-w" rendered="#{auth.userLogged.tipoUsuario.consultaPuntos}" />
@@ -27,6 +27,7 @@
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                     <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
                     <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
+                    <p:menuitem value="Movimieno por tipo de Pago" oncomplete="PF('dlgMovTipCaja').show();" />
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
 
@@ -39,15 +40,11 @@
                     <p:menuitem value="Gestionar Síntomas por Pares" onclick="PF('dlgSintoPar').show();" style="width:220px;"/>
                     <p:menuitem value="Gestionar Tipo de Terapia" onclick="PF('dlgTipoTera').show();" />
                     <p:menuitem value="Gestionar Tipo de Evento" onclick="PF('dlgTipoEvent').show();" />
-                </p:submenu>
-
-                <p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
+                    <p:menuitem value="Gestionar Productos" url="/web/producto/gestionProducto.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
                     <p:menuitem value="Gestionar usuarios" url="/web/seguridad/gestionUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionUsuarios}" />
                     <p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
-                    <p:menuitem value="Gestionar Productos" url="/web/producto/gestionProducto.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
-                    <p:menuitem value="Citas"  />
-                    <p:menuitem value="Venta de Productos"  />
                 </p:submenu>
+
 
 
 
@@ -100,6 +97,12 @@
                   width="1200px" height="550px" modal="true" >
             <h:form id="MovCaja">
                 <ui:include src="/web/MovimientoCaja.xhtml" />
+            </h:form>             
+        </p:dialog>
+        <p:dialog header="Movimientos de Tipo de Pago" id="dialogMovTipPago" widgetVar="dlgMovTipCaja" showEffect="pop"
+                  width="50%" height="70%" modal="true" >
+            <h:form id="MovTipPago">
+                <ui:include src="/web/Mov_TipPago.xhtml" />
             </h:form>             
         </p:dialog>
         <p:dialog header="Ventas del Día" widgetVar="dlgVentas" showEffect="pop" id="dialogV"
