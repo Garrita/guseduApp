@@ -208,5 +208,77 @@ public class PagoServiceImpl implements PagoService{
          }
          return resultado;
     }
+
+    @Override
+    public boolean SP_ValidarPagos(int pag,int fac, double monto) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ValidarPagos(:cod_pag,:cod_fac,:val_mon) }");
+             q.setParameter("cod_pag", pag);
+             q.setParameter("cod_fac", fac);
+             q.setParameter("val_mon", monto);
+             resultado = Boolean.parseBoolean( q.uniqueResult().toString());
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_ValidarPagos : "+e.getMessage());
+             resultado=false;
+         } finally {
+            session.flush();
+            session.close();
+        }
+         return resultado;
+    }
+
+    @Override
+    public List<EPago> SP_Caja_Resumen(Date fec_ini, Date fec_fin) {
+         List<EPago> resultado  = new ArrayList<>();
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_Caja_Resumen(:fec_ini,:fec_fin) }");
+             q.setParameter("fec_ini", fec_ini);
+             q.setParameter("fec_fin", fec_fin);
+             List<Object[]> d=q.list();
+            for (Object[] result : d) {
+		 String paciente = "";
+                 Date visita = (Date) (result[0]);
+                 String tipopago = "";
+                 double monto = (double) (result[1]);		
+		 resultado.add(new EPago(paciente, visita, tipopago, monto));
+		 
+	      }
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_Caja_Resumen : "+e.getMessage());
+         }
+         return resultado;
+    }
+
+    @Override
+    public List<EPago> SP_Caja_Resumen_D(Date fec_ini) {
+            List<EPago> resultado  = new ArrayList<>();
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_Caja_Resumen_D(:fec_ini,:fec_fin) }");
+             q.setParameter("fec_ini", fec_ini);
+             q.setParameter("fec_fin", fec_ini);
+             List<Object[]> d=q.list();
+            for (Object[] result : d) {
+		 String paciente = "";
+                 Date visita = (Date) (result[0]);
+                 String tipopago = (String) (result[1]);
+                 double monto = (double) (result[2]);		
+		 resultado.add(new EPago(paciente, visita, tipopago, monto));
+		 
+	      }
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_Caja_Resumen_D : "+e.getMessage());
+         }
+         return resultado;
+    }
     
 }

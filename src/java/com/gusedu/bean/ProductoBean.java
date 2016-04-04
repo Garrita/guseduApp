@@ -51,6 +51,7 @@ public class ProductoBean {
     public List<detalle_factura> lista_detfact;
     private List<EProductoLog> listarMovimientoLog;
     private List<EProductoLogAvanzado> listarMovimientoLogAvanzado;
+    private List<String> existencias;
     
     public ProductoBean() {
         
@@ -63,9 +64,44 @@ public class ProductoBean {
         clienteService = new ClienteServiceImpl();
         LISTAR_PRODUCTOS();
         LISTA_CLIPER();
+        cantidadProducto=1;
 //        MOSTRARLOGProducto();
+        
+        
+        validador();
+        
     }
 
+    public void validador()
+    {
+        existencias= new ArrayList<>();
+        existencias=productoservice.SP_ValidarStockMinimo();
+        String val="";
+        int tam=existencias.size();
+       if(tam>0)
+        {
+            for (int i = 0; i < tam; i++) {
+                if((i+1)==tam)
+                {
+                    val+=existencias.get(i);
+                }else
+                {
+                    val+=existencias.get(i)+",";
+                }
+            }
+            StaticUtil.errorMessage("Precaución", "Los siguientes productos estan por agotarse : "+val);
+        }
+    }
+    
+    public List<String> getExistencias() {
+        return existencias;
+    }
+
+    public void setExistencias(List<String> existencias) {
+        this.existencias = existencias;
+    }
+
+    
     public String getQuery() {
         return query;
     }
@@ -111,6 +147,7 @@ public class ProductoBean {
         {
             StaticUtil.errorMessage("Error", "No se pudo registrar los datos del producto");
         }
+        cantidadProducto=1;
                 
     }
     
@@ -135,7 +172,7 @@ public class ProductoBean {
     {
          if(productoservice.updateProducto(producto))
         {
-            productoservice.listarProductoLog();
+            //productoservice.listarProductoLog();
             productoservice.listarProductoLogAvanzado();
             StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el producto");
         }else
@@ -275,11 +312,23 @@ public class ProductoBean {
     public void preProducto(int idProducto)
     {
         producto = productoservice.getProductoById(idProducto);
+        calculaCostoParcial();
     }
     
     public void ADD_PRODUCTO()
     {
-        productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0);
+       
+         if( productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0))
+        {
+             productoservice.listarProductoLogAvanzado();
+            StaticUtil.correctMesage("Exito", "Se ha registrado correctamente los datos del producto");
+            LISTAR_PRODUCTOS();
+            validador();
+        }else
+        {
+            StaticUtil.errorMessage("Error", "No se pudo registrar los datos del producto");
+        }
+    
     }
     
     public void MOSTRAR()
@@ -294,12 +343,13 @@ public class ProductoBean {
         System.out.println("Entro a Eliminar"+fact);
         productoservice.SP_EliminarProductoFactura(fact);
         lista_detfact= productoservice.SP_ListarProductosF(cod_cli);
+        LISTAR_PRODUCTOS();
     }
     
     public void MOSTRARLOGProducto() 
     {
         System.out.println("Probando LOG de Producto");
-        listarMovimientoLog = productoservice.MostrarProductoLog();
+        //listarMovimientoLog = productoservice.MostrarProductoLog();
         listarMovimientoLogAvanzado = productoservice.MostrarProductoLogAvanzado();
         System.out.println("Éxito!!!");
     }

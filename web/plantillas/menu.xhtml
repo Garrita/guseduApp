@@ -15,8 +15,8 @@
             <p:commandButton value="Pruebita" id="btnPruebita" actionListener="#{scheduleView.llenarCalendario()}" style="display: none;" />
             <p:menubar>
                 <p:menuitem value="Inicio"  url="/web/Principal.jsf"   />
-                <p:menuitem icon="ui-icon-document" value="Calendario de Citas"   update=":#{p:component('schedule')}"  url="/web/Citas.jsf" rendered="#{auth.userLogged.tipoUsuario.calendarioCitas}" />
-
+                <p:menuitem icon="ui-icon-document" value="Calendario de Citas"   action="#{menuBean.MENU_CALENDARIO()}" rendered="#{auth.userLogged.tipoUsuario.calendarioCitas}" />
+                <p:menuitem value="Terapias" url="/web/terapeuta/Principal.jsf" icon="ui-icon-document" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 2}" />
                 <p:submenu label="Consultas" icon="ui-icon-pencil" >
                     <p:menuitem value="Historial de visitas"  action="#{historialVisitaBean.MENU_HISTORIAL()}" rendered="#{auth.userLogged.tipoUsuario.historialVisita}" />
                     <p:menuitem value="Puntos" url="#" icon="ui-icon-arrowreturnthick-1-w" rendered="#{auth.userLogged.tipoUsuario.consultaPuntos}" />
@@ -27,6 +27,7 @@
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                     <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
                     <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
+                    <p:menuitem value="Movimieno por tipo de Pago" oncomplete="PF('dlgMovTipCaja').show();" />
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
 
@@ -39,15 +40,11 @@
                     <p:menuitem value="Gestionar Síntomas por Pares" onclick="PF('dlgSintoPar').show();" style="width:220px;"/>
                     <p:menuitem value="Gestionar Tipo de Terapia" onclick="PF('dlgTipoTera').show();" />
                     <p:menuitem value="Gestionar Tipo de Evento" onclick="PF('dlgTipoEvent').show();" />
-                </p:submenu>
-
-                <p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.tusCodigo eq 3}" >
+                    <p:menuitem value="Gestionar Productos" url="/web/producto/gestionProducto.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
                     <p:menuitem value="Gestionar usuarios" url="/web/seguridad/gestionUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionUsuarios}" />
                     <p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
-                    <p:menuitem value="Gestionar Productos" url="/web/producto/gestionProducto.jsf" rendered="#{auth.userLogged.tipoUsuario.gestionTipoUsuarios}" />
-                    <p:menuitem value="Citas"  />
-                    <p:menuitem value="Venta de Productos"  />
                 </p:submenu>
+
 
 
 
@@ -102,11 +99,108 @@
                 <ui:include src="/web/MovimientoCaja.xhtml" />
             </h:form>             
         </p:dialog>
-        <p:dialog widgetVar="dlgVentas" header="Estado de Caja"
-                  showEffect="pop" id="dialogV" width="1200px" height="550px" >  
-            <h:form id="EstDiario">
-                <ui:include src="/web/EstadoDiario.xhtml" />
-            </h:form>  
+        <p:dialog header="Movimientos de Tipo de Pago" id="dialogMovTipPago" widgetVar="dlgMovTipCaja" showEffect="pop"
+                  width="50%" height="70%" modal="true" >
+            <h:form id="MovTipPago">
+                <ui:include src="/web/Mov_TipPago.xhtml" />
+            </h:form>             
+        </p:dialog>
+        <p:dialog header="Ventas del Día" widgetVar="dlgVentas" showEffect="pop" id="dialogV"
+                  width="50%"   >  
+
+            <p:dataTable id="tablaVntas" var="pac"
+                         value="#{reporteEstBean.listaTerapiasByterapeutas}" 
+                         emptyMessage="No hay visitas por el momento" >
+                <p:ajax event="rowToggle" listener="#{reporteEstBean.onRowToggle}" />  
+                <f:facet name="header">
+                    Terapias
+                </f:facet>
+                <p:column headerText="Ver" width="4%">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Cant." width="8%">
+                    <h:outputText value="#{pac.cantidad}" />
+                </p:column>
+                <p:column headerText="Terapeuta" width="20%">
+                    <h:outputText value="#{pac.nombre}" />
+                </p:column>
+                <p:column headerText="Costo" width="10%">
+                    <h:outputText value="S/. #{pac.costo}" />
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid id="pnlClienteByTeraeuta"  style="width:300px">
+                        <p:dataTable id="tabl" var="cvrt"
+                                     value="#{reporteEstBean.listaClientesByterapeutas}" 
+                                     emptyMessage="No hay terapias por el momento">
+                            <p:column headerText="Cliente" width="8%">
+                                <h:outputText value="#{cvrt.cliente}" />
+                            </p:column>
+                            <p:column headerText="Tipo Terapia" width="12%">
+                                <h:outputText value="#{cvrt.tipoTer}" />
+                            </p:column>
+                            <p:column headerText="Monto" width="8%">
+                                <h:outputText value="S/. #{cvrt.monto}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:rowExpansion>
+                <f:facet name="footer">
+                    <p:outputLabel
+                        value="Total : S/. #{reporteEstBean.costoT}"
+                        style="margin-right: -70%;" />
+                </f:facet>
+            </p:dataTable>
+            <br/>
+            <p:dataTable id="tablaVntasProd" var="pro"
+                         value="#{reporteEstBean.listarProductos}" 
+                         emptyMessage="No hay visitas por el momento" >
+                <p:ajax event="rowToggle" listener="#{reporteEstBean.onRowToggle1}" />
+                <f:facet name="header">
+                    Productos
+                </f:facet>
+                <p:column headerText="Ver" width="4%">
+                    <p:rowToggler  />
+                </p:column>
+                <p:column headerText="Cant." width="8%">
+                    <h:outputText value="#{pro.cantidad}" />
+                </p:column>
+                <p:column headerText="Producto" width="20%">
+                    <h:outputText value="#{pro.nombre}" />
+                </p:column>
+                <p:column headerText="Costo" width="10%">
+                    <h:outputText value="S/. #{pro.costo}" />
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid style="width:300px">
+                        <p:dataTable id="tablaProductoXCliente" var="cvrt1"
+                                     value="#{reporteEstBean.listaProductosXCliente}" 
+                                     emptyMessage="No hay productos por el momento">
+                            <p:column headerText="Cliente" width="8%">
+                                <h:outputText value="#{cvrt1.cliente}" />
+                            </p:column>
+                            <p:column headerText="Producto" width="8%">
+                                <h:outputText value="#{cvrt1.item}" />
+                            </p:column>
+                            <p:column headerText="Precio Unitario" width="8%">
+                                <h:outputText value="#{cvrt1.precioU}" />
+                            </p:column>
+                            <p:column headerText="Cant." width="5%">
+                                <h:outputText value="#{cvrt1.cantidad}" />
+                            </p:column>
+                            <p:column headerText="Monto" width="8%">
+                                <h:outputText value="S/. #{cvrt1.monto}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:rowExpansion>
+                <f:facet name="footer">
+                    <p:outputLabel
+                        value="Total  : S/. #{reporteEstBean.costoP}"
+                        style="margin-right: -70%;" />
+                </f:facet>
+            </p:dataTable>
+            <p:spacer width="255" height="20" ></p:spacer>
+            <p:outputLabel value="TOTAL : S/. #{reporteEstBean.costoTotal}"  />
         </p:dialog>
 
         <p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"

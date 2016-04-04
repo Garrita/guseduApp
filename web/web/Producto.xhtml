@@ -71,7 +71,7 @@
 			<h:outputText id="outCostoParcial"
                                       value="#{visitaBean.costoParcial} #{visitaBean.producto.proCurrencySymbol}" />
 			<p:commandButton icon="ui-icon-plus"
-				value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('growl')}"
+				value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('tablaProductos')},:#{p:component('growl')}"
 				actionListener="#{visitaBean.addProductoToVisitaWeb}" />
 			<p:commandButton icon="ui-icon-search" action="#{visitaBean.listar}"
 			update=":#{p:component('productos')}" oncomplete="PF('dlgTP').show();" />

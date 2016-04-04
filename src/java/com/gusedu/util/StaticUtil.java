@@ -49,6 +49,28 @@ public class StaticUtil {
         String username = ((Usuario)(Usuario)request.getSession().getAttribute("userLogged")).getUsuUsuario();
         return username;
             }
+            
+    public static String usuario_nombre() {
+           FacesContext context = FacesContext.getCurrentInstance();
+           HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+           Usuario usuario = (Usuario)request.getSession().getAttribute("userLogged");
+           String nom="";
+           if(usuario.getPersona()!=null)
+           {
+               nom=usuario.getPersona().getPerNombres()+" "+
+                       usuario.getPersona().getPerApellidoP()+" "+
+                       usuario.getPersona().getPerApellidoM();
+           }
+        return nom;
+    }
+    
+    public static String usuario_tipo() {
+           FacesContext context = FacesContext.getCurrentInstance();
+           HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+           Usuario usuario = (Usuario)request.getSession().getAttribute("userLogged");
+           String nom=usuario.getTipoUsuario().getTusDescripcion();
+        return nom;
+    }
 
             public static Date getFechaActual() {
 /*  45*/        Timestamp stamp = new Timestamp(System.currentTimeMillis());
