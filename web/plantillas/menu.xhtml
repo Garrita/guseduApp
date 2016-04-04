@@ -99,6 +99,12 @@
                 <ui:include src="/web/MovimientoCaja.xhtml" />
             </h:form>             
         </p:dialog>
+        <p:dialog widgetVar="dlgVentas" header="Estado de Caja"
+                  showEffect="pop" id="dialogV" width="1200px" height="550px" >  
+            <h:form id="EstDiario">
+                <ui:include src="/web/EstadoDiario.xhtml" />
+            </h:form> 
+        </p:dialog>
         <p:dialog header="Movimientos de Tipo de Pago" id="dialogMovTipPago" widgetVar="dlgMovTipCaja" showEffect="pop"
                   width="50%" height="70%" modal="true" >
             <h:form id="MovTipPago">
