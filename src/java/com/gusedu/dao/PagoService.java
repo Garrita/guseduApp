@@ -6,6 +6,7 @@
 package com.gusedu.dao;
 
 import com.gusedu.entidad.EPago;
+import com.gusedu.entidad.Excel;
 import com.gusedu.model.Pago;
 import com.gusedu.model.TipoPago;
 import java.util.Date;
@@ -38,4 +39,8 @@ public interface PagoService {
     public List<EPago> SP_Caja_Resumen(Date fec_ini,Date fec_fin);
     
     public List<EPago> SP_Caja_Resumen_D(Date fec_ini);
+    
+    public List<Excel> SP_REPORTE(Date fec_ini,Date fec_fin);
+    
+    public List<String> SP_CABECERA(Date fec_ini,Date fec_fin);
 }

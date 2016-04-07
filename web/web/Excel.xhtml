@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+                  
+            <p:panelGrid columns="6" >            
+                <p:outputLabel value="Fecha: " ></p:outputLabel>
+                <p:calendar id="eventExcel1" value="#{excelBean.fec_ini}" pattern="dd/MM/yyyy"
+                            maxdate="#{excelBean.fec_fin}"
+                            navigator="true"  yearRange="c-100:c" >
+                    <p:ajax event="dateSelect" listener="#{excelBean.llenarLista()}" update="cars,eventExcel2" />
+                </p:calendar>
+                
+                <p:outputLabel value="Fecha final : " ></p:outputLabel>
+                <p:calendar id="eventExcel2" value="#{excelBean.fec_fin}" 
+                            navigator="true"  yearRange="c-100:c" pattern="dd/MM/yyyy"
+                            maxdate="#{reporteEstBean.fechaactual}" mindate="#{excelBean.fec_ini}" >
+                    <p:ajax event="dateSelect" listener="#{excelBean.llenarLista()}" update="cars,eventExcel1" />
+                </p:calendar>
+                <p:commandButton id="btnhoyExcelD"  value="Hoy" action="#{excelBean.today()}" update="cars,eventExcel2,eventExcel1" >
+                </p:commandButton>
+            </p:panelGrid>
+            <br/>
+
+            <p:dataTable id="cars" var="car" value="#{excelBean.lista}" emptyMessage="No hay boletas el dia seleccionado" widgetVar="carsTable"
+                         scrollWidth="90%" scrollHeight="30%" scrollable="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                         paginator="true"
+                         >  
+                <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="images/Excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="cars" fileName="#{excelBean.nom}" postProcessor="#{excelBean.postProcessXLS}" />
+                            </h:commandLink>
+                </f:facet>
+                <p:columns value="#{excelBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{car[column.property]}" filterBy="#{car[column.property]}">
+                    <f:facet name="header">
+                        <h:outputText value="#{column.header}" />
+                    </f:facet>
+                    <h:outputText value="#{car[column.property]}" />
+                </p:columns>
+            </p:dataTable>
+   
+    </ui:composition>
+</html>
+

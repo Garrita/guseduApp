@@ -123,7 +123,7 @@ public class TerapeutaBean {
         lista = new ArrayList<>();
         
         lista = visitaService.SP_ListarPacienteEnEspera("");
-       
+
      /*   if(lista.size()==0 || lista==null){
             
         }else
@@ -253,9 +253,11 @@ public class TerapeutaBean {
         visitaService.SP_CerrarSesion(pacientePresencial.getCod_vis());
         FacesContext fc = FacesContext.getCurrentInstance();
         TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
+        TerapiaSintomaBean objetoTSBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
         pacientePresencial = new PacientePresencial();
         listarPacienteEnEspera();
         objetoTBean.LIMPIAR_LISTA();
+        objetoTSBean.LIMPIAR();
         val=false;
         
     }

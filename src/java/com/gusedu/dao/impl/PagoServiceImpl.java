@@ -7,9 +7,11 @@ package com.gusedu.dao.impl;
 
 import com.gusedu.dao.PagoService;
 import com.gusedu.entidad.EPago;
+import com.gusedu.entidad.Excel;
 import com.gusedu.model.Pago;
 import com.gusedu.model.TipoPago;
 import com.gusedu.util.HibernateUtil;
+import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -280,5 +282,63 @@ public class PagoServiceImpl implements PagoService{
          }
          return resultado;
     }
-    
-}
+
+    @Override
+    public List<Excel> SP_REPORTE(Date fec_ini, Date fec_fin) {
+         List<Excel> resultado  = new ArrayList<>();
+        
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_REPORTE(:fec_ini,:fec_fin,:emp) }");
+             q.setParameter("fec_ini", fec_ini);
+             q.setParameter("fec_fin", fec_fin);
+             q.setParameter("emp", StaticUtil.userLogged());
+             List<Object[]> d=q.list();
+            for (Object[] result : d) {
+                Excel e= new Excel();
+                int val=result.length;
+                int x=0;
+                Date fecha = (Date) result[x];x++;
+                String cli = (String) result[x];x++;
+                double imp = (double) result[x];x++;
+                double[] vale= new double[50];
+                for (int i = 0; i < vale.length; i++) {
+                    vale[i]=0;
+                    if (x < val) {
+                        vale[i] = (double) result[x];
+                    }
+                    x++;
+                }
+ resultado.add(new Excel(fecha, cli, vale, imp));
+      
+	      }
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_Caja_Resumen_D : "+e.getMessage());
+         }
+         return resultado;
+    }
+
+    @Override
+    public List<String> SP_CABECERA(Date fec_ini, Date fec_fin) {
+          List<String> resultado  = new ArrayList<>();
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_CABECERA(:fec_ini,:fec_fin,:emp) }");
+             q.setParameter("fec_ini", fec_ini);
+             q.setParameter("fec_fin", fec_fin);
+              q.setParameter("emp", StaticUtil.userLogged());
+             resultado =q.list();
+       
+		 
+	      
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_CABECERA : "+e.getMessage());
+         }
+         return resultado;
+    }
+
+	      }

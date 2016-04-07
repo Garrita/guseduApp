@@ -448,4 +448,9 @@ public class TerapiaSintomaBean {
         listaterapiasintx = terapiasintomaService.SP_LISTAR_SINTOMAS_CLIENTE(cli);
         System.out.println("Tamaño : " + listaterapiasintx.size());
     }
+    
+    public void LIMPIAR()
+    {
+        listaterapiasintx = new ArrayList<>();
+    }
 }

@@ -6,12 +6,9 @@
 package com.gusedu.util;
 
 import com.gusedu.dao.ParService;
-import com.gusedu.dao.PuntoService;
 import com.gusedu.dao.impl.ParServiceImpl;
-import com.gusedu.dao.impl.PuntoServiceImpl;
 import com.gusedu.entidad.ParX;
 import com.gusedu.model.Par;
-import com.gusedu.model.Punto;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,7 +32,13 @@ public class ParConverter
 /*  31*/         
 /*  32*/       try{			
 			ParX par = new ParX();
-                        par.setCod_par(((Par)parService.SP_FIND_PAR(value)).getParCodigo());
+                        Par p = new Par();
+                        p= parService.SP_FIND_PAR(value);
+                        if(p.getParCodigo()!=null || p.getParCodigo()!=0)
+                        {
+                            par.setCod_par(p.getParCodigo());
+                        }
+                        
 			return par;
 		}catch(Exception e){
 			e.printStackTrace();

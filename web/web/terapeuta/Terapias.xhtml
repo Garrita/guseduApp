@@ -17,7 +17,7 @@
                 <p:panelGrid columns="2" style="margin-right: auto" id="pnlSesion" >
                     <p:outputLabel value="Fin de Sesión" />
                     <p:selectBooleanCheckbox   >
-                        <p:ajax update=":#{p:component('basicS')},:#{p:component('pnlTerapeuta')},:#{p:component('table')},:#{p:component('pnl')},:#{p:component('formTerapiaSintoma')},:#{p:component('pnlSesion')}" listener="#{terapeutaBean.TERMINAR_SESION()}" />                 
+                        <p:ajax update=":#{p:component('basicS')},:#{p:component('pnlTerapeuta')},:#{p:component('table')},:#{p:component('pnl')},:#{p:component('formTerapiaSintoma')},:#{p:component('pnlSesion')},:#{p:component('tablaSinTerapeuta')}" listener="#{terapeutaBean.TERMINAR_SESION()}" />                 
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
                 <br/>
@@ -177,11 +177,13 @@
             </ui:define>
             <ui:define name="right">
                 <h:form>
+                    <p:commandButton value="Refrescar" action="#{terapeutaBean.increment}" update=":#{p:component('basicS')}" />
+                    <br/>
                     <p:selectOneListbox  id="basicS" value="#{terapeutaBean.pacientePresencial.cod_vis}" style="width: 290px"  scrollHeight="600"  >
-                        <f:selectItems value="#{terapeutaBean.lista}" var="list_Paciente" 
+                        <f:selectItems  value="#{terapeutaBean.lista}" var="list_Paciente" 
                                        itemLabel="#{list_Paciente.posicion}. #{list_Paciente.paciente} , #{terapeutaBean.toShort(list_Paciente.fecha)}" 
-                                       itemValue="#{list_Paciente.cod_vis}" />
-                        <p:ajax    listener="#{terapeutaBean.PROBA()}" update=":#{p:component('pnlTerapeuta')},:#{p:component('formTerapiaSintoma')},:#{p:component('formTerapiaSintoma1')},:#{p:component('formTerapiaSintoma2')}" /> 
+                                       itemValue="#{list_Paciente.cod_vis}"  />
+                        <p:ajax  delay="500"  listener="#{terapeutaBean.PROBA()}" update=":#{p:component('pnlTerapeuta')},:#{p:component('formTerapiaSintoma')},:#{p:component('formTerapiaSintoma1')},:#{p:component('formTerapiaSintoma2')}" /> 
                     </p:selectOneListbox>
                     <p:poll interval="180" listener="#{terapeutaBean.increment}" update=":#{p:component('basicS')},:#{p:component('pnlTerapeuta')}" />
                 </h:form>
