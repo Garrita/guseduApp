@@ -732,13 +732,14 @@ public class ScheduleView {
       public void onRowEdit(RowEditEvent event) {
         detalle_factura detfact ;
         detfact = (detalle_factura) event.getObject();
-        double val = terapia.getTerCosto();
+        double val = terapia.getTerCodigo();
         if(val!=0)
         {
+            double m =terapia.getTerCosto();
             terapia.setTerCosto(detfact.getPrecio_unitario());
          terapiaService.updateTerapia(terapia);
-          System.out.println("TERAPIA : "+terapia.getTerCodigo()+"-VISITA : "+visita.getVisCodigo()+"-Valor :"+val);
-         terapiaService.SP_CambiarPrecioTerapia(terapia.getTerCodigo(), visita.getVisCodigo(), val);
+          System.out.println("TERAPIA : "+terapia.getTerCodigo()+"-VISITA : "+visita.getVisCodigo()+"-Valor :"+m);
+         terapiaService.SP_CambiarPrecioTerapia(terapia.getTerCodigo(), visita.getVisCodigo(), m);
          BUSCARFACTURA();
         }
     }

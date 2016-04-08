@@ -27,7 +27,7 @@
             <br/>
 
             <p:dataTable id="cars" var="car" value="#{excelBean.lista}" emptyMessage="No hay boletas el dia seleccionado" widgetVar="carsTable"
-                         scrollWidth="90%" scrollHeight="30%" scrollable="true"
+                         scrollWidth="90%" scrollHeight="80%" scrollable="true" style="height: 500px;"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                          paginator="true"
                          >  
@@ -41,7 +41,8 @@
                     <f:facet name="header">
                         <h:outputText value="#{column.header}" />
                     </f:facet>
-                    <h:outputText value="#{car[column.property]}" />
+                    <h:outputText value="#{car[column.property]}" rendered="#{column.header eq 'fecha' or column.header eq 'paciente' or column.header eq 'total' }" />
+                    <h:outputText value="#{car.monto[(colIndex-2)]}" rendered="#{column.header ne 'fecha' and column.header ne 'paciente' and column.header ne 'total' }" />
                 </p:columns>
             </p:dataTable>
    

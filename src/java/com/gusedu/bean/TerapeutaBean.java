@@ -153,19 +153,20 @@ public class TerapeutaBean {
     
     public void PROBA()
     {
-        for (int i = 0; i < lista.size(); i++) {
+        System.out.println("VALOR : "+pacientePresencial.getCod_vis());
+       /* for (int i = 0; i < lista.size(); i++) {
             if(lista.get(i).getCod_vis() == pacientePresencial.getCod_vis())
             {
                 pacientePresencial=lista.get(i);
-                
+                */
                 FacesContext fc = FacesContext.getCurrentInstance();
                 TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
                 objetoTBean.LISTAR_PARES_POR_PACIENTE(pacientePresencial.getCod_ter());
                 
                 TerapiaSintomaBean objetoTSBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
                 objetoTSBean.LISTAR_SINTOMAS_POR_PACIENTE(pacientePresencial.getCod_cli());
-            }
-        }
+         //   }
+       // }
     }
  
     public void increment() {

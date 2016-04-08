@@ -284,7 +284,7 @@ public class PagoServiceImpl implements PagoService{
     }
 
     @Override
-    public List<Excel> SP_REPORTE(Date fec_ini, Date fec_fin) {
+    public List<Excel> SP_REPORTE(Date fec_ini, Date fec_fin,int tam) {
          List<Excel> resultado  = new ArrayList<>();
         
          Session session = HibernateUtil.getSessionFactory().openSession();
@@ -301,7 +301,7 @@ public class PagoServiceImpl implements PagoService{
                 Date fecha = (Date) result[x];x++;
                 String cli = (String) result[x];x++;
                 double imp = (double) result[x];x++;
-                double[] vale= new double[50];
+                double[] vale= new double[tam];
                 for (int i = 0; i < vale.length; i++) {
                     vale[i]=0;
                     if (x < val) {

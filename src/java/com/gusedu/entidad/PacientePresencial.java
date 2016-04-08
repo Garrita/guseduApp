@@ -12,7 +12,7 @@ import java.util.Date;
  * @author NV55C
  */
 public class PacientePresencial {
-    private int posicion;
+    private Integer posicion;
     private String paciente;
     private Date fecha;
     private int cod_cli;
@@ -22,7 +22,7 @@ public class PacientePresencial {
     public PacientePresencial() {
     }
 
-    public PacientePresencial(int posicion, String paciente,Date fecha, int cod_cli, int cod_vis, int cod_ter) {
+    public PacientePresencial(Integer posicion, String paciente,Date fecha, int cod_cli, int cod_vis, int cod_ter) {
         this.posicion = posicion;
         this.paciente = paciente;
         this.fecha = fecha;
@@ -31,11 +31,11 @@ public class PacientePresencial {
         this.cod_ter = cod_ter;
     }
  
-    public int getPosicion() {
+    public Integer getPosicion() {
         return posicion;
     }
 
-    public void setPosicion(int posicion) {
+    public void setPosicion(Integer posicion) {
         this.posicion = posicion;
     }
 
@@ -80,7 +80,25 @@ public class PacientePresencial {
         this.cod_ter = cod_ter;
     }
     
-    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (posicion != null ? posicion.hashCode() : 0);
+        return hash;
+    }
+ 
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof PacientePresencial)) {
+            return false;
+        }
+        PacientePresencial other = (PacientePresencial) object;
+        if ((this.posicion == null && other.posicion != null) || (this.posicion != null && !this.posicion.equals(other.posicion))) {
+            return false;
+        }
+        return true;
+    }
     
     
 }

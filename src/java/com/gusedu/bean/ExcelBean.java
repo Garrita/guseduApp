@@ -74,13 +74,13 @@ public class ExcelBean {
         VALID_COLUMN_KEYS.add("paciente");
         headers.add(new Cabecera("fecha","fecha"));
         headers.add(new Cabecera("paciente","paciente"));
-        DecimalFormat df =new DecimalFormat("0.00") ;
+        
         for(int i=1;i<=cabecera.size();i++)
         {
             VALID_COLUMN_KEYS.add("monto"+i);
             headers.add(new Cabecera("monto"+i, cabecera.get(i-1)));
             
-            if(i+1<cabecera.size())
+            if(i+1<=cabecera.size())
             {
                 salida+="monto"+i+" ";
             }else
@@ -91,6 +91,8 @@ public class ExcelBean {
         VALID_COLUMN_KEYS.add("total");
         headers.add(new Cabecera("total","total"));
         columnTemplate=salida;
+        
+         
     }
     
     public String buscarHeader(String col)
@@ -185,9 +187,8 @@ decStyle.setDataFormat((short)2);
         
     public void llenarLista()         
     {
-        lista=pagoService.SP_REPORTE(fec_ini, fec_fin);
-        System.out.println("TAMAÑO : "+lista.size());
         cabecera();
+        lista=pagoService.SP_REPORTE(fec_ini, fec_fin,cabecera.size());      
         createDynamicColumns();
     /*    listaEpago = pagoService.SP_Excel_Caja();
         lista = new ArrayList<>();
@@ -272,7 +273,7 @@ decStyle.setDataFormat((short)2);
             String key = columnKey.trim();
              
             if(VALID_COLUMN_KEYS.contains(key)) {
-                columns.add(new ColumnModel(buscarHeader(columnKey), columnKey));
+                columns.add(new ColumnModel( buscarHeader(columnKey), columnKey));
             }
         }
     }

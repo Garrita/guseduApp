@@ -40,7 +40,7 @@ public interface PagoService {
     
     public List<EPago> SP_Caja_Resumen_D(Date fec_ini);
     
-    public List<Excel> SP_REPORTE(Date fec_ini,Date fec_fin);
+    public List<Excel> SP_REPORTE(Date fec_ini,Date fec_fin,int tam);
     
     public List<String> SP_CABECERA(Date fec_ini,Date fec_fin);
 }
