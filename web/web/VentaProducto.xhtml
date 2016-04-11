@@ -8,198 +8,198 @@
       xmlns:pe="http://primefaces.org/ui/extensions" >
     <ui:composition>
         <p:panelGrid columns="2"  >
-            
-        
-        <h:form>
-            <p:panel >
-                <p:selectOneListbox id="selectPaci" value="#{productoBean.cod_cli}"
-                                filter="true" filterMatchMode="contains"
-                                style="width: 300px;"  >
-                <f:selectItems value="#{productoBean.lista_cliper}" var="cliper" 
-                               itemLabel="#{cliper.per_dni} - #{cliper.paciente}" 
-                               itemValue="#{cliper.cli_codigo}" />
-            </p:selectOneListbox>  
-                <br/><br/>
-            <p:panelGrid id="pnlProdV" columns="2">
 
-                <p:outputLabel for="VoutNombre" value="Producto: "></p:outputLabel>
-                <h:outputText id="VoutNombre"
-                              value="#{productoBean.producto.proDescripcionM}"></h:outputText>
 
-                <p:outputLabel for="VoutCosto" value="Costo: "></p:outputLabel>
-                <h:outputText id="VoutCosto"
-                              value="#{productoBean.producto.proCostoUnitario} #{productoBean.producto.proCurrencySymbol}" />
+            <h:form>
+                <p:panel >
+                    <p:selectOneListbox id="selectPaci" value="#{productoBean.cod_cli}"
+                                        filter="true" filterMatchMode="contains"
+                                        style="width: 300px;"  >
+                        <f:selectItems value="#{productoBean.lista_cliper}" var="cliper" 
+                                       itemLabel="#{cliper.per_dni} - #{cliper.paciente}" 
+                                       itemValue="#{cliper.cli_codigo}" />
+                    </p:selectOneListbox>  
+                    <br/><br/>
+                    <p:panelGrid id="pnlProdV" columns="2">
 
-                <p:outputLabel for="VinpCantidad" value="Cantidad: "></p:outputLabel>
-                <p:inputText id="VinpCantidad" value="#{productoBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
-                    <pe:keyFilter mask="num" />  
-                    <f:validateDoubleRange minimum="0.0"
-                                           maximum="#{productoBean.producto.proExistencias}"></f:validateDoubleRange>
-                    <p:ajax event="keyup" update="VoutCostoParcial"
-                            listener="#{productoBean.calculaCostoParcial}" />
-                </p:inputText>
+                        <p:outputLabel for="VoutNombre" value="Producto: "></p:outputLabel>
+                        <h:outputText id="VoutNombre"
+                                      value="#{productoBean.producto.proDescripcionM}"></h:outputText>
 
-                <p:outputLabel for="VoutCostoParcial" value="Costo Total: "></p:outputLabel>
-                <h:outputText id="VoutCostoParcial"
-                              value="#{productoBean.costoParcial} #{productoBean.producto.proCurrencySymbol}" />
-                <p:commandButton icon="ui-icon-plus"
-                                 value="Agregar Producto"  
-                                 actionListener="#{productoBean.ADD_PRODUCTO()}" 
-                                 update=":#{p:component('tablaVentaProductos')}" />
-                <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
-                                 oncomplete="PF('dlgTP_F').show();" update=":#{p:component('productosf')}" />
-                  <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
-                                   action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
-                                              oncomplete="PF('dlgFactura_Venta').show();" />
-            </p:panelGrid>
-                
-            </p:panel>
-            
-        </h:form>
-       
-        
+                        <p:outputLabel for="VoutCosto" value="Costo: "></p:outputLabel>
+                        <h:outputText id="VoutCosto"
+                                      value="#{productoBean.producto.proCostoUnitario} #{productoBean.producto.proCurrencySymbol}" />
+
+                        <p:outputLabel for="VinpCantidad" value="Cantidad: "></p:outputLabel>
+                        <p:inputText id="VinpCantidad" value="#{productoBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
+                            <pe:keyFilter mask="num" />  
+                            <f:validateDoubleRange minimum="0.0"
+                                                   maximum="#{productoBean.producto.proExistencias}"></f:validateDoubleRange>
+                            <p:ajax event="keyup" update="VoutCostoParcial"
+                                    listener="#{productoBean.calculaCostoParcial}" />
+                        </p:inputText>
+
+                        <p:outputLabel for="VoutCostoParcial" value="Costo Total: "></p:outputLabel>
+                        <h:outputText id="VoutCostoParcial"
+                                      value="#{productoBean.costoParcial} #{productoBean.producto.proCurrencySymbol}" />
+                        <p:commandButton icon="ui-icon-plus"
+                                         value="Agregar Producto"  
+                                         actionListener="#{productoBean.ADD_PRODUCTO()}" 
+                                         update=":#{p:component('tablaVentaProductos')}" />
+                        <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
+                                         oncomplete="PF('dlgTP_F').show();" update=":#{p:component('productosf')}" />
+                        <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
+                                         action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
+                                         oncomplete="PF('dlgFactura_Venta').show();" />
+                    </p:panelGrid>
+
+                </p:panel>
+
+            </h:form>
+
+
             <p:panel   >
                 <p:commandButton value="Nuevo Cliente" id="btnNuevoVP" update=":#{p:component('dialogVta')}"
                                  oncomplete="PF('dlg1').show();"	
-                                    action="#{personaBean.inicializar()}"  
-                                styleClass="ui-priority-primary" /> 
-         <br/><br/>
-        <p:dataTable id="tablaVentaProductos" var="prod_v"
-                     paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
-			emptyMessage="No hay productos en stock" paginator="true" rows="8">
+                                 action="#{personaBean.inicializar()}"  
+                                 styleClass="ui-priority-primary" /> 
+                <br/><br/>
+                <p:dataTable id="tablaVentaProductos" var="prod_v"
+                             paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
+                             emptyMessage="No hay productos en stock" paginator="true" rows="8">
 
-		<f:facet name="header">
-        		Productos
-    		</f:facet>
+                    <f:facet name="header">
+                        Productos
+                    </f:facet>
 
-			<p:column headerText="Producto" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proDescripcionM}" />
-			</p:column>
+                    <p:column headerText="Producto" style="vertical-align:middle;">
+                        <h:outputText value="#{prod_v.proDescripcionM}" />
+                    </p:column>
 
-			<p:column headerText="Costo Unitario" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
-			</p:column>
+                    <p:column headerText="Costo Unitario" style="vertical-align:middle;">
+                        <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
+                    </p:column>
 
-			<p:column headerText="Existencias" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proExistencias}" />
-			</p:column>  
+                    <p:column headerText="Existencias" style="vertical-align:middle;">
+                        <h:outputText value="#{prod_v.proExistencias}" />
+                    </p:column>  
 
-			<p:column>
-				<p:commandButton icon="ui-icon-plus"
-                                                  rendered="#{prod_v.proExistencias > 0}"
-                                                  actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
-                                   
-					update=":#{p:component('pnlProdV')}"
-					 />
-			</p:column>
-		</p:dataTable>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-plus"
+                                         rendered="#{prod_v.proExistencias > 0}"
+                                         actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
+
+                                         update=":#{p:component('pnlProdV')}"
+                                         />
+                    </p:column>
+                </p:dataTable>
             </p:panel>
-            </p:panelGrid>
+        </p:panelGrid>
         <h:form>
-                   <p:dialog  widgetVar="dlgTP_F"  >
- 			<p:dataTable id="productosf" var="prof" style="width:400px;"
-							paginatorAlwaysVisible="false" editable="true"
-                                                        value="#{productoBean.lista_detfact}"
-							emptyMessage="No se han añadido productos" paginator="true"
-							rows="5">
-							<f:facet name="header">
-        							Productos del Paciente
-    						</f:facet>
- 
-       
-							<p:column headerText="Nombre" style="vertical-align:middle;">
-                                                            <h:outputText value="#{prof.item}" />
-							</p:column>
-							<p:column headerText="Cantidad" style="vertical-align:middle;">
-				 
-								   <p:cellEditor>
-                                                                       <f:facet name="output"><h:outputText value="#{prof.cantidad}" /></f:facet>
-                                                                       <f:facet name="input"><p:inputText id="modelInput" value="#{prof.cantidad}" style="width:100%"/></f:facet>
-           							</p:cellEditor>
-							</p:column>
-							<p:column headerText="Costo parcial"
-								style="vertical-align:middle;">
-								<h:outputText
-                                                                    value="S/. #{prof.monto} " />
-							</p:column>
-							 
-							<p:column>
-								<p:commandButton icon="ui-icon-close" 
-				update=":#{p:component('productosf')},:#{p:component('tablaVentaProductos')}"
-                                                                                 action="#{productoBean.ELIMINAR(prof.cod_det_factura)}" />
-							</p:column>
-						</p:dataTable>
- 		
- 		</p:dialog>
+            <p:dialog  widgetVar="dlgTP_F"  >
+                <p:dataTable id="productosf" var="prof" style="width:400px;"
+                             paginatorAlwaysVisible="false" editable="true"
+                             value="#{productoBean.lista_detfact}"
+                             emptyMessage="No se han añadido productos" paginator="true"
+                             rows="5">
+                    <f:facet name="header">
+                        Productos del Paciente
+                    </f:facet>
+
+
+                    <p:column headerText="Nombre" style="vertical-align:middle;">
+                        <h:outputText value="#{prof.item}" />
+                    </p:column>
+                    <p:column headerText="Cantidad" style="vertical-align:middle;">
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{prof.cantidad}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{prof.cantidad}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Costo parcial"
+                              style="vertical-align:middle;">
+                        <h:outputText
+                            value="S/. #{prof.monto} " />
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-close" 
+                                         update=":#{p:component('productosf')},:#{p:component('tablaVentaProductos')}"
+                                         action="#{productoBean.ELIMINAR(prof.cod_det_factura)}" />
+                    </p:column>
+                </p:dataTable>
+
+            </p:dialog>
         </h:form>
-       
-              <p:dialog id="dialogFactura_v" widgetVar="dlgFactura_Venta" header="Factura"  
-                         showEffect="pop"  width="850px" height="550px" >   
-                   
-                   <ui:include src="Factura.xhtml" />
-                   
-               </p:dialog>
-        
-        
-         <h:form>
-                   <p:growl showDetail="true" autoUpdate="true" />
-                    <p:dialog id="dialogVta" header="Nuevo Paciente" widgetVar="dlg1"
-				showEffect="pop" >
-				
-                        
-                        
-                        <p:panel id="panelJxVP"  >
-                <h:panelGrid columns="4" id="panelRegistro"  >
-			<p:outputLabel for="perDniVP" value="DNI: " />
+
+        <p:dialog id="dialogFactura_v" widgetVar="dlgFactura_Venta" header="Factura"  
+                  showEffect="pop"  width="850px" height="550px" >   
+
+            <ui:include src="Factura.xhtml" />
+
+        </p:dialog>
+
+
+        <h:form>
+            <p:growl showDetail="true" autoUpdate="true" />
+            <p:dialog id="dialogVta" header="Nuevo Paciente" widgetVar="dlg1"
+                      showEffect="pop" >
+
+
+
+                <p:panel id="panelJxVP"  >
+                    <h:panelGrid columns="4" id="panelRegistro"  >
+                        <p:outputLabel for="perDniVP" value="DNI: " />
                         <p:inputText value="#{personaBean.persona.perDni}" id="perDniVP" maxlength="8" required="true" requiredMessage="El campo DNI es obligatorio" >
-				<pe:keyFilter mask="num" />  
-			</p:inputText>
+                            <pe:keyFilter mask="num" />  
+                        </p:inputText>
 
                         <p:outputLabel for="perFecNacVP" value="Fecha de nacimiento: " /> 
                         <p:calendar value="#{personaBean.persona.perFecNacimiento}" yearRange="c-100:c" maxdate="new Date();"
                                     id="perFecNacVP" pattern="dd/MM/yyyy" navigator="true" >
                             <p:ajax event="dateSelect" listener="#{personaBean.validaEdad}" update=":#{p:component('perEdadxVP')}" />
                         </p:calendar>
-                        
-                        
-			<p:outputLabel for="perNombreVP" value="Nombre: " />
+
+
+                        <p:outputLabel for="perNombreVP" value="Nombre: " />
                         <p:inputText value="#{personaBean.persona.perNombres}" id="perNombreVP" required="true" requiredMessage="Se requiere llenar el nombre" >
 
-			</p:inputText>
+                        </p:inputText>
 
                         <p:outputLabel for="perEdadxVP" value="Edad : " />
                         <p:inputText value="#{personaBean.persona.perEdad}" id="perEdadxVP" maxlength="3"   validatorMessage="Solo se aceptan numeros positivos" >
-				<pe:keyFilter mask="num" /> 
-				<f:validateDoubleRange minimum="0" maximum="250" />
-			</p:inputText>
-                        
-			<p:outputLabel for="perApePaternoVP" value="Apellido paterno: " />
+                            <pe:keyFilter mask="num" /> 
+                            <f:validateDoubleRange minimum="0" maximum="250" />
+                        </p:inputText>
+
+                        <p:outputLabel for="perApePaternoVP" value="Apellido paterno: " />
                         <p:inputText value="#{personaBean.persona.perApellidoP}" required="true" requiredMessage="Se requiere llenar los apellidos"
-				id="perApePaternoVP" >
-	
-			</p:inputText>
+                                     id="perApePaternoVP" >
+
+                        </p:inputText>
 
                         <p:outputLabel for="perTelFijoVP" value="Teléfono fijo: " />
                         <p:inputText	id="perTelFijoVP"  value="#{personaBean.persona.perTelFijo}" />
-                        
-			<p:outputLabel for="perApeMaternoVP" value="Apellido materno: " />
-			<p:inputText value="#{personaBean.persona.perApellidoM}" 
-				id="perApeMaternoVP" >
-			
-			</p:inputText>
 
-			
+                        <p:outputLabel for="perApeMaternoVP" value="Apellido materno: " />
+                        <p:inputText value="#{personaBean.persona.perApellidoM}" 
+                                     id="perApeMaternoVP" >
+
+                        </p:inputText>
+
+
                         <p:outputLabel for="perTelMovilVP" value="Teléfono móvil: " />
-			<p:inputText type="tel" 
+                        <p:inputText type="tel" 
                                      value="#{personaBean.persona.perTelMovil}" id="perTelMovilVP" maxlength="12" >
-				<pe:keyFilter mask="num" />  
-			</p:inputText>
-                        
-                        
+                            <pe:keyFilter mask="num" />  
+                        </p:inputText>
+
+
                         <p:outputLabel value="Departamento : " />
                         <p:selectOneMenu id="idDepaVP" 
                                          value="#{ubigoBean.idDepartamento}"
-                                           >
+                                         >
                             <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
                             <f:selectItems value="#{ubigoBean.listadepa}" var="tt"
                                            itemValue="#{tt.idDepa}" itemLabel="#{tt.departamento}" />
@@ -209,82 +209,82 @@
                                     listener="#{ubigoBean.LISTA_PROVINCIAS()}" 
                                     />
                         </p:selectOneMenu>
-                        
+
                         <p:outputLabel for="perCorreoVP" value="Correo: " />
                         <p:inputText value="#{personaBean.persona.perCorreo}" id="perCorreoVP" style="width: 310px"    >
-				<f:validateRegex
-					pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
-			</p:inputText>
-                        
-                        
+                            <f:validateRegex
+                                pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
+                        </p:inputText>
+
+
                         <p:outputLabel value="Provincia : " />
                         <p:selectOneMenu id="idProvVP" 
-                 value="#{ubigoBean.idProvincia}"
+                                         value="#{ubigoBean.idProvincia}"
                                          >
-                           <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
-                           <f:selectItems value="#{ubigoBean.listapro}" var="u_prov"
-                                          itemValue="#{u_prov.idProv}" itemLabel="#{u_prov.provincia}" />
-                           <p:ajax event="change" 
+                            <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                            <f:selectItems value="#{ubigoBean.listapro}" var="u_prov"
+                                           itemValue="#{u_prov.idProv}" itemLabel="#{u_prov.provincia}" />
+                            <p:ajax event="change" 
                                     update=":#{p:component('idDisVP')}"
                                     listener="#{ubigoBean.LISTA_DISTRITO()}" 
-                                   />
-                       </p:selectOneMenu>
-                        
-                       
-                        
-			
-                        
-			<p:outputLabel for="perSexoVP" value="Sexo: " />
-                        <p:selectOneButton id="perSexoVP" value="#{personaBean.persona.perSexo}">
-				<f:selectItem itemLabel="Masculino" itemValue="M" />
-				<f:selectItem itemLabel="Femenino" itemValue="F" />
-			</p:selectOneButton>
+                                    />
+                        </p:selectOneMenu>
 
-			
-                        
-                         <p:outputLabel value="Distrito : " />
+
+
+
+
+                        <p:outputLabel for="perSexoVP" value="Sexo: " />
+                        <p:selectOneButton id="perSexoVP" value="#{personaBean.persona.perSexo}">
+                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                            <f:selectItem itemLabel="Femenino" itemValue="F" />
+                        </p:selectOneButton>
+
+
+
+                        <p:outputLabel value="Distrito : " />
                         <p:selectOneMenu id="idDisVP" 
                                          value="#{ubigoBean.idDistrito}"
-                                          >
+                                         >
                             <f:selectItem itemLabel="Seleccione un tipo" itemValue="#{null}" />
                             <f:selectItems value="#{ubigoBean.listadis}" var="u_dis"
                                            itemValue="#{u_dis.idDist}" itemLabel="#{u_dis.distrito}" />
                         </p:selectOneMenu>
 
-			
+
                         <p:outputLabel for="perEstadoCivilVP" value="Estado civil: " />
-			<p:selectOneButton id="perEstadoCivilVP"
+                        <p:selectOneButton id="perEstadoCivilVP"
                                            value="#{personaBean.persona.perEstadoCivil}">
-				<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
-				<f:selectItem itemLabel="Casado" itemValue="Casado" />
-				<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
-				<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
-			</p:selectOneButton>
-                        
+                            <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+                            <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                            <f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+                            <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                        </p:selectOneButton>
+
                         <p:outputLabel for="perDireccionVP" value="Dirección: " />
                         <p:inputText value="#{personaBean.persona.perDireccion}" id="perDireccionVP" style="width: 310px" />
-			
 
-			<p:outputLabel for="perComoVP" value="¿Cómo se enteró de Gusedu?" />
+
+                        <p:outputLabel for="perComoVP" value="¿Cómo se enteró de Gusedu?" />
                         <p:selectOneRadio id="perComoVP" value="#{personaBean.persona.perEnteroGusedu}" layout="grid" columns="2" >
-				<f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
-				<f:selectItem itemLabel="Web" itemValue="Web" />
-				<f:selectItem itemLabel="Amigos" itemValue="Amigos" />
-				<f:selectItem itemLabel="Familiares" itemValue="Familiares" />
-				<f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
-			</p:selectOneRadio>
+                            <f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
+                            <f:selectItem itemLabel="Web" itemValue="Web" />
+                            <f:selectItem itemLabel="Amigos" itemValue="Amigos" />
+                            <f:selectItem itemLabel="Familiares" itemValue="Familiares" />
+                            <f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
+                        </p:selectOneRadio>
 
                         <p:commandButton id="proceRegxVP" value="Registrar"  update=":#{p:component('selectPaci')}"
                                          action="#{personaBean.registroPacienteV2()}" icon="ui-icon-check"    />
-			<p:commandButton value="Cancelar" icon="ui-icon-cancel"
-				action="#{personaBean.cancel}" immediate="true" />
-		</h:panelGrid>
-        <p:blockUI block=":#{p:component('panelJxVP')}" trigger=":#{p:component('proceRegxVP')}" />
+                        <p:commandButton value="Cancelar" icon="ui-icon-cancel"
+                                         action="#{personaBean.cancel}" immediate="true" />
+                    </h:panelGrid>
+                    <p:blockUI block=":#{p:component('panelJxVP')}" trigger=":#{p:component('proceRegxVP')}" />
                 </p:panel>
-	             </p:dialog>
-                   
-               </h:form>
-        
+            </p:dialog>
+
+        </h:form>
+
     </ui:composition>
 </html>
 

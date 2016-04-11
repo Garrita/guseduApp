@@ -89,7 +89,7 @@ public class ProductoBean {
                     val+=existencias.get(i)+",";
                 }
             }
-            StaticUtil.errorMessage("Precaución", "Los siguientes productos estan por agotarse : "+val);
+            StaticUtil.errorMessage("Precaución", "Los siguientes productos están por agotarse : "+val);
         }
     }
     

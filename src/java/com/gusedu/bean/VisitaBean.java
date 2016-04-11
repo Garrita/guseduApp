@@ -40,6 +40,7 @@ public class VisitaBean {
             private boolean prod;
             private String queryProducto;
             private List allProductos;
+            private List<Producto> listaproductosDD;
             private Producto producto;
             private Integer mostrarFormProducto;
             private Double cantidadProducto;
@@ -85,10 +86,19 @@ public class VisitaBean {
 /*  97*/        terapiaService = new TerapiaServiceImpl();
                 terapiasintomaService = new TerapiaSintomaServiceImpl();
 /*  98*/        historiaClinicaService = new HistoriaClinicaServiceImpl();
-precioTotal=0.0;
-edit=false;
-LISTAR_PRODUCTOS();
+                precioTotal=0.0;
+                edit=false;
+                LISTAR_PRODUCTOS();
+                LISTANDO_PRODUCTOS();
             }        
+
+    public List<Producto> getListaproductosDD() {
+        return listaproductosDD;
+    }
+
+    public void setListaproductosDD(List<Producto> listaproductosDD) {
+        this.listaproductosDD = listaproductosDD;
+    }
             
     public double getPrePrecioTerapia() {
         return prePrecioTerapia;
@@ -174,6 +184,11 @@ LISTAR_PRODUCTOS();
                 } else {
              allProductos= productoService.getAllProductos();
                 }
+            }
+            
+            public void LISTANDO_PRODUCTOS()
+            {
+                listaproductosDD = productoService.getAllProductos();
             }
 
             public String getQueryProducto() {
@@ -471,47 +486,52 @@ LISTAR_PRODUCTOS();
 /* 476*/        System.out.println((new StringBuilder()).append("Productos de Visita : ").append(productosDeVisita.size()).toString());
             }
 
-            public void addProductoToVisitaWeb() {
-        if (cantidadProducto.doubleValue() <= 0.0D) {
-            return;
-                }
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Visita vis = (Visita)fc.getExternalContext().getSessionMap().get("ultimavisita");
-        ProductoVisita toAdd = new ProductoVisita();
-        toAdd.setPxvCantidad(cantidadProducto);
-        toAdd.setPxvCostoParcial(costoParcial);
-        toAdd.setProducto(producto);
-        toAdd.setVisita(vis);
-        if (productoService.SP_SaveProductoVisita(toAdd)) {
-            StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
-            StaticUtil.keepMessages();
-            System.out.println("SI ACTUALIZO ?");
-           /* producto.setProExistencias(Double.valueOf(producto.getProExistencias().doubleValue() - cantidadProducto.doubleValue()));
-            productoService.updateProducto(producto);
-            //vis.setVisCostoTotal(Double.valueOf(vis.getVisCostoTotal().doubleValue() + toAdd.getPxvCostoParcial().doubleValue()));
-                    
-                    
-                    Visita v2= new Visita();
-                    v2 = visitaService.getVisitaById(vis.getVisCodigo());
-                    System.out.println("VISITA : "+v2.getVisCodigo()+"\n"
-                            + "Cliente: "+v2.getCliente().getCliCodigo() +
-                            "\nCosto : "+v2.getVisCostoTotal());
- //#           v2.setVisCostoTotal(vis.getVisCostoTotal()+ toAdd.getPxvCostoParcial());
-            
-            visitaService.updateVisita(v2);*/
-            costoParcial = 0.0;
-            cantidadProducto = 1.0;
-            mostrarFormProducto = -1;
-            productoService.listarProductoLogAvanzado();
-            LISTAR_PRODUCTOS();
-            
-            ProductoBean objetoBean = (ProductoBean)fc.getExternalContext().getSessionMap().get("productoBean");
-            objetoBean.validador();
-            
-                } else {
-            System.out.println("ERROR, DEBUGEAR.");
-                }
+        public void addProductoToVisitaWeb() 
+        {
+            if (cantidadProducto.doubleValue() <= 0.0D)
+            {
+                return;
             }
+            FacesContext fc = FacesContext.getCurrentInstance();
+            Visita vis = (Visita)fc.getExternalContext().getSessionMap().get("ultimavisita");
+            ProductoVisita toAdd = new ProductoVisita();
+            toAdd.setPxvCantidad(cantidadProducto);
+            toAdd.setPxvCostoParcial(costoParcial);
+            toAdd.setProducto(producto);
+            toAdd.setVisita(vis);
+            if (productoService.SP_SaveProductoVisita(toAdd)) 
+            {
+                StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
+                StaticUtil.keepMessages();
+                System.out.println("SI ACTUALIZO ?");
+               /* producto.setProExistencias(Double.valueOf(producto.getProExistencias().doubleValue() - cantidadProducto.doubleValue()));
+                productoService.updateProducto(producto);
+                //vis.setVisCostoTotal(Double.valueOf(vis.getVisCostoTotal().doubleValue() + toAdd.getPxvCostoParcial().doubleValue()));
+
+
+                        Visita v2= new Visita();
+                        v2 = visitaService.getVisitaById(vis.getVisCodigo());
+                        System.out.println("VISITA : "+v2.getVisCodigo()+"\n"
+                                + "Cliente: "+v2.getCliente().getCliCodigo() +
+                                "\nCosto : "+v2.getVisCostoTotal());
+                //#           v2.setVisCostoTotal(vis.getVisCostoTotal()+ toAdd.getPxvCostoParcial());
+
+                visitaService.updateVisita(v2);*/
+                costoParcial = 0.0;
+                cantidadProducto = 1.0;
+                mostrarFormProducto = -1;
+                productoService.listarProductoLogAvanzado();
+                LISTAR_PRODUCTOS();
+                //LISTANDO_PRODUCTOS();
+
+                ProductoBean objetoBean = (ProductoBean)fc.getExternalContext().getSessionMap().get("productoBean");
+                objetoBean.validador();
+                objetoBean.LISTAR_PRODUCTOS();
+            } else 
+            {
+                System.out.println("ERROR, DEBUGEAR.");
+            }
+        }
 
             public void eliminarProducto(ProductoVisita pxv) {
                 FacesContext fc = FacesContext.getCurrentInstance();

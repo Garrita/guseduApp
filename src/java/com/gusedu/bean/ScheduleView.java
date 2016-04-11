@@ -8,12 +8,14 @@ package com.gusedu.bean;
 import com.gusedu.dao.ClienteService;
 import com.gusedu.dao.FacturaService;
 import com.gusedu.dao.PersonaService;
+import com.gusedu.dao.ProductoService;
 import com.gusedu.dao.TerapiaService;
 import com.gusedu.dao.UsuarioService;
 import com.gusedu.dao.VisitaService;
 import com.gusedu.dao.impl.ClienteServiceImpl;
 import com.gusedu.dao.impl.FacturaServiceImpl;
 import com.gusedu.dao.impl.PersonaServiceImpl;
+import com.gusedu.dao.impl.ProductoServiceImpl;
 import com.gusedu.dao.impl.TerapiaServiceImpl;
 import com.gusedu.dao.impl.UsuarioServiceImpl;
 import com.gusedu.dao.impl.VisitaServiceImpl;
@@ -23,6 +25,7 @@ import com.gusedu.entidad.detalle_factura;
 import com.gusedu.entidad.EUltimaVisitaxCliente;
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
+import com.gusedu.model.Producto;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoCliente;
 import com.gusedu.model.TipoTerapia;
@@ -79,11 +82,13 @@ public class ScheduleView {
     private cabecera_factura cab_fact;
     
     private List<detalle_factura> lista_detfact;
+    private List<Producto> listandoProductos;
     
     ClienteService clienteService;
     PersonaService personaservice;
     UsuarioService usuarioservice;
     FacturaService facturaService;
+    ProductoService productoService;
     
     private String terapeuta;
     
@@ -113,6 +118,7 @@ public class ScheduleView {
         personaservice = new PersonaServiceImpl();
         usuarioservice = new UsuarioServiceImpl();
         facturaService = new FacturaServiceImpl();
+        productoService = new ProductoServiceImpl();
         cli = new Cliente();
         cli.setPersona(new Persona());
         cli.setTipoCliente(new TipoCliente());
@@ -133,7 +139,7 @@ public class ScheduleView {
         valorEvento=false;
         mont=0;
         validarCalendario();
- 
+        LISTANDO_PRODUCTOS();
     }
     
     public void validarCalendario()
@@ -190,6 +196,14 @@ public class ScheduleView {
         terapia = new Terapia();
         terapia.setTipoTerapia(new TipoTerapia());
         terapia.setVisita(new Visita());
+    }
+
+    public List<Producto> getListandoProductos() {
+        return listandoProductos;
+    }
+
+    public void setListandoProductos(List<Producto> listandoProductos) {
+        this.listandoProductos = listandoProductos;
     }
 
     public String getTerapeuta() {
@@ -601,12 +615,21 @@ public class ScheduleView {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
+    public void LISTANDO_PRODUCTOS()
+    {
+        listandoProductos = productoService.getAllProductos();
+    }
+    
      public void ELIMINARCITA()
     {
        if(visitaService.SPdeleteVisita(visita.getVisCodigo()))
        {
            System.out.println("SI ELIMINIO");
            llenarCalendario();
+           //LISTANDO_PRODUCTOS();
+           FacesContext fc = FacesContext.getCurrentInstance();
+           ProductoBean objetoBean = (ProductoBean)fc.getExternalContext().getSessionMap().get("productoBean");
+           objetoBean.LISTAR_PRODUCTOS();
        }else
        {
            System.out.println("No elimino");

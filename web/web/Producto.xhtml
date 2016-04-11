@@ -1,120 +1,120 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions">
-<ui:composition>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <ui:composition>
 
-	<h:form id="formulariProducto">
-		<p:outputLabel for="searchQueryProducto" value="Buscar producto: " />
-		<p:inputText id="searchQueryProducto"
-			value="#{visitaBean.queryProducto}" placeholder="Ingrese su busqueda"
-			type="search">
-			<p:ajax event="keyup" update=":#{p:component('tablaProductos')}"
-				listener="#{visitaBean.filtrarProductos}" />
-		</p:inputText>
-	
-		<br />
-		<br />
-		<p:dataTable id="tablaProductos" var="prod"
-			paginatorAlwaysVisible="false" value="#{visitaBean.allProductos}"
-			emptyMessage="No hay productos en stock" paginator="true" rows="5">
+        <h:form id="formulariProducto">
+            <p:outputLabel for="searchQueryProducto" value="Buscar producto: " />
+            <p:inputText id="searchQueryProducto"
+                         value="#{visitaBean.queryProducto}" placeholder="Ingrese su busqueda"
+                         type="search">
+                <p:ajax event="keyup" update=":#{p:component('tablaProductos')}"
+                        listener="#{visitaBean.filtrarProductos}" />
+            </p:inputText>
 
-			<f:facet name="header">
-        		Productos
-    		</f:facet>
+            <br />
+            <br />
+            <p:dataTable id="tablaProductos" var="prod"
+                         paginatorAlwaysVisible="false" value="#{visitaBean.allProductos}"
+                         emptyMessage="No hay productos en stock" paginator="true" rows="5">
 
-			<p:column headerText="Producto" style="vertical-align:middle;">
-                            <h:outputText value="#{prod.proDescripcionM}" />
-			</p:column>
+                <f:facet name="header">
+                    Productos
+                </f:facet>
 
-			<p:column headerText="Costo Unitario" style="vertical-align:middle;">
-                            <h:outputText value="#{prod.proCostoUnitario} #{prod.proCurrencySymbol}" />
-			</p:column>
+                <p:column headerText="Producto" style="vertical-align:middle;">
+                    <h:outputText value="#{prod.proDescripcionM}" />
+                </p:column>
 
-			<p:column headerText="Existencias" style="vertical-align:middle;">
-                            <h:outputText value="#{prod.proExistencias}" />
-			</p:column>
+                <p:column headerText="Costo Unitario" style="vertical-align:middle;">
+                    <h:outputText value="#{prod.proCostoUnitario} #{prod.proCurrencySymbol}" />
+                </p:column>
 
-			<p:column>
-				<p:commandButton icon="ui-icon-plus"
-                                                 actionListener="#{visitaBean.preAddProductoWeb(prod.proCodigo)}"
-                                                 rendered="#{prod.proExistencias > 0}"
-					update=":#{p:component('pnlProd')}" />
-			</p:column>
-		</p:dataTable>
- 		<br/>
- 	
- 				<p:panelGrid id="pnlProd" columns="2">
-		
-			<p:outputLabel for="outNombre" value="Producto: "></p:outputLabel>
-			<h:outputText id="outNombre"
-                                      value="#{visitaBean.producto.proDescripcionM}"></h:outputText>
-				
-			<p:outputLabel for="outCosto" value="Costo: "></p:outputLabel>
-			<h:outputText id="outCosto"
-                                      value="#{visitaBean.producto.proCostoUnitario} #{visitaBean.producto.proCurrencySymbol}" />
+                <p:column headerText="Existencias" style="vertical-align:middle;">
+                    <h:outputText value="#{prod.proExistencias}" />
+                </p:column>
 
-			<p:outputLabel for="inpCantidad" value="Cantidad: "></p:outputLabel>
-			<p:inputText id="inpCantidad" value="#{visitaBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
-				<pe:keyFilter mask="num" />  
-				<f:validateDoubleRange minimum="0.0"
-                                                       maximum="#{visitaBean.producto.proExistencias}"></f:validateDoubleRange>
-				<p:ajax event="keyup" update="outCostoParcial"
-					listener="#{visitaBean.calculaCostoParcial}" />
-			</p:inputText>
+                <p:column>
+                    <p:commandButton icon="ui-icon-plus"
+                                     actionListener="#{visitaBean.preAddProductoWeb(prod.proCodigo)}"
+                                     rendered="#{prod.proExistencias > 0}"
+                                     update=":#{p:component('pnlProd')}" />
+                </p:column>
+            </p:dataTable>
+            <br/>
 
-			<p:outputLabel for="outCostoParcial" value="Costo Total: "></p:outputLabel>
-			<h:outputText id="outCostoParcial"
-                                      value="#{visitaBean.costoParcial} #{visitaBean.producto.proCurrencySymbol}" />
-			<p:commandButton icon="ui-icon-plus"
-				value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('tablaProductos')},:#{p:component('growl')}"
-				actionListener="#{visitaBean.addProductoToVisitaWeb}" />
-			<p:commandButton icon="ui-icon-search" action="#{visitaBean.listar}"
-			update=":#{p:component('productos')}" oncomplete="PF('dlgTP').show();" />
-		</p:panelGrid>
- 		<p:dialog  widgetVar="dlgTP"  >
- 			<p:dataTable id="productos" var="pro" style="width:400px;"
-							paginatorAlwaysVisible="false" editable="true"
-							value="#{visitaBean.productosDeVisita}"
-							emptyMessage="No se han añadido productos" paginator="true"
-							rows="5">
-							<f:facet name="header">
-        							Productos del Paciente
-    						</f:facet>
- 
-       
-							<p:column headerText="Nombre" style="vertical-align:middle;">
-                                                            <h:outputText value="#{pro.producto.proDescripcionM}" />
-							</p:column>
-							<p:column headerText="Cantidad" style="vertical-align:middle;">
-				 
-								   <p:cellEditor>
-                                                                       <f:facet name="output"><h:outputText value="#{pro.pxvCantidad}" /></f:facet>
-                                                                       <f:facet name="input"><p:inputText id="modelInput" value="#{pro.pxvCantidad}" style="width:100%"/></f:facet>
-           							</p:cellEditor>
-							</p:column>
-							<p:column headerText="Costo parcial"
-								style="vertical-align:middle;">
-								<h:outputText
-                                                                    value="#{pro.pxvCostoParcial} #{pro.producto.proCurrencySymbol}" />
-							</p:column>
-							 
-							<p:column>
-								<p:commandButton icon="ui-icon-close" 
-								update=":#{p:component('tablaProductos')},productos"
-								action="#{visitaBean.eliminarProducto(pro)}" />
-							</p:column>
-						</p:dataTable>
- 		
- 		</p:dialog>
- 		
-						
-					
-		
-	</h:form>
-</ui:composition>
+            <p:panelGrid id="pnlProd" columns="2">
+
+                <p:outputLabel for="outNombre" value="Producto: "></p:outputLabel>
+                <h:outputText id="outNombre"
+                              value="#{visitaBean.producto.proDescripcionM}"></h:outputText>
+
+                <p:outputLabel for="outCosto" value="Costo: "></p:outputLabel>
+                <h:outputText id="outCosto"
+                              value="#{visitaBean.producto.proCostoUnitario} #{visitaBean.producto.proCurrencySymbol}" />
+
+                <p:outputLabel for="inpCantidad" value="Cantidad: "></p:outputLabel>
+                <p:inputText id="inpCantidad" value="#{visitaBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
+                    <pe:keyFilter mask="num" />  
+                    <f:validateDoubleRange minimum="0.0"
+                                           maximum="#{visitaBean.producto.proExistencias}"></f:validateDoubleRange>
+                    <p:ajax event="keyup" update="outCostoParcial"
+                            listener="#{visitaBean.calculaCostoParcial}" />
+                </p:inputText>
+
+                <p:outputLabel for="outCostoParcial" value="Costo Total: "></p:outputLabel>
+                <h:outputText id="outCostoParcial"
+                              value="#{visitaBean.costoParcial} #{visitaBean.producto.proCurrencySymbol}" />
+                <p:commandButton icon="ui-icon-plus"
+                                 value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('growl')}"
+                                 actionListener="#{visitaBean.addProductoToVisitaWeb}" />
+                <p:commandButton icon="ui-icon-search" action="#{visitaBean.listar}"
+                                 update=":#{p:component('productos')}" oncomplete="PF('dlgTP').show();" />
+            </p:panelGrid>
+            <p:dialog  widgetVar="dlgTP"  >
+                <p:dataTable id="productos" var="pro" style="width:400px;"
+                             paginatorAlwaysVisible="false" editable="true"
+                             value="#{visitaBean.productosDeVisita}"
+                             emptyMessage="No se han añadido productos" paginator="true"
+                             rows="5">
+                    <f:facet name="header">
+                        Productos del Paciente
+                    </f:facet>
+
+
+                    <p:column headerText="Nombre" style="vertical-align:middle;">
+                        <h:outputText value="#{pro.producto.proDescripcionM}" />
+                    </p:column>
+                    <p:column headerText="Cantidad" style="vertical-align:middle;">
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{pro.pxvCantidad}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{pro.pxvCantidad}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Costo parcial"
+                              style="vertical-align:middle;">
+                        <h:outputText
+                            value="#{pro.pxvCostoParcial} #{pro.producto.proCurrencySymbol}" />
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-close" 
+                                         update=":#{p:component('tablaProductos')},productos"
+                                         action="#{visitaBean.eliminarProducto(pro)}" />
+                    </p:column>
+                </p:dataTable>
+
+            </p:dialog>
+
+
+
+
+        </h:form>
+    </ui:composition>
 </html>
