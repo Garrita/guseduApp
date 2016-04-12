@@ -27,7 +27,7 @@ public interface ProductoService {
         
         public boolean saveProducto(Producto producto);
         
-        public boolean deleteProducto(Producto producto);
+        public boolean deleteProducto(int cod_producto);
         
         public boolean SP_SaveProductoVisita(ProductoVisita productoVisita);
         

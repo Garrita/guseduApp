@@ -158,7 +158,7 @@ public class ProductoBean {
     
     public void deleteProducto()
     {
-         if(productoservice.deleteProducto(producto))
+         if(productoservice.deleteProducto(producto.getProCodigo()))
         {
             StaticUtil.correctMesage("Exito", "Se ha eliminado correctamente el producto");
             LISTAR_PRODUCTOS();

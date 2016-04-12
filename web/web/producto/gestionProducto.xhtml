@@ -87,15 +87,30 @@
                       modal="true" >
                 <h:form id="formAgregarProducto">
                     <p:panelGrid columns="2" >
+                        <p:outputLabel value="Descripción Corta : " for="usuDescripC"/>
+                        <p:inputText id="usuDescripC" required="true"
+                                     value="#{productoBean.producto.proDescripcionC}" />
+
+                        <p:outputLabel value="Descripción Media : " for="usuDescripM"/>
+                        <p:inputText id="usuDescripM" required="true"
+                                     value="#{productoBean.producto.proDescripcionM}" />
+
+                        <p:outputLabel value="Descripción Larga : " for="usuDescripL"/>
+                        <p:inputText id="usuDescripL" required="true"
+                                     value="#{productoBean.producto.proDescripcionL}" />
+
                         <p:outputLabel value="Cantidad : " for="usuCantidad" />
                         <p:inputText id="usuCantidad" required="true" 
                                      value="#{productoBean.producto.proExistencias}" />
+
                         <p:outputLabel value="Precio : " for="usuPrecio" />
                         <p:inputText id="usuPrecio" required="true" 
                                      value="#{productoBean.producto.proCostoUnitario}" />
+
                         <p:outputLabel value="Stock Min : " for="usuStockMin" />
                         <p:inputText id="usuStockMin" required="true" 
                                      value="#{productoBean.producto.proStockMin}" />
+
                         <p:commandButton action="#{productoBean.ADDPRODUCTO()}" value="Agregar" 
                                          update=":#{p:component('tablaProducto')},:#{p:component('formAgregarProducto')}" oncomplete="PF('dlgAddProducto').hide();" />
                         <p:commandButton value="Cancelar" oncomplete="PF('dlgAddProducto').hide();" process="@this"
@@ -106,15 +121,30 @@
             <p:dialog header="Editar Producto" widgetVar="dlgEditProducto" showEffect="pop"  modal="true" >
                 <h:form id="formEditarProducto">
                     <p:panelGrid columns="2" >
+                        <p:outputLabel value="Descripción Corta : " for="usuDescripC"/>
+                        <p:inputText id="usuDescripC" required="true"
+                                     value="#{productoBean.producto.proDescripcionC}" />
+
+                        <p:outputLabel value="Descripción Media : " for="usuDescripM"/>
+                        <p:inputText id="usuDescripM" required="true"
+                                     value="#{productoBean.producto.proDescripcionM}" />
+
+                        <p:outputLabel value="Descripción Larga : " for="usuDescripL"/>
+                        <p:inputText id="usuDescripL" required="true"
+                                     value="#{productoBean.producto.proDescripcionL}" />
+
                         <p:outputLabel value="Cantidad : " for="usuCantidad" />
                         <p:inputText id="usuCantidad" required="true" 
                                      value="#{productoBean.producto.proExistencias}" />
+
                         <p:outputLabel value="Precio : " for="usuPrecio" />
                         <p:inputText id="usuPrecio" required="true" 
                                      value="#{productoBean.producto.proCostoUnitario}" />
+
                         <p:outputLabel value="Stock Min : " for="usuStockMin" />
                         <p:inputText id="usuStockMin" required="true" 
                                      value="#{productoBean.producto.proStockMin}" />
+
                         <p:commandButton 
                             action="#{productoBean.updateProducto()}" value="Guardar" 
                             update=":#{p:component('tablaProducto')}" oncomplete="PF('dlgEditProducto').hide();" />

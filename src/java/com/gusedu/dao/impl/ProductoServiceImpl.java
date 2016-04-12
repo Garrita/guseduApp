@@ -204,50 +204,47 @@ public class ProductoServiceImpl
 
     @Override
     public boolean saveProducto(Producto producto) {
-       boolean resultado = false;
-
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = sesion.beginTransaction();
-            sesion.save(producto);
-            tx.commit();
-            resultado = true;
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-                System.out.println("ERROR de saveProducto : " + e.getMessage());
-            }
-            System.out.println(e.getMessage());
-        } finally {
-            sesion.flush();
-            sesion.close();
-        }
-        return resultado;
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_InsertarProducto(:costo, :descripC, :descripM, :descripL, :stock, :stockmin) }");
+             q.setParameter("costo", producto.getProCostoUnitario());
+             q.setParameter("descripC", producto.getProDescripcionC());
+             q.setParameter("descripM", producto.getProDescripcionM());
+             q.setParameter("descripL", producto.getProDescripcionL());
+             q.setParameter("stock", producto.getProExistencias());
+             q.setParameter("stockmin", producto.getProStockMin());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_InsertarProducto : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
     }
 
     @Override
-    public boolean deleteProducto(Producto producto) {
+    public boolean deleteProducto(int cod_producto) {
         boolean resultado = false;
-
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = sesion.beginTransaction();
-            sesion.delete(producto);
-            tx.commit();
-            resultado = true;
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-                System.out.println("ERROR de saveProducto : " + e.getMessage());
-            }
-            System.out.println(e.getMessage());
-        } finally {
-            sesion.flush();
-            sesion.close();
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_EliminarProducto(:codigo_producto) }");
+             q.setParameter("codigo_producto", cod_producto);
+             q.executeUpdate();
+             resultado = true;
+             System.out.println("Eliminó correctamente: " + cod_producto);
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SPdeleteProducto : "+e.getMessage());
+             resultado=false;
+         } finally {
+            session.flush();
+            session.close();
         }
-        return resultado;
+         return resultado;
     }
 
     @Override
