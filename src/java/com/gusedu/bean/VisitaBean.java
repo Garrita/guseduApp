@@ -43,7 +43,7 @@ public class VisitaBean {
             private List<Producto> listaproductosDD;
             private Producto producto;
             private Integer mostrarFormProducto;
-            private Double cantidadProducto;
+            private int cantidadProducto;
             private Double costoParcial;
             private List<ProductoVisita> productosDeVisita;
             private List<Visita> visitasPaciente;
@@ -157,11 +157,11 @@ public class VisitaBean {
 /* 126*/        return productosDeVisita;
             }
 
-            public Double getCantidadProducto() {
+            public int getCantidadProducto() {
 /* 131*/        return cantidadProducto;
             }
 
-            public void setCantidadProducto(Double cantidadProducto) {
+            public void setCantidadProducto(int cantidadProducto) {
 /* 135*/        this.cantidadProducto = cantidadProducto;
             }
 
@@ -466,16 +466,26 @@ public class VisitaBean {
 /* 454*/        mostrarFormProducto = Integer.valueOf(1);
             }
 
-            public void calculaCostoParcial() {
-/* 460*/        try {
-/* 460*/            if (cantidadProducto.doubleValue() > 0.0D) {
-/* 461*/                costoParcial = Double.valueOf(cantidadProducto.doubleValue() * producto.getProCostoUnitario().doubleValue());
-                    } else {
-/* 463*/                costoParcial = Double.valueOf(0.0D);
+            public void calculaCostoParcial() 
+            {
+                try {
+                    
+                   
+            
+
+                        
+                            if (cantidadProducto > 0.0D) 
+                            {
+                                costoParcial = Double.valueOf(cantidadProducto * producto.getProCostoUnitario().doubleValue());
+                            } 
+                            else
+                            {
+                                costoParcial = Double.valueOf(0.0D);
+                            } 
+                        
                     }
-                }
-/* 465*/        catch (NumberFormatException ex) {
-/* 466*/            System.out.print("Error, no se ha insertado un n\372mero");
+                catch (NumberFormatException ex) {
+                    System.out.print("Error, no se ha insertado un número");
                 }
             }
 
@@ -488,14 +498,14 @@ public class VisitaBean {
 
         public void addProductoToVisitaWeb() 
         {
-            if (cantidadProducto.doubleValue() <= 0.0D)
+            if (cantidadProducto <= 0.0D)
             {
                 return;
             }
             FacesContext fc = FacesContext.getCurrentInstance();
             Visita vis = (Visita)fc.getExternalContext().getSessionMap().get("ultimavisita");
             ProductoVisita toAdd = new ProductoVisita();
-            toAdd.setPxvCantidad(cantidadProducto);
+            toAdd.setPxvCantidad(Double.parseDouble(cantidadProducto+""));
             toAdd.setPxvCostoParcial(costoParcial);
             toAdd.setProducto(producto);
             toAdd.setVisita(vis);
@@ -518,7 +528,7 @@ public class VisitaBean {
 
                 visitaService.updateVisita(v2);*/
                 costoParcial = 0.0;
-                cantidadProducto = 1.0;
+                cantidadProducto = 1;
                 mostrarFormProducto = -1;
                 productoService.listarProductoLogAvanzado();
                 LISTAR_PRODUCTOS();
