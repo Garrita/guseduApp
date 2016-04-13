@@ -25,11 +25,15 @@
                     <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
                     <p:menuitem value="Estado diario " oncomplete="PF('dlgVentas').show();" action="#{reporteEstBean.ESTADODIARIO()}" update=":#{p:component('EstDiario')}" />
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
-                    <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
-                    <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
-                    <p:menuitem value="Movimieno por tipo de Pago" oncomplete="PF('dlgMovTipCaja').show();" />
-                    <p:menuitem value="Estado de Caja " oncomplete="PF('dlgPagos').show();" />
-                    <p:menuitem value="Movimiento de Presentes" oncomplete="PF('dlgPresentes').show();" />
+                    <p:submenu label="Caja" icon="ui-icon-refresh">                  
+                        <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" rendered="false"/>
+                        <p:menuitem value="Movimiento por tipo de Pago" oncomplete="PF('dlgMovTipCaja').show();" />                    
+                        <p:menuitem value="Estado de Caja " oncomplete="PF('dlgPagos').show();" />       
+                    </p:submenu>
+                    <p:submenu label="Producto" icon="ui-icon-document">
+                        <p:menuitem value="Movimiento de Presentes" oncomplete="PF('dlgPresentes').show();" />
+                        <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
+                    </p:submenu>
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
                 <p:menuitem value="Obsequios y/o Muestras" onclick="PF('dlgObsequio').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
@@ -126,7 +130,7 @@
             </h:form>             
         </p:dialog>
        
-       <p:dialog header="Prsentes" id="dialogPres" widgetVar="dlgPresentes" showEffect="pop"
+       <p:dialog header="Presentes" id="dialogPres" widgetVar="dlgPresentes" showEffect="pop"
                     modal="true" >
             <h:form id="MovExcelPresente">
                 <ui:include src="/web/Presente.xhtml" />

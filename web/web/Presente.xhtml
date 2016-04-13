@@ -37,10 +37,10 @@
                                 <p:dataExporter type="xls" target="cars_O" fileName="presentes"  />
                             </h:commandLink>
                 </f:facet>
-                <p:column headerText="#" width="30px" >
+                <p:column headerText="#" width="5%" >
                     <p:outputLabel value="#{rowIndex+1}" />
                 </p:column>
-                <p:column headerText="Fecha" >
+                <p:column headerText="Fecha" width="10%" >
                     <p:outputLabel value="#{va_obs.fecha}" />
                 </p:column>
                 <p:column headerText="Descripción" >
@@ -49,15 +49,15 @@
                 <p:column headerText="Producto" >
                     <p:outputLabel value="#{va_obs.producto}" />
                 </p:column>
-                 <p:column headerText="Precio Unitario" >
+                 <p:column headerText="Precio Unitario" width="10%" >
                      <p:outputLabel value="#{va_obs.costo_unitario}" >
                          <f:convertNumber currencySymbol="S/." type="currency"/>
                  </p:outputLabel>
                 </p:column>
-                <p:column headerText="Cantidad" >
+                <p:column headerText="Cantidad" width="8%" >
                     <p:outputLabel value="#{va_obs.cantidad}" />
                 </p:column>
-                <p:column headerText="Costo Perdida" >
+                <p:column headerText="Costo Perdida" width="10%" >
                     <p:outputLabel value="#{va_obs.costo_total}" >
                           <f:convertNumber currencySymbol="S/." type="currency"/>
                     </p:outputLabel>
