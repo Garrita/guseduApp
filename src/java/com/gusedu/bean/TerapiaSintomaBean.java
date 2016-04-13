@@ -168,6 +168,18 @@ public class TerapiaSintomaBean {
         objetoTBean.PASARBEAN();   
     }
     
+    public void ACTUALIZAR_HT()
+    {
+        System.out.println("Actualizando terapia sintoma...");
+        terapiasintomaService.updateTerapiaSintoma(datos);
+        datos = new TerapiaSintoma();
+        datos.setTerapia(new Terapia());
+        datos.setSintoma(new Sintoma());
+        listarSintoma();
+        llenarLISTITA(terapia.getTerCodigo());
+  
+    }
+    
     public void ELIMINAR()
     {
         System.out.println("Eliminando terapia sintoma...");
@@ -315,7 +327,7 @@ public class TerapiaSintomaBean {
         {
             disable = false;
         }
-        System.out.println(ter);
+        System.out.println(ter+"disabvle : "+disable);
     }
     
     public List autoCompletarSintoma(String query)

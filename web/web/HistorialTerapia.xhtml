@@ -124,7 +124,7 @@
                     </p:inputSwitch>
                 </h:panelGrid>
                 <br></br>
-                <p:commandButton value="Modificar" id="ajax52" actionListener="#{terapiaSintomaBean.ACTUALIZAR}" 
+                <p:commandButton value="Modificar" id="ajax52" actionListener="#{terapiaSintomaBean.ACTUALIZAR_HT}" 
                                  oncomplete="PF('pantallitaEditarH').hide();" update=":#{p:component('tablaSin')},:#{p:component('tablitaST21')}" >
                     <f:actionListener binding="#{sintomaTerapiaBean.llenamatriz()}" />
                 </p:commandButton>
