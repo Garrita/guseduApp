@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions" 
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition>
+        <p:panelGrid columns="2"  >
+            
+        
+        
+            <p:panel >
+                 
+                <br/><br/>
+                <h:form>
+            <p:panelGrid id="pnlProdO" columns="2">
+
+                <p:outputLabel  value="Descripción" />
+                <p:inputTextarea value="#{productoBean.descripcion}" />
+                
+                <p:outputLabel for="OoutNombre" value="Producto: "></p:outputLabel>
+                <h:outputText id="OoutNombre"
+                              value="#{productoBean.producto.proDescripcionM}"></h:outputText>
+
+                <p:outputLabel for="OinpCantidad" value="Cantidad: "></p:outputLabel>
+                <p:inputText id="OinpCantidad" value="#{productoBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
+                    <pe:keyFilter mask="num" />  
+                    <f:validateDoubleRange minimum="0.0"
+                                           maximum="#{productoBean.producto.proExistencias}"></f:validateDoubleRange>
+                    <p:ajax event="keyup" 
+                            listener="#{productoBean.calculaCostoParcial}" />
+                </p:inputText>
+                
+                <p:commandButton icon="ui-icon-plus"
+                                 value="Agregar Producto"  
+                                 actionListener="#{productoBean.ADD_PRODUCTO_OBSEQUIO()}" 
+                                 update=":#{p:component('tablaObsequioProductos')}" />
+              
+               
+            </p:panelGrid>
+                 </h:form>
+                  <p:commandButton icon="ui-icon-search" action="#{obsequioBean.llenarListadeProducto()}"
+                                 oncomplete="PF('dlgTP_F').show();" update=":#{p:component('productosf_O')}" />
+            </p:panel>
+            
+        
+       
+        
+            <p:panel   >
+                
+         <br/><br/>
+        <p:dataTable id="tablaObsequioProductos" var="prod_v"
+                     paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
+			emptyMessage="No hay productos en stock" paginator="true" rows="8">
+
+		<f:facet name="header">
+        		Productos
+    		</f:facet>
+
+			<p:column headerText="Producto" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proDescripcionM}" />
+			</p:column>
+
+			<p:column headerText="Costo Unitario" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
+			</p:column>
+
+			<p:column headerText="Existencias" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proExistencias}" />
+			</p:column>  
+
+			<p:column>
+				<p:commandButton icon="ui-icon-plus"
+                                                  rendered="#{prod_v.proExistencias > 0}"
+                                                  actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
+                                   
+					update=":#{p:component('pnlProdO')}"
+					 />
+			</p:column>
+		</p:dataTable>
+            </p:panel>
+            </p:panelGrid>
+        <h:form>
+                   <p:dialog  widgetVar="dlgTP_F"  >
+ 			<p:dataTable id="productosf_O" var="obs" style="width:400px;"
+							paginatorAlwaysVisible="false" editable="true"
+                                                        value="#{obsequioBean.listaObsequios}"
+							emptyMessage="No se han añadido productos" paginator="true"
+							rows="5">
+							<f:facet name="header">
+        							Atenciones del Día
+    						</f:facet>
+ 
+       
+							<p:column headerText="Nombre" style="vertical-align:middle;">
+                                                            <h:outputText value="#{obs.producto}" />
+							</p:column>
+							<p:column headerText="Cantidad" style="vertical-align:middle;">
+				 
+								   <p:cellEditor>
+                                                                       <f:facet name="output"><h:outputText value="#{obs.cantidad}" /></f:facet>
+                                                                       <f:facet name="input"><p:inputText id="modelInput" value="#{obs.cantidad}" style="width:100%"/></f:facet>
+           							</p:cellEditor>
+							</p:column>
+							 
+							<p:column>
+								<p:commandButton icon="ui-icon-close" 
+				update=":#{p:component('productosf_O')},:#{p:component('tablaObsequioProductos')}"
+                                action="#{obsequioBean.ELIMINAR_OBSEQUIO(obs)}" />
+                                                               
+							</p:column>
+						</p:dataTable>
+ 		
+ 		</p:dialog>
+        </h:form>
+       
+ 
+    
+        
+    </ui:composition>
+</html>
+

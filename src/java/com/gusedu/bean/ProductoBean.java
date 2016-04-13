@@ -52,6 +52,7 @@ public class ProductoBean {
     private List<EProductoLog> listarMovimientoLog;
     private List<EProductoLogAvanzado> listarMovimientoLogAvanzado;
     private List<String> existencias;
+    private String descripcion;
     
     public ProductoBean() {
         
@@ -331,6 +332,22 @@ public class ProductoBean {
     
     }
     
+    public void ADD_PRODUCTO_OBSEQUIO()
+    {
+       
+         if(productoservice.SP_CrearObsequio(descripcion, producto, cantidadProducto, costoParcial))
+        { 
+             productoservice.listarProductoLogAvanzado();
+            StaticUtil.correctMesage("Exito", "Se ha registrado correctamente los datos del producto");
+            LISTAR_PRODUCTOS();
+            validador();
+        }else
+        {
+            StaticUtil.errorMessage("Error", "No se pudo registrar los datos del producto");
+        }
+    
+    }
+    
     public void MOSTRAR()
     {
         
@@ -345,7 +362,7 @@ public class ProductoBean {
         lista_detfact= productoservice.SP_ListarProductosF(cod_cli);
         LISTAR_PRODUCTOS();
     }
-    
+       
     public void MOSTRARLOGProducto() 
     {
         System.out.println("Probando LOG de Producto");
@@ -369,4 +386,14 @@ public class ProductoBean {
     public void setListarMovimientoLogAvanzado(List<EProductoLogAvanzado> listarMovimientoLogAvanzado) {
         this.listarMovimientoLogAvanzado = listarMovimientoLogAvanzado;
     }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    
 }

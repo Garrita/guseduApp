@@ -14,6 +14,7 @@ import com.gusedu.dao.impl.VisitaServiceImpl;
 import com.gusedu.entidad.ESintomaCliente;
 import com.gusedu.entidad.PacientePresencial;
 import com.gusedu.entidad.ParX;
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.TerapiaSintoma;
 import com.gusedu.util.StaticUtil;
@@ -165,6 +166,12 @@ public class TerapeutaBean {
                 
                 TerapiaSintomaBean objetoTSBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
                 objetoTSBean.LISTAR_SINTOMAS_POR_PACIENTE(pacientePresencial.getCod_cli());
+                
+                Cliente c = new Cliente();
+                c.setCliCodigo(pacientePresencial.getCod_cli());
+                 fc.getExternalContext().getSessionMap().put("cliente", c);
+                HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
+                objetoHTBean.llenamatriz();
          //   }
        // }
     }
@@ -206,6 +213,10 @@ public class TerapeutaBean {
         FacesContext fc = FacesContext.getCurrentInstance();
         TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
         objetoTBean.addPar3SP_Terapeuta(pacientePresencial.getCod_ter(), par.getCod_par());
+      
+                HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
+                objetoHTBean.llenamatriz();
+      
       
         }else
         {

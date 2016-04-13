@@ -8,6 +8,7 @@ package com.gusedu.dao.impl;
 import com.gusedu.dao.ProductoService;
 import com.gusedu.entidad.EProductoLog;
 import com.gusedu.entidad.EProductoLogAvanzado;
+import com.gusedu.entidad.Obsequio;
 import com.gusedu.entidad.detalle_factura;
 import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
@@ -28,6 +29,7 @@ public class ProductoServiceImpl
             EntityManager em;
 
 
+            @Override
             public List<Producto> getAllProductos() {
                 System.out.println("Se ejecuto getAllProductos - ProductoServiceImpl");
         List<Producto> result = new ArrayList();
@@ -486,5 +488,85 @@ boolean resultado = false;
             System.out.println("ERROR SP_ValidarStockMinimo: "+e.getMessage());
         }
         return resultado;
+    }
+
+    @Override
+    public boolean SP_CrearObsequio(String des, Producto p,int cant,double total) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         String usuario1 = StaticUtil.usuario();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_CrearObsequio(:descripcion,:id_prod,:nom_prod,:costo_unit,:cant,:total,:emp) }");
+             q.setParameter("descripcion", des);
+             q.setParameter("id_prod", p.getProCodigo());
+             q.setParameter("nom_prod", p.getProDescripcionM());
+             q.setParameter("costo_unit", p.getProCostoUnitario());
+             q.setParameter("cant", cant);
+             q.setParameter("total", total);
+             q.setParameter("emp", StaticUtil.userLogged());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_CrearObsequio : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
+    }
+
+    @Override
+    public List<Obsequio> SP_ListarObsequio(Date fec_i, Date fec_f) {
+        List<Obsequio> lista= new ArrayList<>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+         
+             Query q = session.createSQLQuery("{ CALL SP_ListarObsequio(:emp,:fec_i,:fec_f) }");
+             q.setParameter("emp", StaticUtil.userLogged());
+               q.setParameter("fec_i",fec_i);
+               q.setParameter("fec_f",fec_f);
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+     int obsequio_id=(int) result[0];
+     String descripcion =(String) result[1];
+     int id_producto = (int) result[2];
+     String producto=(String) result[3];
+     double costo_unitario=(double) result[4];
+     int cantidad=(int) result[5];
+     double costo_total=(double) result[6];
+     Date fecha_l= (Date) result[7];
+     Date fecha=(Date) result[8];
+     String empresa=(String) result[9];
+		lista.add(new Obsequio(obsequio_id, descripcion, id_producto, producto, costo_unitario, cantidad, costo_total, fecha_l, fecha, empresa));
+                       
+                        }
+        } catch (Exception e) {
+            System.out.println("Error SP_ListarObsequio : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;  
+    }
+
+    @Override
+    public boolean SP_EliminarObsequio(int id_prodObsequio, int cant, int id_producto) {
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         String usuario1 = StaticUtil.usuario();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_EliminarObsequio(:id_prodObsequio,:cant,:id_producto) }");
+             q.setParameter("id_prodObsequio", id_prodObsequio);
+             q.setParameter("cant", cant);
+             q.setParameter("id_producto", id_producto);
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_CrearObsequio : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
     }
 }

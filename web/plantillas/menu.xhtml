@@ -23,14 +23,16 @@
                     <p:menuitem value="Pares"  onclick="PF('dlgHT').show();"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaPares}" />
                     <p:menuitem value="Pares por Enfermedad"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorEnfermedad}" />
                     <p:menuitem value="Pares por Síntoma"  icon="ui-icon-arrowreturnthick-1-e" rendered="#{auth.userLogged.tipoUsuario.consultaParesPorSintoma}" />
-                    <p:menuitem value="Estado de Caja" oncomplete="PF('dlgVentas').show();" action="#{reporteEstBean.ESTADODIARIO()}" update=":#{p:component('EstDiario')}" />
+                    <p:menuitem value="Estado diario " oncomplete="PF('dlgVentas').show();" action="#{reporteEstBean.ESTADODIARIO()}" update=":#{p:component('EstDiario')}" />
                     <p:menuitem value="Estadística" url="/web/estadistica/gestionEstadistica.xhtml" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" />
                     <p:menuitem value="Movimiento de Productos" oncomplete="PF('dlgMovProd').show();" action="#{productoBean.MOSTRARLOGProducto()}" update=":#{p:component('MovProduct')}" />
                     <p:menuitem value="Movimiento de Caja" oncomplete="PF('dlgMovCaja').show();" action="#{reporteEstBean.CAJARESUMEN()}" update=":#{p:component('MovCaja')}" />
                     <p:menuitem value="Movimieno por tipo de Pago" oncomplete="PF('dlgMovTipCaja').show();" />
-                    <p:menuitem value="Pagos " oncomplete="PF('dlgPagos').show();" />
+                    <p:menuitem value="Estado de Caja " oncomplete="PF('dlgPagos').show();" />
+                    <p:menuitem value="Movimiento de Presentes" oncomplete="PF('dlgPresentes').show();" />
                 </p:submenu>
                 <p:menuitem value="Ventas" onclick="PF('dlgVntaProd').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
+                <p:menuitem value="Obsequios y/o Muestras" onclick="PF('dlgObsequio').show();" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}"/>
 
                 <p:submenu label="Gestión" icon="ui-icon-pencil" rendered="#{auth.userLogged.tipoUsuario.ventaProductos}" >
                     <p:menuitem value="Puntos" onclick="PF('dlgPuntos').show();" icon="ui-icon-arrowreturnthick-1-w" rendered="#{auth.userLogged.tipoUsuario.gestionPuntos}" />
@@ -82,6 +84,10 @@
                   width="80%" height="70%" header="Venta de productos" >	 
             <ui:include src="/web/VentaProducto.xhtml" />
         </p:dialog>
+        <p:dialog id="dialogObsequio" widgetVar="dlgObsequio" showEffect="pop"  
+                  width="80%" height="70%" header="Obsequios y muestras" >	
+            <ui:include src="/web/ObsequioProducto.xhtml" />
+        </p:dialog>
         <p:dialog id="dialogHT" widgetVar="dlgHT" showEffect="pop" modal="true"
                   width="1230px" height="550px">
             <h:form id="formBMPAR"  >
@@ -117,6 +123,13 @@
                     modal="true" >
             <h:form id="MovExcelPago">
                 <ui:include src="/web/Excel.xhtml" />
+            </h:form>             
+        </p:dialog>
+       
+       <p:dialog header="Prsentes" id="dialogPres" widgetVar="dlgPresentes" showEffect="pop"
+                    modal="true" >
+            <h:form id="MovExcelPresente">
+                <ui:include src="/web/Presente.xhtml" />
             </h:form>             
         </p:dialog>
 
