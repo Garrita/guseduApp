@@ -19,6 +19,7 @@ import com.gusedu.model.TipoProducto;
 import com.gusedu.model.UnidadMedida;
 import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -53,6 +54,7 @@ public class ProductoBean {
     private List<EProductoLogAvanzado> listarMovimientoLogAvanzado;
     private List<String> existencias;
     private String descripcion;
+    private String queryProducto;
     
     public ProductoBean() {
         
@@ -70,7 +72,15 @@ public class ProductoBean {
         
         
         validador();
-        
+        queryProducto = "";
+    }
+
+    public String getQueryProducto() {
+        return queryProducto;
+    }
+
+    public void setQueryProducto(String queryProducto) {
+        this.queryProducto = queryProducto;
     }
 
     public void validador()
@@ -119,9 +129,30 @@ public class ProductoBean {
     
     public void LISTAR_PRODUCTOS()
     {
-                listaproducto = productoservice.getAllProductos();
+        listaproducto = productoservice.getAllProductos();                               
     }
 
+    public void filtrarProductos() 
+    {
+        listaproducto = productoservice.getAllProductos();
+        List filtrados = new ArrayList();
+        System.out.println((new StringBuilder()).append("Listado : ").append(listaproducto.size()).toString());
+        System.out.println((new StringBuilder()).append("QueryP : ").append(queryProducto).toString());
+        Iterator iterator = listaproducto.iterator();
+        do {
+            if (!iterator.hasNext()) 
+            {
+                 break;
+            }
+            Producto p = (Producto)iterator.next();
+            if (p.getProDescripcionM().toLowerCase().contains(queryProducto.toLowerCase())) 
+            {
+                 filtrados.add(p);
+            }
+           } while (true);
+        listaproducto = filtrados;
+     }
+                
     public void cancelar()
     {
         producto = new Producto();

@@ -468,21 +468,16 @@ public class VisitaBean {
 
             public void calculaCostoParcial() 
             {
-                try {
-                    
-                   
-            
+                try {   
+                        if (cantidadProducto > 0.0D) 
+                        {
+                            costoParcial = Double.valueOf(cantidadProducto * producto.getProCostoUnitario().doubleValue());
+                        } 
+                        else
+                        {
+                            costoParcial = Double.valueOf(0.0D);
+                        } 
 
-                        
-                            if (cantidadProducto > 0.0D) 
-                            {
-                                costoParcial = Double.valueOf(cantidadProducto * producto.getProCostoUnitario().doubleValue());
-                            } 
-                            else
-                            {
-                                costoParcial = Double.valueOf(0.0D);
-                            } 
-                        
                     }
                 catch (NumberFormatException ex) {
                     System.out.print("Error, no se ha insertado un número");

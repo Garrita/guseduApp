@@ -8,10 +8,8 @@
       xmlns:pe="http://primefaces.org/ui/extensions" >
     <ui:composition>
         <p:panelGrid columns="2"  >
-
-
-            <h:form>
-                <p:panel >
+            <p:panel>
+                <h:form>
                     <p:selectOneListbox id="selectPaci" value="#{productoBean.cod_cli}"
                                         filter="true" filterMatchMode="contains"
                                         style="width: 300px;"  >
@@ -46,57 +44,67 @@
                                          value="Agregar Producto"  
                                          actionListener="#{productoBean.ADD_PRODUCTO()}" 
                                          update=":#{p:component('tablaVentaProductos')}" />
-                        <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
-                                         oncomplete="PF('dlgTP_F').show();" update=":#{p:component('productosf')}" />
-                        <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
-                                         action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
-                                         oncomplete="PF('dlgFactura_Venta').show();" />
                     </p:panelGrid>
-
-                </p:panel>
-
-            </h:form>
-
-
-            <p:panel   >
-                <p:commandButton value="Nuevo Cliente" id="btnNuevoVP" update=":#{p:component('dialogVta')}"
-                                 oncomplete="PF('dlg1').show();"	
-                                 action="#{personaBean.inicializar()}"  
-                                 styleClass="ui-priority-primary" /> 
-                <br/><br/>
-                <p:dataTable id="tablaVentaProductos" var="prod_v"
-                             paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
-                             emptyMessage="No hay productos en stock" paginator="true" rows="8">
-
-                    <f:facet name="header">
-                        Productos
-                    </f:facet>
-
-                    <p:column headerText="Producto" style="vertical-align:middle;">
-                        <h:outputText value="#{prod_v.proDescripcionM}" />
-                    </p:column>
-
-                    <p:column headerText="Costo Unitario" style="vertical-align:middle;">
-                        <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
-                    </p:column>
-
-                    <p:column headerText="Existencias" style="vertical-align:middle;">
-                        <h:outputText value="#{prod_v.proExistencias}" />
-                    </p:column>  
-
-                    <p:column>
-                        <p:commandButton icon="ui-icon-plus"
-                                         rendered="#{prod_v.proExistencias > 0}"
-                                         actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
-
-                                         update=":#{p:component('pnlProdV')}"
-                                         />
-                    </p:column>
-                </p:dataTable>
+                </h:form>
+                <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
+                                 action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
+                                 oncomplete="PF('dlgFactura_Venta').show();" />
+                <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
+                                 oncomplete="PF('dlgTP_F_VP').show();" update=":#{p:component('productosf')}" />
             </p:panel>
+            <h:form>
+                <p:panel>
+                    <p:commandButton value="Nuevo Cliente" id="btnNuevoVP" update=":#{p:component('dialogVta')}"
+                                     oncomplete="PF('dlg1').show();"	
+                                     action="#{personaBean.inicializar()}"  
+                                     styleClass="ui-priority-primary" /> 
+                    <br/>
+                    <br/>
+                    <p:outputLabel for="searchQueryProducto1" value="Buscar producto: " />
+                    <p:inputText id="searchQueryProducto1"
+                                 value="#{productoBean.queryProducto}" placeholder="Ingrese su búsqueda"
+                                 type="search">
+                        <p:ajax event="keyup" update=":#{p:component('tablaVentaProductos')}"
+                                listener="#{productoBean.filtrarProductos()}" />
+                    </p:inputText>     
+                </p:panel>
+                <p:panel>
+                    <br/>
+                    <br/>
+                    <p:dataTable id="tablaVentaProductos" var="prod_v"
+                                 paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
+                                 emptyMessage="No hay productos en stock" paginator="true" rows="8">
+
+                        <f:facet name="header">
+                            Productos
+                        </f:facet>
+
+                        <p:column headerText="Producto" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proDescripcionM}" />
+                        </p:column>
+
+                        <p:column headerText="Costo Unitario" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
+                        </p:column>
+
+                        <p:column headerText="Existencias" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proExistencias}" />
+                        </p:column>  
+
+                        <p:column>
+                            <p:commandButton icon="ui-icon-plus"
+                                             rendered="#{prod_v.proExistencias > 0}"
+                                             actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
+
+                                             update=":#{p:component('pnlProdV')}"
+                                             />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
         </p:panelGrid>
         <h:form>
-            <p:dialog  widgetVar="dlgTP_F"  >
+            <p:dialog  widgetVar="dlgTP_F_VP"  >
                 <p:dataTable id="productosf" var="prof" style="width:400px;"
                              paginatorAlwaysVisible="false" editable="true"
                              value="#{productoBean.lista_detfact}"
