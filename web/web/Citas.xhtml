@@ -501,8 +501,8 @@
                 
                 <h:form>
                 <p:dialog id="dlgDetalleEvento" widgetVar="dlgEventoDetalle" hideEffect="fade" dynamic="true" 
-                          modal="true" header="Registro de Eventos"  >
-                    <h:panelGrid id="pnlDetalleEvento" columns="2" cellspacing="10"  >
+                          modal="true" header="Registro de Eventos" >
+                    <h:panelGrid id="pnlDetalleEvento" columns="2" cellspacing="10" width="300px" >
                         
                             <p:outputLabel  value="Tipo de Evento :" />
                             <p:outputLabel value="#{scheduleView.tipoevento}" rendered="#{scheduleView.calendar eq false}" />
