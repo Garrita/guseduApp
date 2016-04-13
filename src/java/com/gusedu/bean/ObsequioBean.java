@@ -54,7 +54,6 @@ public class ObsequioBean {
         fec_inicio = new Date();
         fec_final = new Date();
         listaObsequios=productoService.SP_ListarObsequio(fec_inicio, fec_final);
- 
     }
     
     public List<Obsequio> getListaObsequios() {
