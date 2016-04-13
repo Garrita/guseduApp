@@ -2,12 +2,14 @@ package com.gusedu.dao;
 
 import com.gusedu.entidad.EProductoLog;
 import com.gusedu.entidad.EProductoLogAvanzado;
+import com.gusedu.entidad.Obsequio;
 import com.gusedu.entidad.detalle_factura;
 import java.util.List;
 
 import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
 import com.gusedu.model.Visita;
+import java.util.Date;
 
 public interface ProductoService {
 
@@ -49,4 +51,10 @@ public interface ProductoService {
         public List<EProductoLogAvanzado> MostrarProductoLogAvanzado();
         
         public List<String> SP_ValidarStockMinimo();
+        
+        public boolean SP_CrearObsequio(String des ,Producto p,int cant,double total);
+        
+        public List<Obsequio> SP_ListarObsequio(Date fec_i,Date fec_f);
+        
+        public boolean SP_EliminarObsequio(int id_prodObsequio,int cant,int id_producto);
 }

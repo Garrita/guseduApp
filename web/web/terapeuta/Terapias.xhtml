@@ -25,7 +25,7 @@
                 <p:outputLabel value="Paciente : " />
                 <p:outputLabel id="pnlTerapeuta" value="#{terapeutaBean.pacientePresencial.paciente}" />
                 <br/>
-                <p:tabView>
+                <p:tabView   >
                     <p:tab title="Pares">
                         <h:form>
                             <p:panel  id="pnl" >
@@ -38,7 +38,7 @@
                                                     itemLabel="#{parX.nombre}" itemValue="#{parX}"
                                                     converter="parConverter" panelStyleClass="ui-themes">
                                     </p:autoComplete>
-                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_PAR()}" update=":#{p:component('table')},:#{p:component('pnl')}" />
+                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_PAR()}" update=":#{p:component('table')},:#{p:component('pnl')},:#{p:component('His_Ter')}" />
                                 </p:panelGrid>
                             </p:panel>   
                         </h:form>
@@ -56,7 +56,7 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputSwitch value="#{parpu_T.txpActivo}" offLabel="No" onLabel="Si" >
-                                        <p:ajax listener="#{terapiaBean.Update(parpu_T)}"  />
+                                        <p:ajax listener="#{terapiaBean.Update_T(parpu_T)}" update=":#{p:component('His_Ter')}" />
                                     </p:inputSwitch>
                                 </p:column>
 
@@ -69,7 +69,7 @@
                                 </p:column>
                                 <p:column style="width: 60px" >
                                     <p:commandButton id="cmdbtnEliminarHTE02" icon="ui-icon-trash" styleClass="ui-priority-primary" 
-                                                     action="#{terapiaBean.BuscarEliminar_T(parpu_T.txpCodigo,terapeutaBean.pacientePresencial.cod_ter)}" update=":#{p:component('table')}" >
+                                                     action="#{terapiaBean.BuscarEliminar_T(parpu_T.txpCodigo,terapeutaBean.pacientePresencial.cod_ter)}" update=":#{p:component('table')},:#{p:component('His_Ter')}" >
 
                                         <p:confirm header="Confirmación" message="¿Eliminar este par de puntos?" icon="ui-icon-alert" />
                                     </p:commandButton>   
@@ -174,6 +174,22 @@
                             </p:dialog>     
                         </h:form>
                     </p:tab>
+                    <p:tab title="Historial de Terapias"  >
+                        <h:form id="His_Ter" >
+                            <p:dataTable var="rowName" value="#{historialTerapiaBean.rowNames}"
+                                     rowIndexVar="rowIdx" emptyMessage="No hay pares" >
+                            <p:column headerText="" styleClass="ui-widget-header" width="250px;" >
+                                <h:outputText value="#{rowName}"/>
+                            </p:column>
+                            <p:columns var="columnName" value="#{historialTerapiaBean.colNames}" headerText="#{columnName}"
+                                       columnIndexVar="colIdx">
+                                <ui:repeat value="#{historialTerapiaBean.data3D[rowIdx][colIdx]}" var="data">
+                                    <h:outputText value="#{data}"/>
+                                </ui:repeat>
+                            </p:columns>
+                        </p:dataTable>
+                        </h:form>
+                    </p:tab>
                 </p:tabView>
                 </p:panel>
             </ui:define>
@@ -191,7 +207,7 @@
                                 <h:outputText value="#{ps.posicion}. #{ps.paciente} , #{terapeutaBean.toShort(ps.fecha)}" />
                             </p:column>
                        
-                        <p:ajax   listener="#{terapeutaBean.PROBA()}" update=":#{p:component('pnlTerapeuta')},:#{p:component('formTerapiaSintoma')},:#{p:component('formTerapiaSintoma1')},:#{p:component('formTerapiaSintoma2')}" /> 
+                        <p:ajax   listener="#{terapeutaBean.PROBA()}" update=":#{p:component('pnlTerapeuta')},:#{p:component('formTerapiaSintoma')},:#{p:component('formTerapiaSintoma1')},:#{p:component('formTerapiaSintoma2')},:#{p:component('His_Ter')}" /> 
                     </p:selectOneListbox>
                     <p:poll interval="180" listener="#{terapeutaBean.increment}" update=":#{p:component('basicS')},:#{p:component('pnlTerapeuta')}" />
 		<p:blockUI id="block_T" block=":#{p:component('contenido')}" trigger=":#{p:component('basicS')}">

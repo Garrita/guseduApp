@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+                  
+            <p:panelGrid columns="6" >            
+                <p:outputLabel value="Fecha: " ></p:outputLabel>
+                <p:calendar id="eventExcel_O" value="#{obsequioBean.fec_inicio}" pattern="dd/MM/yyyy"
+                            maxdate="#{obsequioBean.fec_final}"
+                            navigator="true"  yearRange="c-100:c" >
+                    <p:ajax event="dateSelect" listener="#{obsequioBean.llenarLista()}" update="cars_O,eventExcel2_O" />
+                </p:calendar>
+                
+                <p:outputLabel value="Fecha final : " ></p:outputLabel>
+                <p:calendar id="eventExcel2_O" value="#{obsequioBean.fec_final}" 
+                            navigator="true"  yearRange="c-100:c" pattern="dd/MM/yyyy"
+                            maxdate="#{reporteEstBean.fechaactual}" mindate="#{obsequioBean.fec_inicio}" >
+                    <p:ajax event="dateSelect" listener="#{obsequioBean.llenarLista()}" update="cars_O,eventExcel_O" />
+                </p:calendar>
+                <p:commandButton id="btnhoyExcel_O"  value="Hoy" action="#{obsequioBean.llenarListadeProducto()}" update="cars_O,eventExcel2_O,eventExcel_O" >
+                </p:commandButton>
+            </p:panelGrid>
+            <br/>
+
+            <p:dataTable id="cars_O" var="va_obs" value="#{obsequioBean.listaObsequios}" emptyMessage="No hay presentes entregados el día seleccionado" widgetVar="cars_OTable"
+                         scrollWidth="90%" scrollHeight="80%" scrollable="true" style="height: 500px;" rowIndexVar="rowIndex"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                         paginator="true"
+                         >  
+                <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="images/Excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="cars_O" fileName="presentes"  />
+                            </h:commandLink>
+                </f:facet>
+                <p:column headerText="#" width="30px" >
+                    <p:outputLabel value="#{rowIndex+1}" />
+                </p:column>
+                <p:column headerText="Fecha" >
+                    <p:outputLabel value="#{va_obs.fecha}" />
+                </p:column>
+                <p:column headerText="Descripción" >
+                    <p:outputLabel value="#{va_obs.descripcion}" />
+                </p:column>
+                <p:column headerText="Producto" >
+                    <p:outputLabel value="#{va_obs.producto}" />
+                </p:column>
+                 <p:column headerText="Precio Unitario" >
+                     <p:outputLabel value="#{va_obs.costo_unitario}" >
+                         <f:convertNumber currencySymbol="S/." type="currency"/>
+                 </p:outputLabel>
+                </p:column>
+                <p:column headerText="Cantidad" >
+                    <p:outputLabel value="#{va_obs.cantidad}" />
+                </p:column>
+                <p:column headerText="Costo Perdida" >
+                    <p:outputLabel value="#{va_obs.costo_total}" >
+                          <f:convertNumber currencySymbol="S/." type="currency"/>
+                    </p:outputLabel>
+                </p:column>
+                
+            </p:dataTable>
+   
+    </ui:composition>
+</html>
+

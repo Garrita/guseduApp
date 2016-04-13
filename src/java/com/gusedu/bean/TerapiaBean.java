@@ -260,6 +260,13 @@ public class TerapiaBean {
             public void Update(TerapiaPar tp) {
 /* 262*/        terapiaparService.updateTerapia(tp);
             }
+            
+            public void Update_T(TerapiaPar tp){
+                Update(tp);
+                 FacesContext fc = FacesContext.getCurrentInstance();
+                HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
+                objetoHTBean.llenamatriz();
+            }
 
             public boolean ParExistente(int idpar) {
 /* 267*/        boolean valor = false;   
@@ -579,6 +586,10 @@ public class TerapiaBean {
         BUSCARXID(codigo);
         ELIMINAR_T(codigo);
         LISTAR_PARES_POR_PACIENTE(ter);
+        FacesContext fc = FacesContext.getCurrentInstance();
+                HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
+                objetoHTBean.llenamatriz();
+      
     }
    
    public void LIMPIAR_LISTA()
