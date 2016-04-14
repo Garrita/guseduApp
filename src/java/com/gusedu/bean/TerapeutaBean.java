@@ -172,6 +172,9 @@ public class TerapeutaBean {
                  fc.getExternalContext().getSessionMap().put("cliente", c);
                 HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
                 objetoHTBean.llenamatriz();
+                
+                SintomaTerapiaBean objetoSTBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+                objetoSTBean.llenamatriz();
          //   }
        // }
     }
@@ -245,6 +248,9 @@ public class TerapeutaBean {
             TerapiaSintomaBean tsBean = (TerapiaSintomaBean)fc.getExternalContext().getSessionMap().get("terapiaSintomaBean");
             tsBean.addSintoma_Terapeuta(pacientePresencial.getCod_ter());
             tsBean.LISTAR_SINTOMAS_POR_PACIENTE(pacientePresencial.getCod_cli());
+            
+            SintomaTerapiaBean objetoSTBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+            objetoSTBean.llenamatriz();
         }else
         {
              StaticUtil.errorMessage("Precaución", "Seleccione un paciente");

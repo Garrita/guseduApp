@@ -166,6 +166,8 @@ public class TerapiaSintomaBean {
          FacesContext fc = FacesContext.getCurrentInstance();
         TerapeutaBean objetoTBean = (TerapeutaBean)fc.getExternalContext().getSessionMap().get("terapeutaBean");
         objetoTBean.PASARBEAN();   
+        SintomaTerapiaBean objetoSTBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+        objetoSTBean.llenamatriz();
     }
     
     public void ACTUALIZAR_HT()
@@ -178,6 +180,20 @@ public class TerapiaSintomaBean {
         listarSintoma();
         llenarLISTITA(terapia.getTerCodigo());
   
+    }
+    
+    public void UpdateTS(TerapiaSintoma ts) 
+    {
+        terapiasintomaService.updateTerapiaSintoma(ts);
+    }
+            
+    
+    public void ACTUALIZAR_HT_T(TerapiaSintoma ts)
+    {
+        UpdateTS(ts);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        SintomaTerapiaBean objetoSTBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+        objetoSTBean.llenamatriz();
     }
     
     public void ELIMINAR()
@@ -207,6 +223,9 @@ public class TerapiaSintomaBean {
                 FacesContext fc = FacesContext.getCurrentInstance();
         TerapeutaBean objetoTBean = (TerapeutaBean)fc.getExternalContext().getSessionMap().get("terapeutaBean");
         objetoTBean.PASARBEAN();   
+        
+        SintomaTerapiaBean objetoSTBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+        objetoSTBean.llenamatriz();
     }
     
     public void GUARDARDATOS() 
