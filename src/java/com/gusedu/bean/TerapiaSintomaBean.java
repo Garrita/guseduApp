@@ -327,7 +327,7 @@ public class TerapiaSintomaBean {
         {
             disable = false;
         }
-        System.out.println(ter+"disabvle : "+disable);
+        
     }
     
     public List autoCompletarSintoma(String query)

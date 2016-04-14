@@ -121,6 +121,17 @@ public class PacienteBean {
         VisitaBean objetoBean = (VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
         objetoBean.lastvisita(getCliente());
     }
+    
+        public void cargaCliente_H(int codcliente) {
+        cliente = clienteService.getClienteById(codcliente);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        fc.getExternalContext().getSessionMap().put("cliente", getCliente());
+        VisitaBean objetoBean = (VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+        objetoBean.cargaHistorial();
+    }
+   public void cargaCliente_Datos(int codcliente) {
+        cliente = clienteService.getClienteById(codcliente);
+    }
     public void editar2() {
 
         if (personaService.updatePersona(cliente.getPersona())) {

@@ -66,17 +66,27 @@
                         <p:column headerText="Tipo Cliente" width="70px;">
                             <h:outputText value="#{pac.tipoCliente}" />
                         </p:column>
-                        <p:column headerText="Opciones" width="150px;"> 
-                            <p:selectOneMenu id="sselectoption" value="#{visitaBean.opciones}"  >
-                                <f:selectItem itemLabel="Seleccione" itemValue="S" />
-                                <f:selectItem itemLabel="Historial de terapias" itemValue="HT"   />
-                                <f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
-                                <f:selectItem itemLabel="Datos Personales" itemValue="DP" />
-                                <p:ajax event="change" update=":#{p:component('frame')},:#{p:component('growl')}"
-                                       
-                                        listener="#{pacienteBean.cargaCliente(pac.codCliente)}" /> 
-                            </p:selectOneMenu>
+                        <p:column headerText="Historia" style="text-align: center;" >
+                             
+                                   <p:commandButton  icon="icon-historia" title="Historial de Paciente" 
+                                                                      style="background: transparent;border: none !important;font-size: 0;height: 36px; " 
+                                                                      action="#{pacienteBean.cargaCliente_H(pac.codCliente)}"
+                                                                      oncomplete="PF('dlgHV').show();"
+                                             update=":#{p:component('dialogHistorialVisitas')}"
+                                                                      />      
+                          
+                                          
                         </p:column>
+                        
+                        <p:column headerText="Datos Personales" style="text-align: center;" >
+                            <p:commandButton oncomplete="PF('dlgDP').show();" icon="icon-datos"
+                                              style="background: transparent;border: none !important;font-size: 0;" 
+                                              title="Datos Personales"
+                                             action="#{pacienteBean.cargaCliente_Datos(pac.codCliente)}"
+                                            update=":#{p:component('dialogDP')}" />
+                        </p:column>
+                            
+                        
                     </p:dataTable>
                 </h:form>  
                 <p:growl id="growlT" showDetail="true"   life="2000" /> 

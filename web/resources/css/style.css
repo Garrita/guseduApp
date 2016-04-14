@@ -1,0 +1,33 @@
+
+.icon-historia{
+   background: url(resources/images/historia.png)  no-repeat top left !important;
+   
+  // background-image: url("#{resource['img:historia.png']}"); 
+  //  background-image:url("img/historia.png"); 
+  
+}
+.ui-icon-excel {
+            background: url("resources/images/historia.png")  no-repeat top left !important;;
+     }
+.someCssClassName {
+    background-image: url(images/pdf.png)
+}
+
+.icon-historia {
+
+ background-image: url("#{resource['images/historia.png']}") !important;
+ width: 32px;
+ height: 32px;
+}
+
+.icon-datos {
+
+ background-image: url("#{resource['images/dp.jpg']}") !important;
+ width: 32px;
+ height: 32px;
+}
+
+/*.ui-icon{
+         background: url(../images/pdf.png)  no-repeat top left !important;
+  //  background-color: red;
+}*/

@@ -5,12 +5,14 @@
 
 package com.gusedu.bean;
 
+import com.gusedu.dao.ClienteService;
 import com.gusedu.dao.HistoriaClinicaService;
 import com.gusedu.dao.PagoService;
 import com.gusedu.dao.ProductoService;
 import com.gusedu.dao.TerapiaService;
 import com.gusedu.dao.TerapiaSintomaService;
 import com.gusedu.dao.VisitaService;
+import com.gusedu.dao.impl.ClienteServiceImpl;
 import com.gusedu.dao.impl.HistoriaClinicaServiceImpl;
 import com.gusedu.dao.impl.PagoServiceImpl;
 import com.gusedu.dao.impl.ProductoServiceImpl;
@@ -65,6 +67,7 @@ public class VisitaBean {
 
             public VisitaBean() {
 /*  82*/        productoService = new ProductoServiceImpl();
+visitaService= new VisitaServiceImpl();
                 pagoservice = new PagoServiceImpl();
 /*  83*/        visita = new Visita();
                 terapiasintoma = new TerapiaSintoma();
@@ -255,6 +258,24 @@ public class VisitaBean {
 /* 221*/        this.mostrarFormProducto = mostrarFormProducto;
             }
 
+            public void cargaHistorial()
+            {
+            
+                FacesContext fc = FacesContext.getCurrentInstance();
+           
+                 HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
+                 SintomaTerapiaBean stBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
+                 TerapiaBean objetoTBean = (TerapiaBean)fc.getExternalContext().getSessionMap().get("terapiaBean");
+                    objetoHTBean.llenamatriz();
+                    stBean.llenamatriz();
+                    ListarVisitas();
+                  /*  RequestContext context = RequestContext.getCurrentInstance();
+                    RequestContext.getCurrentInstance().update("dialogHistorialVisitas");
+                     context.execute("PF('dlgHV').show();");
+                   // fc.getExternalContext().getSessionMap().put("ultimaterapia", ultimaterapia);
+                    RequestContext.getCurrentInstance().update("frame4");*/
+            }
+            
             public void lastvisita(Cliente client) {
         visitaService = new VisitaServiceImpl();
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -562,6 +583,7 @@ public class VisitaBean {
             public void ListarVisitas() {
 /* 528*/        FacesContext fc = FacesContext.getCurrentInstance();
 /* 529*/        Cliente client = (Cliente)fc.getExternalContext().getSessionMap().get("cliente");
+                System.out.println("LISTAR VISITAS : "+client.getCliCodigo());
 /* 530*/        visitasxPaciente = visitaService.getVisitasCliente(client.getCliCodigo());
 /* 531*/        System.out.println("VisitaBean - ListarVisitas : "+visitasxPaciente.size());
             }
