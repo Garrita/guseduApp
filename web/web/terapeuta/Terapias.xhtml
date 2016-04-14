@@ -38,7 +38,7 @@
                                                     itemLabel="#{parX.nombre}" itemValue="#{parX}"
                                                     converter="parConverter" panelStyleClass="ui-themes">
                                     </p:autoComplete>
-                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_PAR()}" update=":#{p:component('table')},:#{p:component('pnl')},:#{p:component('His_Ter')}" />
+                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_PAR()}" update=":#{p:component('table')},:#{p:component('pnl')},:#{p:component('His_Ter')}, :#{p:component('His_Sin')}" />
                                 </p:panelGrid>
                             </p:panel>   
                         </h:form>
@@ -112,7 +112,7 @@
                                     <br/>
                                     <p:outputLabel value="Comentario: " style="width:200px" />
                                     <p:inputTextarea id="txtarea1" value="#{terapiaSintomaBean.comentario}" style="width:350px" />
-                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_SINTOMA()}" update=":#{p:component('tablaSinTerapeuta')},:#{p:component('pnl1')}" />
+                                    <p:commandButton value="Agregar "  action="#{terapeutaBean.INSERTAR_SINTOMA()}" update=":#{p:component('tablaSinTerapeuta')},:#{p:component('pnl1')},:#{p:component('His_Sin')}" />
                                 </p:panelGrid>
                             </p:panel> 
                         </h:form>
@@ -136,7 +136,7 @@
                                 <p:column headerText="Eliminar" style="width: 60px" styleClass="text-align:center" >
                                     <p:commandButton id="ajax51" icon="ui-icon-trash"
                                                      action="#{terapiaSintomaBean.BuscarEliminar(sxt.txsCodigo)}"
-                                                     update=":#{p:component('tablaSinTerapeuta')},:#{p:component('formTerapiaSintoma1')}">
+                                                     update=":#{p:component('tablaSinTerapeuta')},:#{p:component('formTerapiaSintoma1')}, :#{p:component('His_Sin')}">
                                         <p:confirm header="Confirmación" message="¿Estás seguro de eliminar este síntoma?" icon="ui-icon-alert" />
                                     </p:commandButton>               
                                 </p:column>
@@ -160,13 +160,13 @@
                                     <h:outputLabel value="Comentario: " />
                                     <p:inputTextarea id="txtarea2" value="#{terapiaSintomaBean.datos.txsComentario}" style="width:350px" />
                                     <h:outputLabel value="¿Presenta este síntoma?: " />
-                                    <p:inputSwitch value="#{terapiaSintomaBean.datos.txsActivo}" offLabel="No" onLabel="Si" >
-                                     
+                                    <p:inputSwitch value="#{terapiaSintomaBean.datos.txsActivo}" offLabel="No" onLabel="Sí" >
+                                        <p:ajax listener="#{terapiaSintomaBean.ACTUALIZAR_HT_T(datos)}" update=":#{p:component('His_Sin')}" />
                                     </p:inputSwitch>
                                 </h:panelGrid>
                                 <br></br>
                                 <p:commandButton value="Modificar" id="ajax52" actionListener="#{terapiaSintomaBean.ACTUALIZAR}" 
-                                                 oncomplete="PF('pantallitaEditarH').hide();" update=":#{p:component('tablaSinTerapeuta')},:#{p:component('formTerapiaSintoma1')}">
+                                                 oncomplete="PF('pantallitaEditarH').hide();" update=":#{p:component('tablaSinTerapeuta')},:#{p:component('formTerapiaSintoma1')},:#{p:component('His_Sin')}">
                                 </p:commandButton>
                                 <p:spacer width="20" height="10" />
                                 <p:commandButton value="Cerrar" id="ajax53"  onclick="PF('pantallitaEditarH').hide();"
@@ -176,18 +176,39 @@
                     </p:tab>
                     <p:tab title="Historial de Terapias"  >
                         <h:form id="His_Ter" >
-                            <p:dataTable var="rowName" value="#{historialTerapiaBean.rowNames}"
-                                     rowIndexVar="rowIdx" emptyMessage="No hay pares" >
-                            <p:column headerText="" styleClass="ui-widget-header" width="250px;" >
-                                <h:outputText value="#{rowName}"/>
-                            </p:column>
-                            <p:columns var="columnName" value="#{historialTerapiaBean.colNames}" headerText="#{columnName}"
-                                       columnIndexVar="colIdx">
-                                <ui:repeat value="#{historialTerapiaBean.data3D[rowIdx][colIdx]}" var="data">
-                                    <h:outputText value="#{data}"/>
-                                </ui:repeat>
-                            </p:columns>
-                        </p:dataTable>
+                            <p:scrollPanel mode="native" style="width:650px;height:350px">
+                                <p:dataTable var="rowName" value="#{historialTerapiaBean.rowNames}"
+                                             rowIndexVar="rowIdx" emptyMessage="No hay pares" scrollable="true" scrollRows="150" scrollWidth="1000">
+                                    <p:column headerText="" styleClass="ui-widget-header" >
+                                        <h:outputText value="#{rowName}" />
+                                    </p:column>
+                                    <p:columns var="columnName" value="#{historialTerapiaBean.colNames}" headerText="#{columnName}"
+                                               columnIndexVar="colIdx">
+                                        <ui:repeat value="#{historialTerapiaBean.data3D[rowIdx][colIdx]}" var="data">
+                                            <h:outputText value="#{data}"/>
+                                        </ui:repeat>
+                                    </p:columns>
+                                </p:dataTable> 
+                            </p:scrollPanel>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Historial de Síntomas">
+                        <h:form id="His_Sin">
+                            <p:scrollPanel mode="native" style="width:650px;height:350px">
+                                <p:dataTable var="rowNameSTTer" value="#{sintomaTerapiaBean.rowNames}"
+                                             rowIndexVar="rowIdxSTTer" emptyMessage="No hay síntomas" scrollable="true" scrollRows="150" scrollWidth="1000" >
+                                    <p:column headerText="" styleClass="ui-widget-header" >
+                                        <h:outputText value="#{rowNameSTTer}"/>
+                                    </p:column>
+                                    <p:columns var="columnNameSTTer" value="#{sintomaTerapiaBean.colNames}" headerText="#{columnNameSTTer}"
+                                               columnIndexVar="colIdxSTTer" >
+                                        <ui:repeat value="#{sintomaTerapiaBean.data3D[rowIdxSTTer][colIdxSTTer]}" var="dataSTTer">
+                                            <h:outputText value="#{dataSTTer}"/>
+                                        </ui:repeat>
+                                    </p:columns>
+                                </p:dataTable>    
+                            </p:scrollPanel>
+
                         </h:form>
                     </p:tab>
                 </p:tabView>
@@ -201,18 +222,18 @@
                                          converter="pacientePresencialConverter" var="ps"
                                          style="width: 290px"  scrollHeight="600"  >
                         <f:selectItems  value="#{terapeutaBean.lista}" var="list_Paciente" 
-                                       itemLabel="#{list_Paciente.posicion}. #{list_Paciente.paciente} , #{terapeutaBean.toShort(list_Paciente.fecha)}" 
-                                       itemValue="#{list_Paciente}"  />
-                            <p:column>
-                                <h:outputText value="#{ps.posicion}. #{ps.paciente} , #{terapeutaBean.toShort(ps.fecha)}" />
-                            </p:column>
-                       
-                        <p:ajax   listener="#{terapeutaBean.PROBA()}" update=":#{p:component('pnlTerapeuta')},:#{p:component('formTerapiaSintoma')},:#{p:component('formTerapiaSintoma1')},:#{p:component('formTerapiaSintoma2')},:#{p:component('His_Ter')}" /> 
+                                        itemLabel="#{list_Paciente.posicion}. #{list_Paciente.paciente} , #{terapeutaBean.toShort(list_Paciente.fecha)}" 
+                                        itemValue="#{list_Paciente}"  />
+                        <p:column>
+                            <h:outputText value="#{ps.posicion}. #{ps.paciente} , #{terapeutaBean.toShort(ps.fecha)}" />
+                        </p:column>
+
+                        <p:ajax   listener="#{terapeutaBean.PROBA()}" update=":#{p:component('pnlTerapeuta')},:#{p:component('formTerapiaSintoma')},:#{p:component('formTerapiaSintoma1')},:#{p:component('formTerapiaSintoma2')},:#{p:component('His_Ter')}, :#{p:component('His_Sin')}" /> 
                     </p:selectOneListbox>
                     <p:poll interval="180" listener="#{terapeutaBean.increment}" update=":#{p:component('basicS')},:#{p:component('pnlTerapeuta')}" />
-		<p:blockUI id="block_T" block=":#{p:component('contenido')}" trigger=":#{p:component('basicS')}">
-					<p:graphicImage url="../../resources/images/loading2.gif"    />
-		</p:blockUI>			
+                    <p:blockUI id="block_T" block=":#{p:component('contenido')}" trigger=":#{p:component('basicS')}">
+                        <p:graphicImage url="../../resources/images/loading2.gif"    />
+                    </p:blockUI>			
                 </h:form>
             </ui:define>
             <ui:define name="bottom">

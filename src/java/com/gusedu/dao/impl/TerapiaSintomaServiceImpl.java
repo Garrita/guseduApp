@@ -120,7 +120,7 @@ public class TerapiaSintomaServiceImpl implements TerapiaSintomaService {
         }
         return resultado;
     }
-            
+        
             @Override
     public boolean deleteTerapiaSintoma(TerapiaSintoma terapiaSintoma) 
     {
@@ -224,4 +224,4 @@ public class TerapiaSintomaServiceImpl implements TerapiaSintomaService {
         }
         return resultado;
     }
-}
+        } 
