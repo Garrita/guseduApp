@@ -63,7 +63,7 @@ public class TerapiaBean {
         sintomaService = new SintomaServiceImpl();
         LISTAR_TIPO_TERAPIAS();
             }
-            
+
     public List<TipoTerapia> getTipoTerapias() {
         return tipoTerapias;
     }

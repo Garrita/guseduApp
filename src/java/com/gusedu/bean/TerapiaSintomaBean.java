@@ -190,10 +190,12 @@ public class TerapiaSintomaBean {
     
     public void ACTUALIZAR_HT_T(TerapiaSintoma ts)
     {
+        System.out.println("ENTRO :D");
         UpdateTS(ts);
         FacesContext fc = FacesContext.getCurrentInstance();
         SintomaTerapiaBean objetoSTBean = (SintomaTerapiaBean)fc.getExternalContext().getSessionMap().get("sintomaTerapiaBean");
         objetoSTBean.llenamatriz();
+        System.out.println("LLENO LA MATRIZ ");
     }
     
     public void ELIMINAR()
@@ -477,6 +479,7 @@ public class TerapiaSintomaBean {
     public void LISTAR_SINTOMAS_POR_PACIENTE(int cli)
     {   
         listaterapiasintx = terapiasintomaService.SP_LISTAR_SINTOMAS_CLIENTE(cli);
+        //listaterapiasintoma = terapiasintomaService.SP_LISTAR_SINTOMAS_CLIENTE1(cli);
         System.out.println("Tamaño : " + listaterapiasintx.size());
     }
     

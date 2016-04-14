@@ -25,7 +25,7 @@ public interface TerapiaSintomaService {
     public boolean saveTerapiaSintoma(TerapiaSintoma terapiaSintoma);
 
     public boolean updateTerapiaSintoma(TerapiaSintoma terapiaSintoma);
-
+    
     public boolean deleteTerapiaSintoma(TerapiaSintoma terapiaSintoma);
     
     public List<TerapiaSintoma> getAllTerapiaSintoma(Terapia ter);

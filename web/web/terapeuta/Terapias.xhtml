@@ -160,7 +160,7 @@
                                     <h:outputLabel value="Comentario: " />
                                     <p:inputTextarea id="txtarea2" value="#{terapiaSintomaBean.datos.txsComentario}" style="width:350px" />
                                     <h:outputLabel value="¿Presenta este síntoma?: " />
-                                    <p:inputSwitch value="#{terapiaSintomaBean.datos.txsActivo}" offLabel="No" onLabel="Si" >
+                                    <p:inputSwitch value="#{terapiaSintomaBean.datos.txsActivo}" offLabel="No" onLabel="Sí" >
                                         <p:ajax listener="#{terapiaSintomaBean.ACTUALIZAR_HT_T(datos)}" update=":#{p:component('His_Sin')}" />
                                     </p:inputSwitch>
                                 </h:panelGrid>
