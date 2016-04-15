@@ -20,7 +20,7 @@
 
             <ui:define name="content">
                 <h:form id="formBusquedaP" style="text-align: center;">
-                    <p:outputLabel value="Filtrar: " for="inpQuery" />
+                         <p:outputLabel value="Filtrar: " for="inpQuery" />
                     <p:inputText value="#{pacienteBean.query}" id="inpQuery"
                                  style="width : 500px;">
                         <p:ajax event="keyup" update=":#{p:component('tablaPac')}" delay="250"
@@ -30,12 +30,13 @@
                     <p:spacer width="50px;" />
                      <p:commandButton value="Nuevo Paciente" id="btnNuevo"
                                      update=":#{p:component('panelRegistro')}"
-                                     action="#{personaBean.valida}" oncomplete="PF('dlg1').show();" />
+                                     action="#{personaBean.valida}" oncomplete="PF('dlg1').show();" />            
                 </h:form>
                 <br/>
                 
                 <h:form id="formulario">
-                    <p:dataTable id="tablaPac" var="pac"
+                    <p:panel id="pnlJ" >
+                                          <p:dataTable id="tablaPac" var="pac" 
                                  value="#{pacienteBean.clientesxfecha}" paginator="true" rows="10"
                                  rowKey="#{pac.codCliente}" widgetVar="tablaPacientes"
                                  emptyMessage="No hay historial de visitas por el momento" >
@@ -67,28 +68,36 @@
                             <h:outputText value="#{pac.tipoCliente}" />
                         </p:column>
                         <p:column headerText="Historia" style="text-align: center;" >
-                             
-                                   <p:commandButton  icon="icon-historia" title="Historial de Paciente" 
+                            <p:commandLink title="Historial de Paciente" id="btnHistoria"
                                                                       style="background: transparent;border: none !important;font-size: 0;height: 36px; " 
                                                                       action="#{pacienteBean.cargaCliente_H(pac.codCliente)}"
-                                                                      oncomplete="PF('dlgHV').show();"
-                                             update=":#{p:component('dialogHistorialVisitas')}"
-                                                                      />      
+                                                                      oncomplete="PF('dlgHV').show();PF('bui').hide();"
+                                             update=":#{p:component('dialogHistorialVisitas')}" onclick="PF('bui').show()" >
+                                <h:graphicImage  style="border: none" value="/resources/images/historia.png" />
+                            </p:commandLink>
+           
                           
                                           
                         </p:column>
                         
                         <p:column headerText="Datos Personales" style="text-align: center;" >
-                            <p:commandButton oncomplete="PF('dlgDP').show();" icon="icon-datos"
-                                              style="background: transparent;border: none !important;font-size: 0;" 
-                                              title="Datos Personales"
-                                             action="#{pacienteBean.cargaCliente_Datos(pac.codCliente)}"
-                                            update=":#{p:component('dialogDP')}" />
+                            <p:commandLink oncomplete="PF('dlgDP').show();PF('bui').hide();"  id="link_j"
+                                           title="Datos Personales" onclick="PF('bui').show()"
+                                           action="#{pacienteBean.cargaCliente_Datos(pac.codCliente)}"
+                                           update=":#{p:component('dialogDP')}" >
+                                <h:graphicImage  style="border: none" value="/resources/images/dp.jpg" />
+                            </p:commandLink>
                         </p:column>
                             
                         
                     </p:dataTable>
-                </h:form>  
+                    </p:panel>
+             
+                    <p:blockUI block="pnlJ" widgetVar="bui" >
+                        <p:graphicImage url="../resources/images/loading2.gif"    />
+                    </p:blockUI>
+
+                </h:form>              
                 <p:growl id="growlT" showDetail="true"   life="2000" /> 
                 <p:dialog  id="dialoghistorialTerapia" header="Historia de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" widgetVar="dlgHTe" 
                            showEffect="pop" width="1230px" height="550px" >

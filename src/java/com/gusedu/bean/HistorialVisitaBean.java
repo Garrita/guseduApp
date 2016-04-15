@@ -62,7 +62,7 @@ public class HistorialVisitaBean {
         viscliente = new EUltimaVisitaxCliente();
         Date fec= new Date();
 		fechaactual=fec;
-		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+		/*SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
 		String strFecha = "2014-05-21";
 		Date fechax = null;
 		try {
@@ -73,8 +73,8 @@ public class HistorialVisitaBean {
 
 		ex.printStackTrace();
 
-		}
-		fechainicial=fechax;
+		}*/
+		fechainicial=fec;
 		fechafinal= fec;
        
 		//visitas = visitaService.getVisitabyFechas(fechainicial, fechafinal);

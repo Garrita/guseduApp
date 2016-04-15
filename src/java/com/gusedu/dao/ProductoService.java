@@ -31,13 +31,13 @@ public interface ProductoService {
         
         public boolean deleteProducto(int cod_producto);
         
-        public boolean SP_SaveProductoVisita(ProductoVisita productoVisita);
+        public boolean SP_SaveProductoVisita(ProductoVisita productoVisita,double val,String item);
         
         public boolean SP_DeleteProductoVisita(ProductoVisita productoVisita);
         
         public boolean SP_CrearCabeceraProducto(int cod_cli,int prod_cod,
                                                 String nom_item,
-                                                int cantidad,double costo,int cod_vis);
+                                                int cantidad,double costo,int cod_vis,double cost);
 	public List<detalle_factura> SP_ListarProductosF(int cod_cli);
         
         public boolean SP_EliminarProductoFactura(int cod_cli);

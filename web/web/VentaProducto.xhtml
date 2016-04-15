@@ -16,6 +16,7 @@
                         <f:selectItems value="#{productoBean.lista_cliper}" var="cliper" 
                                        itemLabel="#{cliper.per_dni} - #{cliper.paciente}" 
                                        itemValue="#{cliper.cli_codigo}" />
+                        <p:ajax   listener="#{productoBean.CLIENTE_sELECCIONADO(productoBean.cod_cli)}"  /> 
                     </p:selectOneListbox>  
                     <br/><br/>
                     <p:panelGrid id="pnlProdV" columns="2">
@@ -24,9 +25,16 @@
                         <h:outputText id="VoutNombre"
                                       value="#{productoBean.producto.proDescripcionM}"></h:outputText>
 
+                        <p:outputLabel value="Tipo de Precio"  />
+                        <p:selectOneRadio id="console" value="#{productoBean.tipo}">
+                            <f:selectItem itemLabel="Standard" itemValue="0" />
+                            <f:selectItem itemLabel="Corporativo" itemValue="1" />
+                            <p:ajax event="valueChange" listener="#{productoBean.calculo()}" update=":#{p:component('pnlProdV')}" />
+                        </p:selectOneRadio>
+                        
                         <p:outputLabel for="VoutCosto" value="Costo: "></p:outputLabel>
-                        <h:outputText id="VoutCosto"
-                                      value="#{productoBean.producto.proCostoUnitario} #{productoBean.producto.proCurrencySymbol}" />
+                        <h:outputText id="VoutCosto" 
+                                      value="#{productoBean.valor} #{productoBean.producto.proCurrencySymbol}" />
 
                         <p:outputLabel for="VinpCantidad" value="Cantidad: "></p:outputLabel>
                         <p:inputText id="VinpCantidad" value="#{productoBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
@@ -34,7 +42,7 @@
                             <f:validateDoubleRange minimum="0.0"
                                                    maximum="#{productoBean.producto.proExistencias}"></f:validateDoubleRange>
                             <p:ajax event="keyup" update="VoutCostoParcial"
-                                    listener="#{productoBean.calculaCostoParcial}" />
+                                    listener="#{productoBean.calculo()}" />
                         </p:inputText>
 
                         <p:outputLabel for="VoutCostoParcial" value="Costo Total: "></p:outputLabel>
@@ -46,11 +54,13 @@
                                          update=":#{p:component('tablaVentaProductos')}" />
                     </p:panelGrid>
                 </h:form>
-                <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
+                <h:form>
+                     <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
                                  action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
                                  oncomplete="PF('dlgFactura_Venta').show();" />
                 <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
                                  oncomplete="PF('dlgTP_F_VP').show();" update=":#{p:component('productosf')}" />
+                </h:form>
             </p:panel>
             <h:form>
                 <p:panel>
@@ -83,8 +93,12 @@
                             <h:outputText value="#{prod_v.proDescripcionM}" />
                         </p:column>
 
-                        <p:column headerText="Costo Unitario" style="vertical-align:middle;">
+                        <p:column headerText="Precio standard" style="vertical-align:middle;">
                             <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
+                        </p:column>
+                        
+                        <p:column headerText="Precio corporativo" style="vertical-align:middle;">
+                            <h:outputText value="#{prod_v.proCostoUnitarioC} #{prod.proCurrencySymbol}" />
                         </p:column>
 
                         <p:column headerText="Existencias" style="vertical-align:middle;">

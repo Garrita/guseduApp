@@ -22,20 +22,20 @@
 		<p:outputLabel value="Fecha inicial : " ></p:outputLabel>
 		<p:calendar id="event" value="#{historialVisitaBean.fechainicial}" pattern="dd/MM/yyyy"
 		 maxdate="#{historialVisitaBean.fechafinal}" navigator="true"  yearRange="c-100:c" >
-            <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac,event2"  />
+            <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac_H,event2"  />
         </p:calendar>
         <p:outputLabel value="Fecha final : " ></p:outputLabel>
         <p:calendar id="event2" value="#{historialVisitaBean.fechafinal}" 
         navigator="true"  yearRange="c-100:c" pattern="dd/MM/yyyy"
         maxdate="#{historialVisitaBean.fechaactual}" mindate="#{historialVisitaBean.fechainicial}" >
-            <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac,event" />
+            <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac_H,event" />
         </p:calendar>
          <p:spacer  width="330" height="10" />
-         <p:commandButton id="btnhoy"  value="Hoy" action="#{historialVisitaBean.today}" update="event,event2,tablaPac" ></p:commandButton>
+         <p:commandButton id="btnhoy"  value="Hoy" action="#{historialVisitaBean.today}" update="event,event2,tablaPac_H" ></p:commandButton>
         </p:panelGrid>
         		 
 		<br/>
-			<p:dataTable id="tablaPac" var="vis"
+			<p:dataTable id="tablaPac_H" var="vis"
 					value="#{historialVisitaBean.visitas}" paginator="true" rows="15" 
 					emptyMessage="No hay pacientes por el momento" >
 					 <f:facet name="header">
@@ -69,7 +69,7 @@
 				
 				
 			</h:form>
-		<p:blockUI id="block" block=":#{p:component('tablaPac')}" trigger=":#{p:component('tablaPac')}">
+		<p:blockUI id="block" block=":#{p:component('tablaPac_H')}" trigger=":#{p:component('tablaPac_H')}">
 					<p:graphicImage url="../resources/images/loading2.gif"    />
 		</p:blockUI>
 		</div>

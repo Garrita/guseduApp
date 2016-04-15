@@ -43,6 +43,9 @@
     <property name="proStockMin" type="java.lang.Integer">
       <column name="pro_stock_min"/>
     </property>
+        <property name="proCostoUnitarioC" type="java.lang.Double">
+      <column name="pro_costo_unitario_c" precision="22" scale="0"/>
+    </property>
     <set fetch="select" inverse="true" lazy="true" name="productoVisitas" table="producto_visita">
       <key>
         <column name="pro_codigo" not-null="true"/>

@@ -64,6 +64,9 @@ public class VisitaBean {
             
             private List<Pago> listaPagoByVisita;
             PagoService pagoservice;
+            
+              private String tipo;
+   private double valor;
 
             public VisitaBean() {
 /*  82*/        productoService = new ProductoServiceImpl();
@@ -91,6 +94,7 @@ visitaService= new VisitaServiceImpl();
 /*  98*/        historiaClinicaService = new HistoriaClinicaServiceImpl();
                 precioTotal=0.0;
                 edit=false;
+                cantidadProducto=1;
                 LISTAR_PRODUCTOS();
                 LISTANDO_PRODUCTOS();
             }        
@@ -189,6 +193,10 @@ visitaService= new VisitaServiceImpl();
                 }
             }
             
+            public void LIST_PROD()
+            {
+                allProductos= productoService.getAllProductos();
+            }
             public void LISTANDO_PRODUCTOS()
             {
                 listaproductosDD = productoService.getAllProductos();
@@ -484,15 +492,31 @@ visitaService= new VisitaServiceImpl();
 /* 451*/        System.out.println((new StringBuilder()).append("ID PRODUCTO : ").append(idProducto).toString());
 /* 452*/        producto = productoService.getProductoById(idProducto);
 /* 453*/        prod = false;
+                tipo="0";
+                calculo();
 /* 454*/        mostrarFormProducto = Integer.valueOf(1);
             }
 
-            public void calculaCostoParcial() 
+             public void calculo()
+    {
+        if(tipo.equals("0"))
+        {
+            valor=producto.getProCostoUnitario();
+            calculaCostoParcial(producto.getProCostoUnitario());
+            
+        }else
+        {
+            valor=producto.getProCostoUnitarioC();
+            calculaCostoParcial(producto.getProCostoUnitarioC());
+        }
+    }
+            public void calculaCostoParcial(double val) 
             {
+                double cant=cantidadProducto;
                 try {   
                         if (cantidadProducto > 0.0D) 
                         {
-                            costoParcial = Double.valueOf(cantidadProducto * producto.getProCostoUnitario().doubleValue());
+                            costoParcial = Double.valueOf(cant * val);
                         } 
                         else
                         {
@@ -525,7 +549,7 @@ visitaService= new VisitaServiceImpl();
             toAdd.setPxvCostoParcial(costoParcial);
             toAdd.setProducto(producto);
             toAdd.setVisita(vis);
-            if (productoService.SP_SaveProductoVisita(toAdd)) 
+            if (productoService.SP_SaveProductoVisita(toAdd,valor,producto.getProDescripcionM())) 
             {
                 StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
                 StaticUtil.keepMessages();
@@ -547,8 +571,9 @@ visitaService= new VisitaServiceImpl();
                 cantidadProducto = 1;
                 mostrarFormProducto = -1;
                 productoService.listarProductoLogAvanzado();
-                LISTAR_PRODUCTOS();
-                //LISTANDO_PRODUCTOS();
+               /* LISTAR_PRODUCTOS();
+                LISTANDO_PRODUCTOS();*/
+                LIST_PROD();
 
                 ProductoBean objetoBean = (ProductoBean)fc.getExternalContext().getSessionMap().get("productoBean");
                 objetoBean.validador();
@@ -578,6 +603,7 @@ visitaService= new VisitaServiceImpl();
         productoService.SP_DeleteProductoVisita(pxv);
 //# visitaService.updateVisita(v1);
         listar();
+         LIST_PROD();
             }
 
             public void ListarVisitas() {
@@ -738,4 +764,21 @@ visitaService= new VisitaServiceImpl();
         {
             listaPagoByVisita= new ArrayList<>();
         }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+        
 }

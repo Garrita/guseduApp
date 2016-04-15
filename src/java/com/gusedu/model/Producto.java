@@ -24,6 +24,8 @@ public class Producto  implements java.io.Serializable {
      private String proSku;
      private String proUrlImagen;
      private Integer proStockMin;
+     private Double proCostoUnitarioC;
+     
      private Set productoVisitas = new HashSet(0);
      private Set productoVisitas_1 = new HashSet(0);
 
@@ -34,7 +36,7 @@ public class Producto  implements java.io.Serializable {
     public Producto(TipoProducto tipoProducto) {
         this.tipoProducto = tipoProducto;
     }
-    public Producto(Modelo modelo, TipoProducto tipoProducto, UnidadMedida unidadMedida, Double proCostoUnitario, String proCurrencySymbol, String proDescripcionC, String proDescripcionL, String proDescripcionM, Double proExistencias, String proSku, String proUrlImagen,Integer proStockMin ,Set productoVisitas, Set productoVisitas_1) {
+    public Producto(Modelo modelo, TipoProducto tipoProducto, UnidadMedida unidadMedida, Double proCostoUnitario, String proCurrencySymbol, String proDescripcionC, String proDescripcionL, String proDescripcionM, Double proExistencias, String proSku, String proUrlImagen,Integer proStockMin ,Double proCostoUnitarioC,Set productoVisitas, Set productoVisitas_1) {
        this.modelo = modelo;
        this.tipoProducto = tipoProducto;
        this.unidadMedida = unidadMedida;
@@ -47,6 +49,7 @@ public class Producto  implements java.io.Serializable {
        this.proSku = proSku;
        this.proUrlImagen = proUrlImagen;
        this.proStockMin= proStockMin;
+       this.proCostoUnitarioC=proCostoUnitarioC;
        this.productoVisitas = productoVisitas;
        this.productoVisitas_1 = productoVisitas_1;
     }
@@ -156,6 +159,14 @@ public class Producto  implements java.io.Serializable {
 
     public void setProStockMin(Integer proStockMin) {
         this.proStockMin = proStockMin;
+    }
+
+    public Double getProCostoUnitarioC() {
+        return proCostoUnitarioC;
+    }
+
+    public void setProCostoUnitarioC(Double proCostoUnitarioC) {
+        this.proCostoUnitarioC = proCostoUnitarioC;
     }
 
     

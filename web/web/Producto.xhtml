@@ -8,7 +8,7 @@
       xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition>
 
-        <h:form id="formulariProducto">
+        <h:form >
             <p:outputLabel for="searchQueryProducto" value="Buscar producto: " />
             <p:inputText id="searchQueryProducto"
                          value="#{visitaBean.queryProducto}" placeholder="Ingrese su busqueda"
@@ -19,20 +19,25 @@
 
             <br />
             <br />
+            
             <p:dataTable id="tablaProductos" var="prod"
                          paginatorAlwaysVisible="false" value="#{visitaBean.allProductos}"
                          emptyMessage="No hay productos en stock" paginator="true" rows="5">
 
                 <f:facet name="header">
-                    Productos
+                    Productos #
                 </f:facet>
 
                 <p:column headerText="Producto" style="vertical-align:middle;">
                     <h:outputText value="#{prod.proDescripcionM}" />
                 </p:column>
 
-                <p:column headerText="Costo Unitario" style="vertical-align:middle;">
+                <p:column headerText="Precio Standard" style="vertical-align:middle;">
                     <h:outputText value="#{prod.proCostoUnitario} #{prod.proCurrencySymbol}" />
+                </p:column>
+                
+                <p:column headerText="Precio Corporativo" style="vertical-align:middle;">
+                    <h:outputText value="#{prod.proCostoUnitarioC} #{prod.proCurrencySymbol}" />
                 </p:column>
 
                 <p:column headerText="Existencias" style="vertical-align:middle;">
@@ -46,17 +51,25 @@
                                      update=":#{p:component('pnlProd')}" />
                 </p:column>
             </p:dataTable>
+            </h:form>    
             <br/>
-
+            <h:form>
             <p:panelGrid id="pnlProd" columns="2">
 
                 <p:outputLabel for="outNombre" value="Producto: "></p:outputLabel>
                 <h:outputText id="outNombre"
                               value="#{visitaBean.producto.proDescripcionM}"></h:outputText>
 
+                 <p:outputLabel value="Tipo de Precio"  />
+                 <p:selectOneRadio id="console" value="#{visitaBean.tipo}">
+                            <f:selectItem itemLabel="Standard" itemValue="0" />
+                            <f:selectItem itemLabel="Corporativo" itemValue="1" />
+                            <p:ajax event="valueChange" listener="#{visitaBean.calculo()}" update=":#{p:component('pnlProd')}" />
+                        </p:selectOneRadio>
+
                 <p:outputLabel for="outCosto" value="Costo: "></p:outputLabel>
                 <h:outputText id="outCosto"
-                              value="#{visitaBean.producto.proCostoUnitario} #{visitaBean.producto.proCurrencySymbol}" />
+                              value="#{visitaBean.valor} #{visitaBean.producto.proCurrencySymbol}" />
 
                 <p:outputLabel for="inpCantidad" value="Cantidad: "></p:outputLabel>
                 <p:inputText id="inpCantidad" value="#{visitaBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
@@ -64,7 +77,7 @@
                     <f:validateDoubleRange minimum="0.0" 
                                            maximum="#{visitaBean.producto.proExistencias}"></f:validateDoubleRange>
                     <p:ajax event="keyup" update="outCostoParcial"
-                            listener="#{visitaBean.calculaCostoParcial}" />
+                            listener="#{visitaBean.calculo()}" />
                 </p:inputText>
 
                 <p:outputLabel for="outCostoParcial" value="Costo Total: "></p:outputLabel>
@@ -111,10 +124,10 @@
                 </p:dataTable>
 
             </p:dialog>
+ </h:form>
 
 
 
-
-        </h:form>
+       
     </ui:composition>
 </html>

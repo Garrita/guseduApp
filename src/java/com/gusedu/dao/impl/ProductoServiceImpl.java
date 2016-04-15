@@ -209,13 +209,15 @@ public class ProductoServiceImpl
         boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_InsertarProducto(:costo, :descripC, :descripM, :descripL, :stock, :stockmin) }");
+             Query q = session.createSQLQuery("{ CALL SP_InsertarProducto(:costo, :descripC, :descripM, :descripL, :stock, :stockmin,:costoC,:simb) }");
              q.setParameter("costo", producto.getProCostoUnitario());
              q.setParameter("descripC", producto.getProDescripcionC());
              q.setParameter("descripM", producto.getProDescripcionM());
              q.setParameter("descripL", producto.getProDescripcionL());
              q.setParameter("stock", producto.getProExistencias());
              q.setParameter("stockmin", producto.getProStockMin());
+             q.setParameter("costoC", producto.getProCostoUnitarioC());
+             q.setParameter("simb", producto.getProCurrencySymbol());
              q.executeUpdate();
              resultado = true;
          }
@@ -250,16 +252,18 @@ public class ProductoServiceImpl
     }
 
     @Override
-    public boolean SP_SaveProductoVisita(ProductoVisita productoVisita) {
+    public boolean SP_SaveProductoVisita(ProductoVisita productoVisita,double val,String item) {
          boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_InsertProductoVisita(:cantidad,:costo,:symbol,:prod_cod,:vis_cod) }");
+             Query q = session.createSQLQuery("{ CALL SP_InsertProductoVisita(:cantidad,:costo,:symbol,:prod_cod,:vis_cod,:val,:item) }");
              q.setParameter("cantidad", productoVisita.getPxvCantidad());
              q.setParameter("costo", productoVisita.getPxvCostoParcial());
              q.setParameter("symbol", productoVisita.getPxvCurrencySymbol());
              q.setParameter("prod_cod", productoVisita.getProducto().getProCodigo());
              q.setParameter("vis_cod", productoVisita.getVisita().getVisCodigo());
+             q.setParameter("val", val);
+             q.setParameter("item", item);
              q.executeUpdate();
              resultado = true;
          }
@@ -294,12 +298,12 @@ public class ProductoServiceImpl
     }
 
     @Override
-    public boolean SP_CrearCabeceraProducto(int cod_cli, int prod_cod,  String nom_item, int cantidad, double costo,int cod_vis) {
+    public boolean SP_CrearCabeceraProducto(int cod_cli, int prod_cod,  String nom_item, int cantidad, double costo,int cod_vis,double valor) {
           boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          String empresa= StaticUtil.userLogged();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_CrearCabeceraProducto(:codigo_cliente,:prod_cod,:nom_item,:cantidad,:costo,:cod_vis,:empresa) }");
+             Query q = session.createSQLQuery("{ CALL SP_CrearCabeceraProducto(:codigo_cliente,:prod_cod,:nom_item,:cantidad,:costo,:cod_vis,:empresa,:cost) }");
              q.setParameter("codigo_cliente", cod_cli);
              q.setParameter("prod_cod",prod_cod);
              q.setParameter("nom_item", nom_item);
@@ -307,6 +311,7 @@ public class ProductoServiceImpl
              q.setParameter("costo", costo);
              q.setParameter("cod_vis", cod_vis);
              q.setParameter("empresa", empresa);
+             q.setParameter("cost", valor);
              System.out.println("COD CLI : "+cod_cli+"\nPROD_COD :"+prod_cod+"\nNOM_ITEM : "+nom_item+
                                 "\nCANTIDAD :"+cantidad+"\nCOSTO : "+costo+"\nCOD_VIS : "+cod_vis+"\nEMPRESA : "+empresa);
              q.executeUpdate();

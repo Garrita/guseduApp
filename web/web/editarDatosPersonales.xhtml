@@ -71,7 +71,7 @@
                     <p:ajax event="change" 
                             update=":#{p:component('idProvE')},
                             :#{p:component('idDisE')}"
-                            listener="#{ubigoBean.LISTA_PROVINCIAS()}" 
+                            listener="#{ubigoBean.LISTA_PROVINCIAS_DP(pacienteBean.cliente.persona.perDepartamento)}" 
                             />
                 </p:selectOneMenu>
 
@@ -91,7 +91,7 @@
                                    itemValue="#{u_prov.idProv}" itemLabel="#{u_prov.provincia}" />
                     <p:ajax event="change" 
                             update=":#{p:component('idDisE')}"
-                            listener="#{ubigoBean.LISTA_DISTRITO()}" 
+                            listener="#{ubigoBean.LISTA_DISTRITO_DP(pacienteBean.cliente.persona.perProvincia)}" 
                             />
                 </p:selectOneMenu>
 

@@ -56,6 +56,9 @@ public class ProductoBean {
     private String descripcion;
     private String queryProducto;
     
+   private String tipo;
+   private double valor;
+    
     public ProductoBean() {
         
         producto = new Producto();
@@ -275,11 +278,25 @@ public class ProductoBean {
         this.cod_cli = cod_cli;
     }
 
-             public void calculaCostoParcial() {
+    public void calculo()
+    {
+        if(tipo.equals("0"))
+        {
+            valor=producto.getProCostoUnitario();
+            calculaCostoParcial(producto.getProCostoUnitario());
+            
+        }else
+        {
+            valor=producto.getProCostoUnitarioC();
+            calculaCostoParcial(producto.getProCostoUnitarioC());
+        }
+    }
+    
+             public void calculaCostoParcial(double valor) {
                  double cant=cantidadProducto;
 /* 460*/        try {
 /* 460*/            if (cant > 0.0D) {
-/* 461*/                costoParcial = Double.valueOf(cant * producto.getProCostoUnitario().doubleValue());
+/* 461*/                costoParcial = Double.valueOf(cant * valor);
                     } else {
 /* 463*/                costoParcial = Double.valueOf(0.0D);
                     }
@@ -343,14 +360,20 @@ public class ProductoBean {
     
     public void preProducto(int idProducto)
     {
+        tipo="0";
         producto = productoservice.getProductoById(idProducto);
-        calculaCostoParcial();
+      calculo();
+    }
+    
+    public void CLIENTE_sELECCIONADO(int cli)
+    {
+        System.out.println("Cliente : "+ cli);
     }
     
     public void ADD_PRODUCTO()
     {
        
-         if( productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0))
+         if( productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0,valor))
         {
              productoservice.listarProductoLogAvanzado();
             StaticUtil.correctMesage("Exito", "Se ha registrado correctamente los datos del producto");
@@ -424,6 +447,22 @@ public class ProductoBean {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
     
     

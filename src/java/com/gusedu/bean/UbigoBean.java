@@ -39,6 +39,7 @@ public class UbigoBean {
         ubigeoservice = new UbigeoServiceImpl();
         idDepartamento=15;
         idProvincia=1;
+        LISTAR_DEPARTAMENTO();
     }
 
     public void LISTAR_UBIGEO()
@@ -53,6 +54,22 @@ public class UbigoBean {
         LISTA_DISTRITO();
    
     }
+    
+    public void LISTA_PROVINCIAS_DP(int val)
+    {
+        idDepartamento=val;
+        listapro= ubigeoservice.getAllProvincia(idDepartamento);
+        idProvincia=listapro.get(0).getIdProv();
+        LISTA_DISTRITO();
+   
+    }
+     public void LISTA_DISTRITO_DP(int val)
+    {
+        idProvincia=val;
+        listadis= ubigeoservice.getAllDistrito(idProvincia);
+   
+    }
+    
    public void LISTA_DISTRITO()
     {
     
@@ -63,6 +80,7 @@ public class UbigoBean {
    public void LISTAR_DEPARTAMENTO()
    {
        listadepa = ubigeoservice.getAllDepartamento();
+       LISTAR_UBIGEO();
    }
    
     public List<Ubdepartamento> getListadepa() {

@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../plantillas/PlantillaPrincipal.xhtml">
 
@@ -47,8 +48,12 @@
                         <p:outputLabel value="#{prod.proExistencias}" />
                     </p:column>
 
-                    <p:column headerText="Precio">
+                    <p:column headerText="Precio Unitario Standard">
                         <p:outputLabel value="#{prod.proCostoUnitario}" />
+                    </p:column>
+                    
+                     <p:column headerText="Precio Unitario Corporativo">
+                         <p:outputLabel value="#{prod.proCostoUnitarioC}" />
                     </p:column>
 
                     <p:column headerText="Stock Mínimo">
@@ -103,9 +108,19 @@
                         <p:inputText id="usuCantidad" required="true" 
                                      value="#{productoBean.producto.proExistencias}" />
 
-                        <p:outputLabel value="Precio : " for="usuPrecio" />
+                        <p:outputLabel value="Moneda : "   />
+                        <p:selectOneMenu value="#{productoBean.producto.proCurrencySymbol}" >
+                            <f:selectItem itemLabel="Sol" itemValue="PEN" />
+			   <f:selectItem itemLabel="Dolar" itemValue="DOL" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Precio standard: " for="usuPrecio" />
                         <p:inputText id="usuPrecio" required="true" 
                                      value="#{productoBean.producto.proCostoUnitario}" />
+                        
+                         <p:outputLabel value="Precio corporativo: " for="usuPrecioC" />
+                        <p:inputText id="usuPrecioC" required="true" 
+                                     value="#{productoBean.producto.proCostoUnitarioC}" />
 
                         <p:outputLabel value="Stock Min : " for="usuStockMin" />
                         <p:inputText id="usuStockMin" required="true" 
@@ -136,10 +151,20 @@
                         <p:outputLabel value="Cantidad : " for="usuCantidad" />
                         <p:inputText id="usuCantidad" required="true" 
                                      value="#{productoBean.producto.proExistencias}" />
-
-                        <p:outputLabel value="Precio : " for="usuPrecio" />
+                        
+                        <p:outputLabel value="Moneda : "   />
+                        <p:selectOneMenu value="#{productoBean.producto.proCurrencySymbol}" >
+                            <f:selectItem itemLabel="Sol" itemValue="PEN" />
+			   <f:selectItem itemLabel="Dolar" itemValue="DOL" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Precio standard : " for="usuPrecio" />
                         <p:inputText id="usuPrecio" required="true" 
                                      value="#{productoBean.producto.proCostoUnitario}" />
+                        
+                        <p:outputLabel value="Precio corporativo: " for="usuPrecioCo" />
+                        <p:inputText id="usuPrecioCo" required="true" 
+                                     value="#{productoBean.producto.proCostoUnitarioC}" />
 
                         <p:outputLabel value="Stock Min : " for="usuStockMin" />
                         <p:inputText id="usuStockMin" required="true" 
