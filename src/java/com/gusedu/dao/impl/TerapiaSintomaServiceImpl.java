@@ -61,9 +61,9 @@ public class TerapiaSintomaServiceImpl implements TerapiaSintomaService {
         try {
             sesion.beginTransaction();
             terapiasintomaService = (TerapiaSintoma) sesion.load(TerapiaSintoma.class, terapiasintoma);
-            System.out.println(terapiasintomaService.getTerapia().getTerDescripcion() + " " + terapiasintomaService.getSintoma().getSinDescripcion());
+            System.out.println("TERAPIA :: "+terapiasintomaService.getTerapia().getTerCodigo()+" "+terapiasintomaService.getTerapia().getTerDescripcion() + "-" + terapiasintomaService.getSintoma().getSinDescripcion());
         } catch (Exception e) {
-
+            System.out.println("ERROR getByParameters - TerapiaSintomaServiceImpl : "+e.getMessage());
 
         } finally {
             sesion.flush();
@@ -111,7 +111,7 @@ public class TerapiaSintomaServiceImpl implements TerapiaSintomaService {
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
-                System.out.println("ERROR de saveHistoriaClinica : " + e.getMessage());
+                System.out.println("ERROR de updateTerapiaSintoma - TerapiaSintomaServicceImpl : " + e.getMessage());
             }
             System.out.println(e.getMessage());
         } finally {

@@ -13,6 +13,7 @@ import com.gusedu.dao.impl.EnfermedadServiceImpl;
 import com.gusedu.dao.impl.SintomaServiceImpl;
 import com.gusedu.dao.impl.TerapiaParServiceImpl;
 import com.gusedu.dao.impl.TerapiaServiceImpl;
+import com.gusedu.entidad.ParX;
 import com.gusedu.model.*;
 import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class TerapiaBean {
             private List<EnfermedadVisita> listaenfermedadvisita;
             
             private TerapiaPar datos;
+            private ParX par;
 
             public TerapiaBean() {
         terapiaService = new TerapiaServiceImpl();
@@ -482,6 +484,15 @@ public class TerapiaBean {
                 }
             } 
       
+     
+      public void inserT_PART()
+      {
+           addPar3SP_Terapeuta(terapia.getTerCodigo(), par.getCod_par());
+           FacesContext fc = FacesContext.getCurrentInstance();
+           HistorialTerapiaBean objetoHTBean = (HistorialTerapiaBean)fc.getExternalContext().getSessionMap().get("historialTerapiaBean");
+           objetoHTBean.llenamatriz();
+           par= new ParX();
+      }
       
      public void addPar3SP_Terapeuta(Integer idTerapia,Integer idpar) {
         if (!ParExistenteV2(idpar)) {
@@ -596,4 +607,13 @@ public class TerapiaBean {
    {
        listarTerapiaPar = new ArrayList<>();
    }
+
+    public ParX getPar() {
+        return par;
+    }
+
+    public void setPar(ParX par) {
+        this.par = par;
+    }
+   
 }

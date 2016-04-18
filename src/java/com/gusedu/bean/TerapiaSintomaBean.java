@@ -173,6 +173,7 @@ public class TerapiaSintomaBean {
     public void ACTUALIZAR_HT()
     {
         System.out.println("Actualizando terapia sintoma...");
+        System.out.println("TER: "+datos.getTerapia().getTerCodigo()+" SIN : "+datos.getSintoma().getSinDescripcion());
         terapiasintomaService.updateTerapiaSintoma(datos);
         datos = new TerapiaSintoma();
         datos.setTerapia(new Terapia());
@@ -211,10 +212,10 @@ public class TerapiaSintomaBean {
     
     public void BUSCARXID(int tersintoma)
     {
-        llenarLISTITA(tersintoma);
+       // llenarLISTITA(tersintoma);
         datos = terapiasintomaService.getByParameters(tersintoma);
         terapia=datos.getTerapia();
-        System.out.println("Terapia: " + datos.getTerapia().getTerDescripcion() + "\n" +
+        System.out.println("Terapia: " + datos.getTerapia().getTerCodigo() + "\n" +
                            "Sintoma:" + datos.getSintoma().getSinDescripcion());
     }
     
