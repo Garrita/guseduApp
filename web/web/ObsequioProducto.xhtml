@@ -24,7 +24,7 @@
                             <f:validateDoubleRange minimum="0.0"
                                                    maximum="#{productoBean.producto.proExistencias}"></f:validateDoubleRange>
                             <p:ajax event="keyup" 
-                                    listener="#{productoBean.calculaCostoParcial}" />
+                                    listener="#{productoBean.calculo()}" />
                         </p:inputText>               
                         <p:commandButton icon="ui-icon-plus"
                                          value="Agregar Producto"  
