@@ -67,7 +67,7 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputSwitch value="#{parpu_T.txpActivo}" offLabel="No" onLabel="Si" >
-                                      
+                                      <p:ajax listener="#{terapiaBean.Update_T(parpu_T)}" update=":#{p:component('pnl_Hi_P')}" />
                                     </p:inputSwitch>
                                 </p:column>
                                   <p:column headerText="Ver Par" style="width: 60px">
