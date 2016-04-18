@@ -26,10 +26,10 @@ public class ParConverter
             public Object getAsObject(FacesContext context, UIComponent component, String value) {
 /*  26*/        System.out.println("ENTRO A getAsObject");
                 parService = new ParServiceImpl();
-/*  27*/        if (value == null || value.isEmpty()) {
+/*  27*/        if (value == null || value.isEmpty() || value.equals("null")) {
 /*  28*/            return null;
                 }
-/*  31*/         
+/*  31*/        System.out.println("Value: " + value);
 /*  32*/       try{			
 			ParX par = new ParX();
                         Par p = new Par();

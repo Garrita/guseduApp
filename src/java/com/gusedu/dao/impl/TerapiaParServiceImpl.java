@@ -113,25 +113,24 @@ public class TerapiaParServiceImpl
             @Override
     public boolean deleteTerapiaPar(TerapiaPar terapiaPar) 
     {
-        boolean resultado = false;
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = sesion.beginTransaction();
-
-            sesion.delete(terapiaPar);
-            tx.commit();
-           
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-                System.out.println("ERROR de deleteTerapiaPar : " + e.getMessage());
-            }
-            System.out.println(e.getMessage());
-        } finally {
-            sesion.flush();
-            sesion.close();
+         boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         System.out.println("Se ejecuta EliminarPar - TerapiaParServiceImpl");
+         try {
+             Query q = session.createSQLQuery("{ CALL EliminarPar( :cod_terapia, :cod_par) }");
+             q.setParameter("cod_terapia", terapiaPar.getTerapia().getTerCodigo());
+             q.setParameter("cod_par", terapiaPar.getPar().getParCodigo());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de EliminarPar : " + e.getMessage());
+             resultado=false;
+         } finally {
+            session.flush();
+            session.close();
         }
-        return resultado;
+         return resultado;
     }
 }
