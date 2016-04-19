@@ -9,13 +9,18 @@ import com.gusedu.dao.TerapiaService;
 import com.gusedu.dao.TerapiaSintomaService;
 import com.gusedu.dao.impl.TerapiaServiceImpl;
 import com.gusedu.dao.impl.TerapiaSintomaServiceImpl;
+import com.gusedu.entidad.ETerapia;
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Par;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TerapiaSintoma;
+import com.gusedu.util.StaticUtil;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.faces.bean.ManagedBean;
@@ -30,27 +35,31 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class HistorialTerapiaBean 
 {
-    /**  Matriz de las terapias **/
-    private List<String> rowNames = new ArrayList<String>();
-    private List<String> colNames = new ArrayList<String>();
-    private ArrayList<ArrayList<ArrayList<String>>> data3D = new ArrayList<ArrayList<ArrayList<String>>>();
+
 	   
     
     private List<Terapia> listaterapia;
-    private List<TerapiaPar> listaterapiapar;
-    private List<Par> listapares;
+
     TerapiaService terapiaService;
     
-    TerapiaSintomaService terapiasintomaService;
-    private Terapia terapia;
-    private TerapiaSintoma terapiasintoma;
+
+  
+    
+    private List<String> VALID_COLUMN_KEYS = Arrays.asList("par");
+     
+    private String columnTemplate = "par";
+    private List<ColumnModel> columns;
+     private List<Cabecera> headers;
+    private List<ETerapia> lista;
+    private int frozen;
+    
+    
+ 
     
     public HistorialTerapiaBean() 
     {
+        frozen=0;
         terapiaService = new TerapiaServiceImpl();
-        terapiasintomaService = new TerapiaSintomaServiceImpl();
-        terapia = new Terapia();
-        terapiasintoma = new TerapiaSintoma();  
     }
 
     public List<Terapia> getListaterapia() {
@@ -61,46 +70,10 @@ public class HistorialTerapiaBean
         this.listaterapia = listaterapia;
     }
 
-    public List<TerapiaPar> getListaterapiapar() {
-        return listaterapiapar;
-    }
 
-    public void setListaterapiapar(List<TerapiaPar> listaterapiapar) {
-        this.listaterapiapar = listaterapiapar;
-    }
-
-    public List<Par> getListapares() {
-        return listapares;
-    }
-
-    public void setListapares(List<Par> listapares) {
-        this.listapares = listapares;
-    }
 
     
-    public List<String> getRowNames() {
-        return rowNames;
-    }
 
-    public void setRowNames(List<String> rowNames) {
-        this.rowNames = rowNames;
-    }
-
-    public List<String> getColNames() {
-        return colNames;
-    }
-
-    public void setColNames(List<String> colNames) {
-        this.colNames = colNames;
-    }
-
-    public ArrayList<ArrayList<ArrayList<String>>> getData3D() {
-        return data3D;
-    }
-
-    public void setData3D(ArrayList<ArrayList<ArrayList<String>>> data3D) {
-        this.data3D = data3D;
-    }
     
     public void llenadomatriz()
     {
@@ -112,81 +85,156 @@ public class HistorialTerapiaBean
     }
     public void llenamatriz()
 	{
-                      
-		data3D = new ArrayList<ArrayList<ArrayList<String>>>();
-		rowNames = new ArrayList<String>();
-		colNames = new ArrayList<String>();
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Cliente cli = (Cliente) fc.getExternalContext().getSessionMap()
-				.get("cliente");
-	
-	 
-		listaterapia = new ArrayList<>();
-		listapares = new ArrayList<>();
-		
-		List<TerapiaPar> all = new ArrayList<>();
-		all = terapiaService.getAllParbyCliente(cli); 
-		
-		 for(int i=0;i<all.size();i++)
-	      {
-	          if(!listaterapia.contains(all.get(i).getTerapia()))
-	          {
-	              listaterapia.add(all.get(i).getTerapia());
-	          }
-	      }
-	     for(int j=0;j<all.size();j++)
-	      {
-	          if(!listapares.contains(all.get(j).getPar()))
-	          {
-	              listapares.add(all.get(j).getPar());
-	          }
-	      }
-		
-	     for (int j = 0; j < listapares.size(); j++) {
-				rowNames.add(listapares.get(j).getPuntoByPunCodigoP1()
-						.getPunNombre()
-						+ "-"
-						+ listapares.get(j).getPuntoByPunCodigoP2()
-								.getPunNombre());
-			}
-	 
-		System.out.println(listaterapia.size());
-		for (int i = 0; i < listaterapia.size(); i++) {
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			colNames.add(format.format(listaterapia.get(i).getTerFecRealizada())
-					+ "");
-		}
-
-		for (int i = 0; i < rowNames.size(); i++) {
-			data3D.add(new ArrayList<ArrayList<String>>());
-			for (int j = 0; j < colNames.size(); j++) {
-				data3D.get(i).add(new ArrayList<String>());
-			}
-		}
-	        
-	      
-            for(int i=0;i<listapares.size();i++)
+            FacesContext fc = FacesContext.getCurrentInstance();
+            Cliente cli = (Cliente) fc.getExternalContext().getSessionMap().get("cliente");
+              cabecera();
+            lista = terapiaService.SP_MatrizPares(cli.getCliCodigo(),listaterapia.size());
+          
+            createDynamicColumns();
+	}
+    public void cabecera()
+    {
+        frozen=0;
+        FacesContext fc = FacesContext.getCurrentInstance();
+            Cliente cli = (Cliente) fc.getExternalContext().getSessionMap().get("cliente");
+        listaterapia= terapiaService.terapiasPorCliente(cli);
+        String salida="par ";
+        VALID_COLUMN_KEYS = new ArrayList<>();
+        headers = new ArrayList<>();
+        VALID_COLUMN_KEYS.add("par");
+        headers.add(new Cabecera("par","PARES"));
+        
+        for(int i=1;i<=listaterapia.size();i++)
+        {
+            VALID_COLUMN_KEYS.add("estado"+i);
+            headers.add(new Cabecera("estado"+i, StaticUtil.convertirDateToString(listaterapia.get(i-1).getTerFecRealizada())));
+            
+            if(i+1<=listaterapia.size())
             {
-                for(int j=0;j<listaterapia.size();j++)
+                salida+="estado"+i+" ";
+            }else
+            {
+                salida+="estado"+i;frozen=1;
+            }
+        }
+        columnTemplate=salida;
+         
+    }
+ public String buscarHeader(String col)
+    {
+        String salida="";
+         for (int i = 0; i < headers.size(); i++) {
+                if(headers.get(i).getHeader().equals(col))
                 {
-                    for(int a=0;a<all.size();a++)
-                    {
-                        if(Objects.equals(listaterapia.get(j).getTerCodigo(), all.get(a).getTerapia().getTerCodigo()))
-                        {                      
-                            if(Objects.equals(listapares.get(i).getParCodigo(), all.get(a).getPar().getParCodigo()))
-                            {
-                                if(all.get(a).getTxpActivo())
-                                {
-                                    data3D.get(i).get(j).add("Si");
-                                }else
-                                {
-                                    data3D.get(i).get(j).add("No");
-                                }                   
-                            }
-                        }
-                    }
-
+                    salida=headers.get(i).getProperty();
                 }
             }
-	}
+        return salida;
+    }
+        private void createDynamicColumns() {
+        String[] columnKeys = columnTemplate.split(" ");
+        columns = new ArrayList<ColumnModel>();   
+         
+        for(String columnKey : columnKeys) {
+            String key = columnKey.trim();
+             
+            if(VALID_COLUMN_KEYS.contains(key)) {
+                columns.add(new ColumnModel( buscarHeader(columnKey), columnKey));
+            }
+        }
+    }
+
+ 
+    
+
+    public List<String> getVALID_COLUMN_KEYS() {
+        return VALID_COLUMN_KEYS;
+    }
+
+    public void setVALID_COLUMN_KEYS(List<String> VALID_COLUMN_KEYS) {
+        this.VALID_COLUMN_KEYS = VALID_COLUMN_KEYS;
+    }
+
+    public String getColumnTemplate() {
+        return columnTemplate;
+    }
+
+    public void setColumnTemplate(String columnTemplate) {
+        this.columnTemplate = columnTemplate;
+    }
+
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+
+    public List<Cabecera> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(List<Cabecera> headers) {
+        this.headers = headers;
+    }
+
+    
+    public List<ETerapia> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<ETerapia> lista) {
+        this.lista = lista;
+    }
+
+    public int getFrozen() {
+        return frozen;
+    }
+
+    public void setFrozen(int frozen) {
+        this.frozen = frozen;
+    }
+    
+    
+    
+    
+    
+            static public class ColumnModel implements Serializable {
+ 
+        private String header;
+        private String property;
+ 
+        public ColumnModel(String header, String property) {
+            this.header = header;
+            this.property = property;
+        }
+ 
+        public String getHeader() {
+            return header;
+        }
+ 
+        public String getProperty() {
+            return property;
+        }
+    }
+     static public class Cabecera implements Serializable {
+ 
+        private String header;
+        private String property;
+ 
+        public Cabecera(String header, String property) {
+            this.header = header;
+            this.property = property;
+        }
+ 
+        public String getHeader() {
+            return header;
+        }
+ 
+        public String getProperty() {
+            return property;
+        }
+    }
+     
 }

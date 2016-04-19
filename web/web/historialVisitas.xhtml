@@ -89,18 +89,32 @@
                     
                     <p:panel id="pnl_Hi_P" >
                         <br/>
-                        <p:dataTable var="rowName" value="#{historialTerapiaBean.rowNames}"
-                                     rowIndexVar="rowIdx" emptyMessage="No hay pares" >
-                            <p:column headerText="" styleClass="ui-widget-header" width="250px;" >
-                                <h:outputText value="#{rowName}"/>
-                            </p:column>
-                            <p:columns var="columnName" value="#{historialTerapiaBean.colNames}" headerText="#{columnName}"
-                                       columnIndexVar="colIdx">
-                                <ui:repeat value="#{historialTerapiaBean.data3D[rowIdx][colIdx]}" var="data">
-                                    <h:outputText value="#{data}"/>
-                                </ui:repeat>
+                        <p:dataTable id="matriz_pares" var="TABLA_H" value="#{historialTerapiaBean.lista}" emptyMessage="No hay pares" widgetVar="carsTable"
+                                     scrollWidth="90%" scrollHeight="80%" scrollable="true" style="height: 500px;"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" 
+                                     >  
+                            <f:facet name="{Exporters}">
+                                <h:commandLink>
+                                    <p:graphicImage name="images/Excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="matriz_pares" fileName="PARES"  />
+                                </h:commandLink>
+                                <h:commandLink>
+                                    <p:graphicImage name="images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="matriz_pares" fileName="PARES"/>
+                                </h:commandLink>
+                            </f:facet>
+                            <p:columns value="#{historialTerapiaBean.columns}" var="column" columnIndexVar="colIndex" style="width: 100px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{column.header}"   />
+                                </f:facet>
+                                <h:outputText value="#{TABLA_H[column.property]}" rendered="#{column.header eq 'PARES'}" />
+                                <h:outputText value="#{TABLA_H.estado[colIndex-1]}" rendered="#{column.header ne 'PARES'}" />
                             </p:columns>
                         </p:dataTable>
+                        
+                        
+                        
                     </p:panel>
 
 
@@ -153,7 +167,7 @@
                             </p:dataTable> 
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                 <p:commandButton value="Aceptar" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
-                                                 update=":#{p:component('tablaSinH')},:#{p:component('tablitaST21H')}, :#{p:component('formHistorialTerapia03')}">
+                                                 update=":#{p:component('tablaSinH')},:#{p:component('tablitaST21H')}" >
                                     <f:actionListener binding="#{sintomaTerapiaBean.llenamatriz()}" />
                                 </p:commandButton>
                                 <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

@@ -7,8 +7,10 @@ package com.gusedu.util;
 
 import com.gusedu.model.Usuario;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -243,4 +245,29 @@ public class StaticUtil {
     return Normalizer.normalize(string, Form.NFD)
         .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 }
+            
+            public static String convertirDateToString(Date date)
+            {
+                String salida="";
+                DateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
+		salida = fecha.format(date);
+                return salida;
+            }
+            
+            public static Date convertirFecha(String fec)
+            {
+                	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	 Date date=null;
+
+	try {
+
+		 date = formatter.parse(fec);
+	
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+        return date;
+            }
+            
 }

@@ -96,16 +96,12 @@
                     <p:blockUI block="pnlJ" widgetVar="bui" >
                         <p:graphicImage url="../resources/images/loading2.gif"    />
                     </p:blockUI>
+                    <p:blockUI block=":#{p:component('tablaPac')}" trigger=":#{p:component('tablaPac')}" >
+                        <p:graphicImage url="../resources/images/loading2.gif"    />
+                    </p:blockUI>
 
                 </h:form>              
                 <p:growl id="growlT" showDetail="true"   life="2000" /> 
-                <p:dialog  id="dialoghistorialTerapia" header="Historia de #{pacienteBean.cliente.persona.perNombres} #{pacienteBean.cliente.persona.perApellidoP} #{pacienteBean.cliente.persona.perApellidoM}" widgetVar="dlgHTe" 
-                           showEffect="pop" width="1230px" height="550px" >
-                    <p:ajax update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-                    <h:form id="frame5"  >
-                        <ui:include src="HistorialTerapia.xhtml" />
-                    </h:form>
-                </p:dialog>
                 
                  <h:form>
                     <p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"

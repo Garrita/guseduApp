@@ -176,20 +176,32 @@
                     </p:tab>
                     <p:tab title="Historial de Terapias"  >
                         <h:form id="His_Ter" >
-                            <p:scrollPanel mode="native" style="width:650px;height:350px">
-                                <p:dataTable var="rowName" value="#{historialTerapiaBean.rowNames}"
-                                             rowIndexVar="rowIdx" emptyMessage="No hay pares" scrollable="true" scrollRows="150" scrollWidth="1000">
-                                    <p:column headerText="" styleClass="ui-widget-header" >
-                                        <h:outputText value="#{rowName}" />
-                                    </p:column>
-                                    <p:columns var="columnName" value="#{historialTerapiaBean.colNames}" headerText="#{columnName}"
-                                               columnIndexVar="colIdx">
-                                        <ui:repeat value="#{historialTerapiaBean.data3D[rowIdx][colIdx]}" var="data">
-                                            <h:outputText value="#{data}"/>
-                                        </ui:repeat>
-                                    </p:columns>
-                                </p:dataTable> 
-                            </p:scrollPanel>
+                            <p:panel >
+                                
+                             <p:dataTable id="matriz_pares" var="TABLA_H" value="#{historialTerapiaBean.lista}" emptyMessage="No hay pares" widgetVar="carsTable"
+                                       scrollWidth="90%"  scrollable="true" style="height: 500px;height: 700px;"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" 
+                                     >  
+                            <f:facet name="{Exporters}">
+                                <h:commandLink>
+                                    <p:graphicImage name="images/Excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="matriz_pares" fileName="PARES"  />
+                                </h:commandLink>
+                                <h:commandLink>
+                                    <p:graphicImage name="images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="matriz_pares" fileName="PARES"/>
+                                </h:commandLink>
+                            </f:facet>
+                                 <p:columns value="#{historialTerapiaBean.columns}" var="column" columnIndexVar="colIndex" style="width: 100px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{column.header}"   />
+                                </f:facet>
+                                <h:outputText value="#{TABLA_H[column.property]}" rendered="#{column.header eq 'PARES'}" />
+                                <h:outputText value="#{TABLA_H.estado[colIndex-1]}" rendered="#{column.header ne 'PARES'}" />
+                            </p:columns>
+                        </p:dataTable>
+                           </p:panel>
                         </h:form>
                     </p:tab>
                     <p:tab title="Historial de Síntomas">

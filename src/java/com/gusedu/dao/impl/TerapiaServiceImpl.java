@@ -6,12 +6,14 @@
 package com.gusedu.dao.impl;
 
 import com.gusedu.dao.TerapiaService;
+import com.gusedu.entidad.ETerapia;
 import com.gusedu.model.*;
 import com.gusedu.util.HibernateUtil;
+import com.gusedu.util.StaticUtil;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -224,8 +226,32 @@ public class TerapiaServiceImpl
             }
 
             public List<Terapia> terapiasPorCliente(Cliente cliente) {
-/* 219*/        List<Terapia> result = new ArrayList();
-/* 228*/        return result;
+ List<Terapia> lista= new ArrayList<>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+           
+             Query q = session.createSQLQuery("{ CALL SP_LISTAR_TERAPIAS_POR_PACIENTE(:cod) }");
+               q.setParameter("cod",cliente.getCliCodigo());
+          
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+				
+                            
+                          int ter_cod= (int) result[0];
+                          String fecha = (String) result[1];
+                      Terapia ter = new Terapia();
+                      ter.setTerCodigo(ter_cod);
+                      ter.setTerFecRealizada(StaticUtil.convertirFecha(fecha));
+                   
+                        lista.add(ter);
+			}
+        } catch (Exception e) {
+            System.out.println("Error terapiasPorCliente : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;
             }
 
             public boolean saveSintomaVisita(SintomaVisita sintomavista) {
@@ -562,5 +588,41 @@ public class TerapiaServiceImpl
              resultado=false;
          }
          return resultado;
+    }
+
+    @Override
+    public List<ETerapia> SP_MatrizPares(int cod,int tam) {
+        List<ETerapia> lista= new ArrayList<>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+           
+             Query q = session.createSQLQuery("{ CALL SP_Matriz_Pares(:cod) }");
+               q.setParameter("cod",cod);
+          
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+				
+                             int val=result.length;
+                            int x=0;
+                     
+                          String par  = (String) result[x] ;x++; 
+                          String[] estado  = new String[tam] ;
+                            for (int i = 0; i < estado.length; i++) {
+                                estado[i] = "";
+                                if (x < val) {
+                                    estado[i] = (String) result[x];
+                                }
+                                x++;
+                }
+                   
+                        lista.add(new ETerapia("", par, estado));
+			}
+        } catch (Exception e) {
+            System.out.println("Error SP_MatrizPares : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;
     }
 }

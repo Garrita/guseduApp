@@ -1,5 +1,6 @@
 package com.gusedu.dao;
 
+import com.gusedu.entidad.ETerapia;
 import java.util.List;
 
 import com.gusedu.model.Cliente;
@@ -73,4 +74,6 @@ public interface TerapiaService {
         public Terapia terapiaByVisita(Visita visita);
         
         public boolean SP_CambiarPrecioTerapia(int ter,int vis,double monto);
+        
+        public List<ETerapia> SP_MatrizPares(int cod,int tam);
 }
