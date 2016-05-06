@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+</h:head>
+<h:body>
+	<pm:page id="consultaPacientes">
+		<pm:header title="Pacientes">
+			
+		</pm:header>
+		<pm:content>
+			<pm:field>
+                <h:form id="formBusquedaP" style="text-align: center;">
+                         <p:outputLabel value="Filtrar: " for="inpQuery" />
+                    <p:inputText value="#{pacienteBean.query}" id="inpQuery"
+                                 style="width : 500px;">
+                        <p:ajax event="keyup" update=":#{p:component('tablaPac')}" delay="250"
+                                listener="#{pacienteBean.filtrarBusqueda}">
+                        </p:ajax>
+                    </p:inputText>           
+                </h:form>
+			</pm:field>
+			<h:form>
+		  <p:dataTable id="tablaPac" var="pac" 
+                                 value="#{pacienteBean.clientesxfecha}" paginator="true" rows="10"
+                                 rowKey="#{pac.codCliente}" widgetVar="tablaPacientes"
+                                 emptyMessage="No hay historial de visitas por el momento" >
+                        <p:column headerText="DNI" width="80px;" >
+                            <h:outputText value="#{pac.dni}" />
+                        </p:column>
+                        <p:column headerText="Ap. paterno" sortBy="#{pac.apellidoPPersona}" 
+                                  >
+                            <h:outputText value="#{pac.apellidoPPersona}" />
+                        </p:column>
+                        <p:column headerText="Ap. materno" sortBy="#{pac.apellidoMPersona}"
+                                  >
+                            <h:outputText value="#{pac.apellidoMPersona}" />
+                        </p:column>
+                        <p:column headerText="Nombre" sortBy="#{pac.nombresPersona}"
+                                  >
+                            <h:outputText value="#{pac.nombresPersona}" />
+                        </p:column>
+                        <p:column headerText="Teléfono móvil" width="70px;">
+                            <h:outputText value="#{pac.telmovilPersona}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="Última visita" sortBy="#{pac.fechafinVisita}" width="100px;">
+                            <p:outputLabel value="#{pac.fechafinVisita}" >
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Tipo Cliente" width="70px;">
+                            <h:outputText value="#{pac.tipoCliente}" />
+                        </p:column>
+ 
+                    </p:dataTable>
+			</h:form>
+		</pm:content>
+	</pm:page>
+</h:body>
+</html>

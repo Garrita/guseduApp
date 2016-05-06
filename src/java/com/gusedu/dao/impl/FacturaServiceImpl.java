@@ -38,8 +38,15 @@ public class FacturaServiceImpl implements FacturaService{
                          Date fecha=(Date) d[3];
                          String factura_real=(String) d[4];
                          int cod_cliente=(int) d[5];
-                         obj = new cabecera_factura(cod_factura, cliente, montod, fecha, factura_real, cod_cliente);
-                       /* Object 
+                         String ubicacion=(String) d[9];
+                         String ubicacion_contacto=(String) d[10];
+                         String contacto=(String) d[11];
+                         String vendedor=(String) d[12];
+                         boolean delivery=(boolean) d[13];
+                         double pasaje= (double) d[14];
+                         //obj = new cabecera_factura(cod_factura, cliente, montod, fecha, factura_real, cod_cliente);
+                         obj = new cabecera_factura(cod_factura, cliente, montod, fecha, factura_real, cod_cliente, ubicacion, ubicacion_contacto, contacto, vendedor, delivery,pasaje);
+                         /* Object 
                         
 			for (Object[] result : d) {
 				

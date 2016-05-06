@@ -54,6 +54,7 @@
             </h:form>    
             <br/>
             <h:form>
+                <p:panelGrid columns="2" >
             <p:panelGrid id="pnlProd" columns="2">
 
                 <p:outputLabel for="outNombre" value="Producto: "></p:outputLabel>
@@ -84,12 +85,9 @@
                 <h:outputText id="outCostoParcial"
                               value="#{visitaBean.costoParcial} #{visitaBean.producto.proCurrencySymbol}" />
                 <p:commandButton icon="ui-icon-plus"
-                                 value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('growl')}"
+                                 value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('growl')},:#{p:component('productos')}"
                                  actionListener="#{visitaBean.addProductoToVisitaWeb}" />
-                <p:commandButton icon="ui-icon-search" action="#{visitaBean.listar}"
-                                 update=":#{p:component('productos')}" oncomplete="PF('dlgTP').show();" />
             </p:panelGrid>
-            <p:dialog  widgetVar="dlgTP"  >
                 <p:dataTable id="productos" var="pro" style="width:400px;"
                              paginatorAlwaysVisible="false" editable="true"
                              value="#{visitaBean.productosDeVisita}"
@@ -122,9 +120,8 @@
                                          action="#{visitaBean.eliminarProducto(pro)}" />
                     </p:column>
                 </p:dataTable>
-
-            </p:dialog>
- </h:form>
+ </p:panelGrid>
+            </h:form>
 
 
 

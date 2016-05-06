@@ -574,7 +574,7 @@ visitaService= new VisitaServiceImpl();
                /* LISTAR_PRODUCTOS();
                 LISTANDO_PRODUCTOS();*/
                 LIST_PROD();
-
+                listar();
                 ProductoBean objetoBean = (ProductoBean)fc.getExternalContext().getSessionMap().get("productoBean");
                 objetoBean.validador();
                 objetoBean.LISTAR_PRODUCTOS();

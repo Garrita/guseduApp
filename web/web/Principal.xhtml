@@ -40,8 +40,7 @@
                                  value="#{pacienteBean.clientesxfecha}" paginator="true" rows="10"
                                  rowKey="#{pac.codCliente}" widgetVar="tablaPacientes"
                                  emptyMessage="No hay historial de visitas por el momento" >
-                        <p:column headerText="DNI" width="80px;" filterBy="#{pac.dni}"
-                                  filterMatchMode="contains" >
+                        <p:column headerText="DNI" width="80px;" >
                             <h:outputText value="#{pac.dni}" />
                         </p:column>
                         <p:column headerText="Ap. paterno" sortBy="#{pac.apellidoPPersona}" 
@@ -103,14 +102,7 @@
                 </h:form>              
                 <p:growl id="growlT" showDetail="true"   life="2000" /> 
                 
-                 <h:form>
-                    <p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
-                              showEffect="pop" modal="true">
-                        <p:panel id="panelJ"    >
-                           
-                        </p:panel>
-                    </p:dialog>
-                </h:form>
+
                  <h:form>
                     <p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
                               showEffect="pop" modal="true">

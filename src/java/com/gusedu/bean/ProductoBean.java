@@ -7,11 +7,14 @@ package com.gusedu.bean;
 
 import com.gusedu.dao.ClienteService;
 import com.gusedu.dao.ProductoService;
+import com.gusedu.dao.TipoProductoService;
 import com.gusedu.dao.impl.ClienteServiceImpl;
 import com.gusedu.dao.impl.ProductoServiceImpl;
+import com.gusedu.dao.impl.TipoProductoServiceImpl;
 import com.gusedu.entidad.ClientePersona;
 import com.gusedu.entidad.EProductoLog;
 import com.gusedu.entidad.EProductoLogAvanzado;
+import com.gusedu.entidad.detalleDelivery;
 import com.gusedu.entidad.detalle_factura;
 import com.gusedu.model.Modelo;
 import com.gusedu.model.Producto;
@@ -23,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -35,6 +39,7 @@ public class ProductoBean {
     
     ProductoService productoservice;
     ClienteService clienteService ;
+    TipoProductoService tipoProductoservice;
     
     private Producto producto;
     private List<Producto> listaproducto;
@@ -58,6 +63,21 @@ public class ProductoBean {
     
    private String tipo;
    private double valor;
+   
+   private List<TipoProducto> listatipoProducto;
+   private String nombre;
+   private String ubicacion;
+   private String direccion;
+   
+   private detalleDelivery detDel;
+   private int idDepa;
+   private int idProv;
+   private int idDist;
+   
+   private String depa;
+   private String prov;
+   private String dist;
+   private double pasaje;
     
     public ProductoBean() {
         
@@ -68,13 +88,16 @@ public class ProductoBean {
         
         productoservice = new ProductoServiceImpl();
         clienteService = new ClienteServiceImpl();
+        tipoProductoservice = new TipoProductoServiceImpl();
+        detDel= new detalleDelivery();
         LISTAR_PRODUCTOS();
+        ListarTipos();
         LISTA_CLIPER();
         cantidadProducto=1;
 //        MOSTRARLOGProducto();
         
         
-        validador();
+        validadorLogin();
         queryProducto = "";
     }
 
@@ -86,26 +109,69 @@ public class ProductoBean {
         this.queryProducto = queryProducto;
     }
 
+    public void validadorLogin()
+    {
+        validador();
+        if(existencias.size()>0)
+        {
+            List<String> ss  = new ArrayList<>();
+                    for (int i = 0; i < existencias.size(); i++) {
+                        if(ss.indexOf(existencias.get(i))==-1)
+                        {
+                            ss.add(existencias.get(i));
+                        }
+                    }
+                    existencias=ss;
+        RequestContext.getCurrentInstance().execute("PF('dlgAvisoProducto').show();");
+        }
+    }
+    
     public void validador()
     {
         existencias= new ArrayList<>();
         existencias=productoservice.SP_ValidarStockMinimo();
-        String val="";
+        List<String> ss = new ArrayList<>();
+        String val="";String op="";
         int tam=existencias.size();
        if(tam>0)
         {
             for (int i = 0; i < tam; i++) {
-                if((i+1)==tam)
+                ss.add(StaticUtil.cortar(existencias.get(i), 1));
+                if(producto.getProCodigo()!=null)
                 {
-                    val+=existencias.get(i);
-                }else
-                {
-                    val+=existencias.get(i)+",";
+                    if(Integer.parseInt(StaticUtil.cortar(existencias.get(i), 0))==producto.getProCodigo())
+                    {
+                    op=StaticUtil.cortar(existencias.get(i), 1);
                 }
-            }
-            StaticUtil.errorMessage("Precaución", "Los siguientes productos están por agotarse : "+val);
+          
+                }
+                 }
+            
+           
+           // StaticUtil.errorMessage("Precaución", "Los siguientes productos están por agotarse : "+val);
+  
+         existencias=ss;
+         if(!"".equals(op))
+         {
+             StaticUtil.errorMessage("Precaución", "El siguiente productos está por agotarse : "+op);
+         }
+                     
         }
     }
+
+    public void ListarTipos()
+    {
+        listatipoProducto= tipoProductoservice.getAllTipoProducto();
+    }
+    
+    public List<TipoProducto> getListatipoProducto() {
+        return listatipoProducto;
+    }
+
+    public void setListatipoProducto(List<TipoProducto> listatipoProducto) {
+        this.listatipoProducto = listatipoProducto;
+    }
+    
     
     public List<String> getExistencias() {
         return existencias;
@@ -214,6 +280,7 @@ public class ProductoBean {
         {
             StaticUtil.errorMessage("Error", "No se pudo actualizar los datos del producto");
         }
+           LISTAR_PRODUCTOS();
     }
     
     public Producto getProducto() {
@@ -365,19 +432,48 @@ public class ProductoBean {
       calculo();
     }
     
-    public void CLIENTE_sELECCIONADO(int cli)
+    public void CLIENTE_sELECCIONADO(String cli)
     {
-        System.out.println("Cliente : "+ cli);
+        cod_cli=Integer.parseInt(StaticUtil.cortar(cli, 0));
+        nombre=StaticUtil.cortar(cli, 1);
+        ubicacion=StaticUtil.cortar(cli, 2);
+        direccion=StaticUtil.cortar(cli, 3);
+        detDel=new detalleDelivery();
+        MOSTRAR();
+        idDepa=0;
+        idProv=0;
+        idDist=0;
+        pasaje=0.0;
+        if(lista_detfact.size()>0)
+        {
+            detDel= productoservice.SP_VerificarDelivery(cod_cli);
+            System.out.println("LL : "+StaticUtil.cortar(detDel.getUbicacion(), 1)+"|"+StaticUtil.cortar(detDel.getUbicacion(), 2));
+            depa=StaticUtil.cortar(detDel.getUbicacion(), 1)+"|"+StaticUtil.cortar(detDel.getUbicacion(), 2);
+            prov=StaticUtil.cortar(detDel.getUbicacion(), 3)+"|"+StaticUtil.cortar(detDel.getUbicacion(), 4);
+            dist=StaticUtil.cortar(detDel.getUbicacion(), 5)+"|"+StaticUtil.cortar(detDel.getUbicacion(), 6);
+            pasaje=detDel.getPasaje();
+            /*idDepa=Integer.parseInt(StaticUtil.cortar(detDel.getUbicacion(), 1));
+            idProv=Integer.parseInt(StaticUtil.cortar(detDel.getUbicacion(), 3));
+            idDist=Integer.parseInt(StaticUtil.cortar(detDel.getUbicacion(), 5));*/
+            detDel.setUbicacion(StaticUtil.cortar(detDel.getUbicacion(), 0));
+            
+        }
+    }
+    
+    public int devolucion(String cadena)
+    {
+        return Integer.parseInt(StaticUtil.cortar(cadena, 0));
     }
     
     public void ADD_PRODUCTO()
     {
        
-         if( productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0,valor))
+         if( productoservice.SP_CrearCabeceraProducto(cod_cli, producto.getProCodigo(), producto.getProDescripcionM(), cantidadProducto, costoParcial,0,valor,direccion+","+ubicacion,detDel.getUbicacion()+"|"+depa+"|"+prov+"|"+dist,detDel.getContacto(),detDel.getVendedor(),detDel.isDelivery(),pasaje))
         {
              productoservice.listarProductoLogAvanzado();
             StaticUtil.correctMesage("Exito", "Se ha registrado correctamente los datos del producto");
             LISTAR_PRODUCTOS();
+            MOSTRAR();
             validador();
         }else
         {
@@ -464,6 +560,99 @@ public class ProductoBean {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+
+
+
+
+    public detalleDelivery getDetDel() {
+        return detDel;
+    }
+
+    public void setDetDel(detalleDelivery detDel) {
+        this.detDel = detDel;
+    }
+
+    public int getIdDepa() {
+        return idDepa;
+    }
+
+    public void setIdDepa(int idDepa) {
+        this.idDepa = idDepa;
+    }
+
+    public int getIdProv() {
+        return idProv;
+    }
+
+    public void setIdProv(int idProv) {
+        this.idProv = idProv;
+    }
+
+    public int getIdDist() {
+        return idDist;
+    }
+
+    public void setIdDist(int idDist) {
+        this.idDist = idDist;
+    }
+
+    public String getDepa() {
+        return depa;
+    }
+
+    public void setDepa(String depa) {
+        this.depa = depa;
+    }
+
+    public String getProv() {
+        return prov;
+    }
+
+    public void setProv(String prov) {
+        this.prov = prov;
+    }
+
+    public String getDist() {
+        return dist;
+    }
+
+    public void setDist(String dist) {
+        this.dist = dist;
+    }
+
+    public double getPasaje() {
+        return pasaje;
+    }
+
+    public void setPasaje(double pasaje) {
+        this.pasaje = pasaje;
+    }
+    
     
     
 }

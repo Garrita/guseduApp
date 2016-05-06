@@ -269,5 +269,17 @@ public class StaticUtil {
 	}
         return date;
             }
+                public static String cortar(String cadena,int n)
+    {
+        String salida="";
+        String [] arreglo = cadena.split("\\|");
+           for (int i = 0; i < arreglo.length; i++) {
+            if(i==n)
+            {
+                salida=arreglo[i];
+            }
+        }
+          return salida;
+    }
             
 }

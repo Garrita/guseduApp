@@ -19,7 +19,13 @@ public class cabecera_factura {
     private Date fecha;
     private String factura_real;
     private int cod_cliente;
-
+    private String ubicacion;
+    private String ubicacion_contacto;
+    private String contacto;
+    private String vendedor;
+    private boolean delivery;
+    private double pasaje;
+    
     public cabecera_factura() {
     }
 
@@ -31,6 +37,25 @@ public class cabecera_factura {
         this.factura_real = factura_real;
         this.cod_cliente = cod_cliente;
     }
+
+    public cabecera_factura(int cod_factura, String cliente, double monto, Date fecha, String factura_real, int cod_cliente, String ubicacion, String ubicacion_contacto, String contacto, String vendedor, boolean delivery, double pasaje) {
+        this.cod_factura = cod_factura;
+        this.cliente = cliente;
+        this.monto = monto;
+        this.fecha = fecha;
+        this.factura_real = factura_real;
+        this.cod_cliente = cod_cliente;
+        this.ubicacion = ubicacion;
+        this.ubicacion_contacto = ubicacion_contacto;
+        this.contacto = contacto;
+        this.vendedor = vendedor;
+        this.delivery = delivery;
+        this.pasaje = pasaje;
+    }
+
+
+    
+    
     
     public int getCod_factura() {
         return cod_factura;
@@ -78,6 +103,54 @@ public class cabecera_factura {
 
     public void setCod_cliente(int cod_cliente) {
         this.cod_cliente = cod_cliente;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public String getUbicacion_contacto() {
+        return ubicacion_contacto;
+    }
+
+    public void setUbicacion_contacto(String ubicacion_contacto) {
+        this.ubicacion_contacto = ubicacion_contacto;
+    }
+
+    public String getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
+    }
+
+    public String getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(String vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public boolean isDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(boolean delivery) {
+        this.delivery = delivery;
+    }
+
+    public double getPasaje() {
+        return pasaje;
+    }
+
+    public void setPasaje(double pasaje) {
+        this.pasaje = pasaje;
     }
     
     

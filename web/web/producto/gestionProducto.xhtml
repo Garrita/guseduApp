@@ -92,6 +92,14 @@
                       modal="true" >
                 <h:form id="formAgregarProducto">
                     <p:panelGrid columns="2" >
+                        
+                        <p:outputLabel value="Tipo de Producto" />
+                        <p:selectOneMenu id="selectOneMenu_tp" value="#{productoBean.producto.tipoProducto.tprCodigo}" required="true" >
+						
+                            <f:selectItems value="#{productoBean.listatipoProducto}" var="tpds" 
+                                           itemLabel="#{tpds.tprNombre}" itemValue="#{tpds.tprCodigo}" />
+				</p:selectOneMenu>
+                        
                         <p:outputLabel value="Descripción Corta : " for="usuDescripC"/>
                         <p:inputText id="usuDescripC" required="true"
                                      value="#{productoBean.producto.proDescripcionC}" />
@@ -136,6 +144,13 @@
             <p:dialog header="Editar Producto" widgetVar="dlgEditProducto" showEffect="pop"  modal="true" >
                 <h:form id="formEditarProducto">
                     <p:panelGrid columns="2" >
+                        
+                         <p:outputLabel value="Tipo de Producto" />
+                        <p:selectOneMenu id="selectOneMenu_tpE" value="#{productoBean.producto.tipoProducto.tprCodigo}" required="true" >
+				<f:selectItem itemLabel="Selecciona uno" itemValue="#{null}" />		
+                            <f:selectItems value="#{productoBean.listatipoProducto}" var="tpdse" 
+                                           itemLabel="#{tpdse.tprNombre}" itemValue="#{tpdse.tprCodigo}" />
+				</p:selectOneMenu>
                         <p:outputLabel value="Descripción Corta : " for="usuDescripC"/>
                         <p:inputText id="usuDescripC" required="true"
                                      value="#{productoBean.producto.proDescripcionC}" />

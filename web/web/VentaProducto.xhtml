@@ -7,20 +7,49 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:pe="http://primefaces.org/ui/extensions" >
     <ui:composition>
-        <p:panelGrid columns="2"  >
-            <p:panel>
+        <p:scrollPanel mode="native" style="width:100%;height:500px">
+           
                 <h:form>
-                    <p:selectOneListbox id="selectPaci" value="#{productoBean.cod_cli}"
+                 <p:panel header="Clientes"  toggleable="true" >    
+                     <h:panelGrid columns="2" style="width: 100%;" >
+                         <p:selectOneListbox id="selectPaci" value="#{productoBean.nombre}"
                                         filter="true" filterMatchMode="contains"
                                         style="width: 300px;"  >
                         <f:selectItems value="#{productoBean.lista_cliper}" var="cliper" 
                                        itemLabel="#{cliper.per_dni} - #{cliper.paciente}" 
-                                       itemValue="#{cliper.cli_codigo}" />
-                        <p:ajax   listener="#{productoBean.CLIENTE_sELECCIONADO(productoBean.cod_cli)}"  /> 
+                                       itemValue="#{cliper.cli_codigo}|#{cliper.paciente}|#{cliper.ubicacion}|#{cliper.direccion}" />
+                        <p:ajax   listener="#{productoBean.CLIENTE_sELECCIONADO(productoBean.nombre)}" update=":#{p:component('pnlProdV')},:#{p:component('productosf')},:#{p:component('pnlDelivery')}"  /> 
                     </p:selectOneListbox>  
-                    <br/><br/>
-                    <p:panelGrid id="pnlProdV" columns="2">
+                         
+                        
+                         <p:panel style="border: none;margin-top: -100px;
+                                        margin-right: -80px;width: 70%;" >
+                                                              <p:commandButton value="Nuevo Cliente" id="btnNuevoVP" update=":#{p:component('dialogVta')}"
+                                           oncomplete="PF('dlg1').show();" 
+                                     action="#{personaBean.inicializar()}"  
+                                     styleClass="ui-priority-primary" /> 
+                         </p:panel>
+                       
+                     </h:panelGrid>
+                     
+                  
+             </p:panel>
+                 </h:form>    
+            
+            
+            <h:panelGrid columns="2" >
+                            
+            
+                <p:panel id="PnlVentaP"  >
+                                         <h:form>
+                                             
+                                              <p:tabView>
+        <p:tab title="Datos de Cliente/Producto">
+     <p:panelGrid id="pnlProdV" columns="2">
 
+                        <p:outputLabel value="Cliente : " />
+                        <p:outputLabel value="#{productoBean.nombre}" id="cli_pro" />
+                        
                         <p:outputLabel for="VoutNombre" value="Producto: "></p:outputLabel>
                         <h:outputText id="VoutNombre"
                                       value="#{productoBean.producto.proDescripcionM}"></h:outputText>
@@ -51,81 +80,91 @@
                         <p:commandButton icon="ui-icon-plus"
                                          value="Agregar Producto"  
                                          actionListener="#{productoBean.ADD_PRODUCTO()}" 
-                                         update=":#{p:component('tablaVentaProductos')}" />
+                                         update=":#{p:component('tablaVentaProductos')},:#{p:component('productosf')}" />
                     </p:panelGrid>
-                </h:form>
-                <h:form>
-                     <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
-                                 action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
-                                 oncomplete="PF('dlgFactura_Venta').show();" />
-                <p:commandButton icon="ui-icon-search" action="#{productoBean.MOSTRAR()}"
-                                 oncomplete="PF('dlgTP_F_VP').show();" update=":#{p:component('productosf')}" />
-                </h:form>
-            </p:panel>
-            <h:form>
-                <p:panel>
-                    <p:commandButton value="Nuevo Cliente" id="btnNuevoVP" update=":#{p:component('dialogVta')}"
-                                     oncomplete="PF('dlg1').show();"	
-                                     action="#{personaBean.inicializar()}"  
-                                     styleClass="ui-priority-primary" /> 
-                    <br/>
-                    <br/>
-                    <p:outputLabel for="searchQueryProducto1" value="Buscar producto: " />
-                    <p:inputText id="searchQueryProducto1"
-                                 value="#{productoBean.queryProducto}" placeholder="Ingrese su búsqueda"
-                                 type="search">
-                        <p:ajax event="keyup" update=":#{p:component('tablaVentaProductos')}"
-                                listener="#{productoBean.filtrarProductos()}" />
-                    </p:inputText>     
-                </p:panel>
-                <p:panel>
-                    <br/>
-                    <br/>
-                    <p:dataTable id="tablaVentaProductos" var="prod_v"
-                                 paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
-                                 emptyMessage="No hay productos en stock" paginator="true" rows="8">
-
-                        <f:facet name="header">
-                            Productos
-                        </f:facet>
-
-                        <p:column headerText="Producto" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proDescripcionM}" />
-                        </p:column>
-
-                        <p:column headerText="Precio standard" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
-                        </p:column>
+        </p:tab>
+        <p:tab title="Datos de Delivery">
+            <p:panelGrid columns="4" id="pnlDelivery" >
+                <p:outputLabel value="Cliente : " />
+                        <p:outputLabel value="#{productoBean.nombre}"  />
                         
-                        <p:column headerText="Precio corporativo" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proCostoUnitarioC} #{prod.proCurrencySymbol}" />
-                        </p:column>
-
-                        <p:column headerText="Existencias" style="vertical-align:middle;">
-                            <h:outputText value="#{prod_v.proExistencias}" />
-                        </p:column>  
-
-                        <p:column>
-                            <p:commandButton icon="ui-icon-plus"
-                                             rendered="#{prod_v.proExistencias > 0}"
-                                             actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
-
-                                             update=":#{p:component('pnlProdV')}"
-                                             />
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
-        </p:panelGrid>
-        <h:form>
-            <p:dialog  widgetVar="dlgTP_F_VP"  >
-                <p:dataTable id="productosf" var="prof" style="width:400px;"
+                        <p:outputLabel value="¿Delivery?" />
+                        <p:selectBooleanCheckbox value="#{productoBean.detDel.delivery}"  >
+                            
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:outputLabel value="Ubicación : " />
+                        <p:outputLabel value="#{productoBean.ubicacion}"  />
+                        
+                        <p:outputLabel value="Dirección : " />
+                        <p:outputLabel value="#{productoBean.direccion}"  />
+                        
+                        <p:outputLabel value="Vendedor (Opcional) :" />
+                        <p:inputText value="#{productoBean.detDel.vendedor}" />
+                        
+                        <p:outputLabel value="Pasaje : " />
+                        <p:inputText value="#{productoBean.pasaje}" />
+                        
+                        <p:outputLabel value="Contacto: " />
+                        <p:inputText value="#{productoBean.detDel.contacto}" />
+                        
+                        <p:outputLabel value="Ubicación de Contacto : " />
+                        <h:panelGrid columns="1">
+                                <p:selectOneMenu id="idDepaVP_2" 
+                                                 value="#{productoBean.depa}"
+                                          >
+                            <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                            <f:selectItems value="#{ubigoBean.listadepa}" var="tt"
+                                           itemValue="#{tt.idDepa}|#{tt.departamento}" itemLabel="#{tt.departamento}" />
+                                                <p:ajax event="change" 
+                            update=":#{p:component('idProvVP_2')},
+                            :#{p:component('idDisVP_2')}"
+                            listener="#{ubigoBean.LISTA_PROVINCIAS_DP(productoBean.devolucion(productoBean.depa))}" 
+                            />
+                            </p:selectOneMenu>
+                                            <p:selectOneMenu id="idProvVP_2" 
+                                                             value="#{productoBean.prov}"
+                                 >
+                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                    <f:selectItems value="#{ubigoBean.listapro}" var="u_prov"
+                                   itemValue="#{u_prov.idProv}|#{u_prov.provincia}" itemLabel="#{u_prov.provincia}" />
+                                        <p:ajax event="change" 
+                            update=":#{p:component('idDisVP_2')}"
+                            listener="#{ubigoBean.LISTA_DISTRITO_DP(productoBean.devolucion(productoBean.prov))}" 
+                            />
+                </p:selectOneMenu>
+                                            <p:selectOneMenu id="idDisVP_2" 
+                                                             value="#{productoBean.dist}"
+                                 >
+                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                    <f:selectItems value="#{ubigoBean.listadis}" var="u_dis"
+                                   itemValue="#{u_dis.idDist}|#{u_dis.distrito}" itemLabel="#{u_dis.distrito}" />
+                </p:selectOneMenu>
+                        </h:panelGrid>
+                       
+                        <p:outputLabel value="Dirección de Contacto : " />
+                        <p:inputText value="#{productoBean.detDel.ubicacion}" />
+                        
+            </p:panelGrid>
+        </p:tab>
+    </p:tabView>   
+                                             
+               
+                                                  
+                </h:form> 
+                    <br/><br/>
+                <h:form>
+                                    <p:dataTable id="productosf" var="prof" style="width:400px;"
                              paginatorAlwaysVisible="false" editable="true"
                              value="#{productoBean.lista_detfact}"
                              emptyMessage="No se han añadido productos" paginator="true"
-                             rows="5">
+                             rows="3">
                     <f:facet name="header">
                         Productos del Paciente
+                        <p:spacer height="10px" width="20%" />
+                         <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura_v')}" 
+                                 action="#{scheduleView.BUSCARFACTURA_EXTERNO(productoBean.cod_cli)}" 
+                                 oncomplete="PF('dlgFactura_Venta').show();" />
                     </f:facet>
 
 
@@ -151,9 +190,61 @@
                                          action="#{productoBean.ELIMINAR(prof.cod_det_factura)}" />
                     </p:column>
                 </p:dataTable>
+                </h:form>
+                </p:panel>
+                        
+                <h:form>
+                        <p:panel header="Productos"  >
+                    <br/>
+                    <br/>
+                    <p:outputLabel for="searchQueryProducto1" value="Buscar producto: " />
+                    <p:inputText id="searchQueryProducto1"
+                                 value="#{productoBean.queryProducto}" placeholder="Ingrese su búsqueda"
+                                 type="search">
+                        <p:ajax event="keyup" update=":#{p:component('tablaVentaProductos')}"
+                                listener="#{productoBean.filtrarProductos()}" />
+                    </p:inputText>     
+                    <br/>
+                    <br/>
+                    <p:dataTable id="tablaVentaProductos" var="prod_v"
+                                 paginatorAlwaysVisible="false" value="#{productoBean.listaproducto}"
+                                 emptyMessage="No hay productos en stock" paginator="true" rows="3" >
 
-            </p:dialog>
-        </h:form>
+
+                        <p:column headerText="Producto" style="vertical-align:middle;" width="30%" >
+                            <h:outputText value="#{prod_v.proDescripcionM}" />
+                        </p:column>
+
+                        <p:column headerText="Precio standard" style="vertical-align:middle;" width="15%" >
+                            <h:outputText value="#{prod_v.proCostoUnitario} #{prod.proCurrencySymbol}" />
+                        </p:column>
+                        
+                        <p:column headerText="Precio corporativo" style="vertical-align:middle;" width="15%" >
+                            <h:outputText value="#{prod_v.proCostoUnitarioC} #{prod.proCurrencySymbol}" />
+                        </p:column>
+
+                        <p:column headerText="Stock" style="vertical-align:middle;" width="15%" >
+                            <h:outputText value="#{prod_v.proExistencias}" />
+                        </p:column>  
+
+                        <p:column width="12%" >
+                            <p:commandButton icon="ui-icon-plus"
+                                             rendered="#{prod_v.proExistencias > 0}"
+                                             actionListener="#{productoBean.preProducto(prod_v.proCodigo)}"
+
+                                             update=":#{p:component('pnlProdV')}"
+                                             />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            </h:panelGrid>
+      
+                    
+               
+                     
+            
+       </p:scrollPanel>
 
         <p:dialog id="dialogFactura_v" widgetVar="dlgFactura_Venta" header="Factura"  
                   showEffect="pop"  width="850px" height="550px" >   
@@ -307,6 +398,10 @@
 
         </h:form>
 
+         <p:blockUI id="block_VT" block=":#{p:component('PnlVentaP')}" trigger=":#{p:component('selectPaci')}">
+            <p:graphicImage url="../resources/images/loading2.gif"    />
+        </p:blockUI>
+        
     </ui:composition>
 </html>
 

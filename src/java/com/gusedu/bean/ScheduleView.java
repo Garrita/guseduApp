@@ -31,16 +31,29 @@ import com.gusedu.model.TipoCliente;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 import com.gusedu.util.StaticUtil;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -720,7 +733,13 @@ public class ScheduleView {
        if(cab_fact!=null)
        {
            mont=cab_fact.getMonto();
-            fc.getExternalContext().getSessionMap().put("cod_fact_monto", mont);
+           
+           if(cab_fact.isDelivery())
+           {
+               cab_fact.setUbicacion_contacto(StaticUtil.cortar(cab_fact.getUbicacion_contacto(), 0)+","+StaticUtil.cortar(cab_fact.getUbicacion_contacto(), 2)+"-"+StaticUtil.cortar(cab_fact.getUbicacion_contacto(), 4)+"-"+StaticUtil.cortar(cab_fact.getUbicacion_contacto(), 6));
+          
+           }
+           fc.getExternalContext().getSessionMap().put("cod_fact_monto", mont);
               LISTAR();
        }else
        {
@@ -783,5 +802,51 @@ public class ScheduleView {
     public double DEVOLVER_MONTO()
     {
         return cab_fact.getMonto();
+    }
+    
+    public void EXPORTART( ) throws IOException 
+    {
+         FacesContext fc = FacesContext.getCurrentInstance();
+ 
+        ExternalContext ec = fc.getExternalContext();
+        
+                
+        ServletContext  context = (ServletContext) ec.getContext();
+ 
+        try
+        {
+
+
+            List<detalle_factura> list = new ArrayList<>();
+            list.add(new detalle_factura());
+            
+            
+                list.addAll(lista_detfact);
+                        
+           JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(list);
+ 
+                Map<String, Object> parametros = new HashMap<String, Object>() ;
+                parametros.put("ItemDataSource", itemsJRBean);
+                parametros.put("cliente", cab_fact.getCliente());
+                parametros.put("fecha", StaticUtil.convertirDateToString(cab_fact.getFecha()));
+                parametros.put("total", cab_fact.getMonto());
+                
+ File reportfile = new File(context.getRealPath("/factura/Factura.jasper"));
+     
+          
+  byte[] bytes = JasperRunManager.runReportToPdf(reportfile.getPath(), parametros,itemsJRBean);   
+            
+                ec.setResponseContentType("application/pdf");
+                ec.setResponseContentLength(bytes.length);
+                ec.setResponseHeader("Content-Disposition","inline;filename=\"reporte.pdf\"");//attachment - inline
+                OutputStream output = ec.getResponseOutputStream();
+                output.write(bytes, 0, bytes.length);
+            fc.responseComplete();
+        System.out.println("Sending to browser...");  
+        }
+        catch(JRException e)
+        {
+            System.out.println("Error de Exportación : "+e.getMessage());
+        }
     }
 }
