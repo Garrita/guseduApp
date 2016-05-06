@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="plantillas/PlantillaPrincipalCurso.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <p:panel id="panelImprimir" styleClass="panel">
+                        <h2 style="font-weight: bold; color: blueviolet; text-align: center ">
+                            FICHA DE INSCRIPCIÓN 
+                        </h2>
+                        <h3 style="color: blueviolet; text-align: center">
+                            <br/>
+                            XXV CURSO INTERNACIONAL DE BIOMAGNETISMO MÉDICO
+                            <br/>
+                            <br/>
+                            2016
+                            <br/>
+                            <br/>
+                            LIMA - PERÚ 
+                        </h3>
+                        <h:panelGrid bgcolor="white" style="width: 1000px; text-align: center" columns="1" border="-1" columnClasses="columna2">                             
+                            <h:outputLabel value="INICIO: #{cursoBean.variable[0]}" />
+                        </h:panelGrid>
+                        <h:panelGrid border="2" bgcolor="#cadadd" style="width: 1000px; text-align: left;" columns="2" columnClasses="columna1,columna2">
+                            <h:outputLabel value="Apellido Paterno" />
+                            <h:inputText value="#{cursoBean.persona.perApellidoP}" style="width:500px"/>
+                            <h:outputLabel value="Apellido Materno" />
+                            <h:inputText value="#{cursoBean.persona.perApellidoM}"  style="width:500px"/>
+                            <h:outputLabel value="Nombres" />
+                            <h:inputText value="#{cursoBean.persona.perNombres}"  style="width:500px"/>
+                            <h:outputLabel value="Género" />
+                            <p:selectOneRadio id="genero" value="#{cursoBean.persona.perSexo}" >
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneRadio>
+                            <p:outputLabel value="Fecha de Nacimiento " /> 
+                            <p:calendar value="#{cursoBean.persona.perFecNacimiento}" yearRange="c-100:c" maxdate="new Date();"
+                                        pattern="dd/MM/yyyy" navigator="true" style="width: 800px">      
+                            <p:ajax event="dateSelect" listener="#{cursoBean.validaEdad}" />
+                            </p:calendar>                          
+                            <h:outputLabel value="DNI" />
+                            <h:inputText value="#{cursoBean.persona.perDni}"  style="width:500px"/>
+                            <h:outputLabel value="Dirección de Residencia" />
+                            <h:inputText value="#{cursoBean.persona.perDireccion}"  style="width:500px"/>
+                            <h:outputLabel value="Correo Electrónico" />
+                            <h:inputText value="#{cursoBean.persona.perCorreo}"  style="width:500px"/>
+                        </h:panelGrid>
+                        <h:panelGrid border="2" bgcolor="white" style="width: 1000px; text-align: left" columns="5" columnClasses="columna1,columna3,columna3,columna3,columna4">
+                            <h:outputLabel value="Teléfono Domicilio" />
+                            <h:outputLabel value="Código País" />
+                            <h:inputText value="#{cursoBean.telfijocodpais}" style="width:80px"/>
+                            <h:outputLabel value="Número" />
+                            <h:inputText value="#{cursoBean.telfijo}" style="width:150px"/>
+                            <h:outputLabel value="Teléfono Celular" />
+                            <h:outputLabel value="Código País" />
+                            <h:inputText value="#{cursoBean.telmovilcodpais}" style="width:80px"/>
+                            <h:outputLabel value="Número" />
+                            <h:inputText value="#{cursoBean.telmovil}" style="width:150px"/>
+                        </h:panelGrid>
+                        <h:panelGrid border="2" bgcolor="white" style="width: 1000px; text-align: left" columns="2" columnClasses="columna1,columna2">
+                            <h:outputLabel value="Formación Académica" />
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_formacad}" style="width:500px"/>
+                            <h:outputLabel value="Talleres Cursados de Biomagnetismo o Técnicas Curativas" />
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_tallercurs}" style="width:500px"/>
+                            <h:outputLabel value="Otros Talleres Cursos Relacionados" />
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_otrotall}" style="width:500px"/>
+                            <h:outputLabel for="cursoComo" value="Cómo se enteró del Curso" />
+                            <p:selectOneRadio id="cursoComo" value="#{cursoBean.persona.perEnteroGusedu}" layout="grid" columns="2" >
+                                <f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
+                                <f:selectItem itemLabel="Web" itemValue="Web" />
+                                <f:selectItem itemLabel="Amigos" itemValue="Amigos" />
+                                <f:selectItem itemLabel="Familiares" itemValue="Familiares" />
+                                <f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+                        <br/>
+                        <h3 style="color: black; margin-right: 50%">
+                            Tarifa Standard: $700 dólares
+                        </h3>
+                        <h3 style="color: blueviolet; margin-right: 40%">
+                            DEPÓSITOS EN DÓLARES AMERICANOS
+                        </h3>
+                        <br/>
+                        <h:panelGrid border="2" bgcolor="white" style="width: 1000px;text-align: left" columns="2" columnClasses="columna1,columna2">
+                            <h:outputLabel value="Cuenta Interbancaria BBVA (dólares)" />
+                            <h:outputText value="#{cursoBean.variable[1]}"/>
+                            <h:outputLabel value="Cuenta BBVA (dólares)"/>
+                            <h:outputText value="#{cursoBean.variable[2]}"/>
+                            <h:outputLabel value="A Nombre"  />
+                            <h:outputText value="#{cursoBean.variable[3]}"/>
+                            <h:outputLabel value="RUC" />
+                            <h:outputText value="#{cursoBean.variable[4]}"/>
+                        </h:panelGrid>
+                        <br/>
+                        <h:panelGrid border="2" bgcolor="skyblue" style="width: 1000px;text-align: left" columns="2" columnClasses="columna1,columna2">
+                            <h:outputLabel value="Nombre Depositante" />
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_nombredepo}" style="width:500px"/>
+                            <h:outputLabel value="Fecha y Hora de Depósito"/>
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_fechahoradepo}" style="width:500px"/>
+                            <h:outputLabel value="Envió por Correo Voucher" />
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_enviocorreo}" style="width:500px"/>
+                            <h:outputLabel value="Número de Operación"/>
+                            <h:inputTextarea value="#{cursoBean.infcurso.inf_numerooperac}" style="width:500px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel id="panelBotones" styleClass="panel">
+                        <br/>
+                        <h:panelGrid border="1" bgcolor="white" style="width:1000px; text-align: left" columns="2" columnClasses="columna2,columna2">
+                            <p:commandButton value="Guardar" id="btnGuardar" icon="ui-icon-disk" actionListener="#{cursoBean.AGREGAR()}"/>
+                            <p:commandButton value="Descargar Hoja Registro" id="btnImprimir" icon="ui-icon-print" actionListener="#{cursoBean.IMPRIMIRREPORTE()}"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

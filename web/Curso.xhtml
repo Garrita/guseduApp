@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Ficha de Inscripción</title>
+    </h:head>
+    <h:body style="background-repeat: no-repeat;background-image: url('#{request.contextPath}/resources/images/Fonddo Gusedu.PNG'); text-align: center; ">
+        <h:form>
+            <p:panel style="position: absolute; height:2000px; width:1200px; top:20%; right:75%; margin-top: -300px; " >
+                <img alt='' src="${request.contextPath}/resources/images/gusedu.jpg" height="100px" width="300px" style="margin-left: 70%; margin-top: 10%;" />
+                <h2 style="font-weight: bold; color: blueviolet; ">
+                    FICHA DE INSCRIPCIÓN 
+                </h2>
+                <h3 style="color: blueviolet; ">
+                    <br/>
+                    XXV CURSO INTERNACIONAL DE BIOMAGNETISMO MÉDICO
+                    <br/>
+                    <br/>
+                    2016
+                    <br/>
+                    <br/>
+                    LIMA - PERÚ 
+                </h3>
+                <h:panelGrid bgcolor="#cadadd" style="width: 1000px; margin-left: 15%" columns="2" border="-1">
+                    <h3 style="color: white; text-align: center">
+                        <b>
+                            <i>INICIO : 30 DE ABRIL</i>
+                        </b>
+                    </h3>
+                </h:panelGrid>
+                <h:panelGrid bgcolor="#cadadd" style="width: 1000px; margin-left: 15%" columns="2" border="-1">
+                    <h4 style="color: white; text-align: left">
+                        <i>DATOS PERSONALES</i>
+                    </h4>
+                </h:panelGrid>
+                <h:panelGrid border="2" bgcolor="#cadadd" style="width: 1000px; margin-left: 15%; text-align: left;tex" columns="2">
+                    <h:outputLabel value="Apellido Paterno" />
+                    <h:inputText value="#{cursoBean.persona.perApellidoP}" style="width:500px"/>
+                    <h:outputLabel value="Apellido Materno" />
+                    <h:inputText value="#{cursoBean.persona.perApellidoM}"  style="width:500px"/>
+                    <h:outputLabel value="Nombres" />
+                    <h:inputText value="#{cursoBean.persona.perNombres}"  style="width:600px"/>
+                    <h:outputLabel value="Género" />
+                    <p:selectOneRadio id="genero" value="#{cursoBean.persona.perSexo}" >
+                        <f:selectItem itemLabel="Masculino" itemValue="0" />
+                        <f:selectItem itemLabel="Femenino" itemValue="1" />
+                    </p:selectOneRadio>
+                    <h:outputLabel value="DNI" />
+                    <h:inputText value="#{cursoBean.persona.perDni}"  style="width:500px"/>
+                    <h:outputLabel value="Dirección de Residencia" />
+                    <h:inputText value="#{cursoBean.persona.perDireccion}"  style="width:500px"/>
+                    <h:outputLabel value="Correo Electrónico" />
+                    <h:inputText value="#{cursoBean.persona.perCorreo}"  style="width:500px"/>
+                </h:panelGrid>
+                <h:panelGrid border="2" bgcolor="#cadadd" style="width: 1000px; margin-left: 15%; text-align: left" columns="5">
+                    <h:outputLabel value="Teléfono Domicilio" />
+                    <h:outputLabel value="Código País" />
+                    <h:inputText value="#{cursoBean.telfijocodpais}" style="width:80px"/>
+                    <h:outputLabel value="Número" />
+                    <h:inputText value="#{cursoBean.telfijo}" style="width:150px"/>
+                    <h:outputLabel value="Teléfono Móvil" />
+                    <h:outputLabel value="Código País" />
+                    <h:inputText value="#{cursoBean.telmovilcodpais}" style="width:80px"/>
+                    <h:outputLabel value="Número" />
+                    <h:inputText value="#{cursoBean.telmovil}" style="width:150px"/>
+                </h:panelGrid>
+                <h:panelGrid border="2" bgcolor="#cadadd" style="width: 1000px; margin-left: 15%; text-align: left" columns="2">
+                    <h:outputLabel value="Formación Académica" />
+                    <h:inputTextarea style="width:500px"/>
+                    <h:outputLabel value="Talleres Cursados de Biomagnetismo o Técnicas Curativas" />
+                    <h:inputTextarea style="width:500px"/>
+                    <h:outputLabel value="Otros Talleres Cursos Relacionados" />
+                    <h:inputTextarea style="width:600px"/>
+                    <h:outputLabel value="Cómo se enteró del Curso" />
+                    <h:inputTextarea style="width:500px"/>
+                </h:panelGrid>
+                <br/>
+                <h3 style="color: black; margin-right: 50%">
+                    Tarifa Standard: $700 dólares
+                </h3>
+                <h3 style="color: blueviolet; margin-right: 40%">
+                    DEPÓSITOS EN DÓLARES AMERICANOS
+                </h3>
+                <br/>
+                <h:panelGrid border="2" bgcolor="#dbadd9" style="width: 1000px; margin-left: 15%; text-align: left" columns="2">
+                    <h:outputLabel value="Cuenta Interbancaria BBVA (dólares)" style="color: aquamarine; font-weight: bold" />
+                    <h:outputText value="011-328-000100010082-24"  style="width:500px; font-weight: bold"/>
+                    <h:outputLabel value="Cuenta BBVA (dólares)" style="color: aquamarine; font-weight: bold" />
+                    <h:outputText value="0011-328-0100010082" style="width:500px; font-weight: bold"/>
+                    <h:outputLabel value="A Nombre" style="color: aquamarine; font-weight: bold" />
+                    <h:outputText value="GUSEDU Centro de Bienestar Holístico SAC" style="width:600px; font-weight: bold"/>
+                    <h:outputLabel value="RUC" style="color: aquamarine; font-weight: bold" />
+                    <h:outputText value="20555898011" style="width:500px; font-weight: bold"/>
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid border="2" bgcolor="skyblue" style="width: 1000px; margin-left: 15%; text-align: left" columns="2">
+                    <h:outputLabel value="Nombre Depositante" style="color: aquamarine; font-weight: bold"/>
+                    <h:inputTextarea style="width:500px"/>
+                    <h:outputLabel value="Fecha y Hora de Depósito" style="color: aquamarine; font-weight: bold"/>
+                    <h:inputTextarea style="width:500px"/>
+                    <h:outputLabel value="Envió por Corre Voucher" style="color: aquamarine; font-weight: bold" />
+                    <h:inputTextarea style="width:600px"/>
+                    <h:outputLabel value="Número de Operación" style="color: aquamarine; font-weight: bold" />
+                    <h:inputTextarea style="width:500px"/>
+                </h:panelGrid> 
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

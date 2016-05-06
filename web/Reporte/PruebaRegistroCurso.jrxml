@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PruebaRegistroCurso" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3ceb2f8-8fa3-4b18-ae52-7f655c1b02c3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="inicioCurso" class="java.lang.String"/>
+	<parameter name="apellidoPaterno" class="java.lang.String"/>
+	<parameter name="apellidoMaterno" class="java.lang.String"/>
+	<parameter name="nombres" class="java.lang.String"/>
+	<parameter name="genero" class="java.lang.String"/>
+	<parameter name="dni" class="java.lang.String"/>
+	<parameter name="direccion" class="java.lang.String"/>
+	<parameter name="correo" class="java.lang.String"/>
+	<parameter name="telfijo" class="java.lang.String"/>
+	<parameter name="telmovil" class="java.lang.String"/>
+	<parameter name="formacad" class="java.lang.String"/>
+	<parameter name="tallercurs" class="java.lang.String"/>
+	<parameter name="otrotaller" class="java.lang.String"/>
+	<parameter name="enterogusedu" class="java.lang.String"/>
+	<parameter name="cuentainter" class="java.lang.String"/>
+	<parameter name="cuenta" class="java.lang.String"/>
+	<parameter name="anombre" class="java.lang.String"/>
+	<parameter name="ruc" class="java.lang.String"/>
+	<parameter name="nombredepos" class="java.lang.String"/>
+	<parameter name="fechahora" class="java.lang.String"/>
+	<parameter name="enviocorreo" class="java.lang.String"/>
+	<parameter name="nrooperac" class="java.lang.String"/>
+	<parameter name="fechanac" class="java.lang.String"/>
+	<background>
+		<band height="701" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="555" height="700" uuid="8b7866e9-cfec-45e9-99ca-74de4b7d7788"/>
+				<imageExpression><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\appGusedu\\web\\Reporte\\FondoPrincipal.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="203" y="40" width="149" height="20" forecolor="#CC00CC" backcolor="#FFFFFF" uuid="d0b0c53e-fdc8-4fda-af58-d6fba6f994ad"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FICHA DE INSCRIPCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="60" width="395" height="20" forecolor="#CC00CC" uuid="8b9bfcc9-d562-4f18-984b-00a97f23a176"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[XXV CURSO INTERNACIONAL DE BIOMAGNETISMO MÉDICO ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="240" y="0" width="73" height="20" forecolor="#CC00CC" uuid="45307787-b424-4d62-b211-2fdcd099a388"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LIMA - PERÚ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="85" y="31" width="416" height="30" backcolor="#0099CC" uuid="c2677aba-f2b7-44b5-9988-0e4dde415ee9"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="284" y="31" width="100" height="20" forecolor="#FFFFFF" uuid="4aaf62ea-6f59-4e0c-8ffb-eb4966d4dfcd"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{inicioCurso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="225" y="31" width="71" height="20" forecolor="#FFFFFF" uuid="e06adcda-a9d1-43eb-a2ac-0b27f493dc3e"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[INICIO: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="41" width="155" height="20" forecolor="#FFFFFF" uuid="57075fb0-909b-496b-b54e-18d051536a67"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS PERSONALES]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="532" splitType="Stretch">
+			<rectangle>
+				<reportElement x="54" y="10" width="202" height="40" backcolor="#0099CC" uuid="6cdfaf81-28ca-4f3f-b8dc-c57f5aced047"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="70" y="10" width="178" height="40" forecolor="#FFFFFF" uuid="fa04db99-708a-4182-8eb8-de97143ce01f"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE COMPLETO (PARA CERTIFICADO)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="70" width="202" height="20" backcolor="#0099CC" uuid="73124e06-0ce2-4ae8-8d9a-74ebb62c748d"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="256" y="10" width="299" height="40" backcolor="#66FFFF" uuid="f565bf87-4503-488f-a619-92de11621293"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="268" y="10" width="89" height="20" uuid="097c554c-874c-49d4-ac6e-0e632e7f5b27"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{apellidoPaterno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="10" width="88" height="20" uuid="951e7a4e-0eb1-476f-8a36-46de2e30b704"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{apellidoMaterno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="10" width="94" height="20" uuid="acb852df-25dd-41db-9927-709410d7b34b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombres}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="100" y="70" width="137" height="20" forecolor="#FFFFFF" uuid="b8bb78b7-099f-499c-b1a7-0027b76bad44"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE NACIMIENTO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="90" width="202" height="20" backcolor="#0099CC" uuid="da333899-b132-4298-9fd0-55e775570f3a"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="140" y="90" width="100" height="20" forecolor="#FFFFFF" uuid="7665e72b-789f-425a-a359-b21be678a277"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="110" width="202" height="20" backcolor="#0099CC" uuid="0427cbe0-035b-4bfd-9a34-b0491fae24a9"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="73" y="110" width="167" height="20" forecolor="#FFFFFF" uuid="0b48d233-ace7-4b0d-ad9a-2921cfe25137"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN DE RESIDENCIA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="50" width="202" height="20" backcolor="#0099CC" uuid="a436e776-3ea3-4c07-87cc-a5097400b4c4"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="100" y="50" width="100" height="20" forecolor="#FFFFFF" uuid="20397b97-deb3-4c6e-b727-b597f02f6522"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[GENERO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="130" width="202" height="20" backcolor="#0099CC" uuid="7f5efc75-9e96-4dad-884c-b3371f64291e"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="84" y="130" width="156" height="20" forecolor="#FFFFFF" uuid="4c94c0d1-7b9e-44c0-a70f-322503735cd6"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[CORREO ELECTRÓNICO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="150" width="202" height="20" backcolor="#0099CC" uuid="1c7815f9-6887-47a7-8e7b-ceade3ab3285"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="103" y="150" width="100" height="20" forecolor="#FFFFFF" uuid="0517461f-3035-43b4-8cf0-6c859f8a90e5"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[TELÉFONO FIJO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="170" width="202" height="20" backcolor="#0099CC" uuid="dc4da1d8-6fdd-4361-ac16-e9108ae78caa"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="99" y="170" width="124" height="20" forecolor="#FFFFFF" uuid="4a73ebaf-462b-408c-af72-8d55fe8f54d2"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[TELÉFONO CELULAR]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="197" width="202" height="20" backcolor="#0099CC" uuid="b67c5988-7887-41a2-9733-0f4ba7e0c721"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="73" y="197" width="151" height="20" forecolor="#FFFFFF" uuid="eb9f7d6b-3959-4b5d-b764-751b9df5b6f2"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[FORMACIÓN ACADÉMICA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="217" width="202" height="49" backcolor="#0099CC" uuid="7c1b1427-1cc3-4a5c-976f-cdf6e55ac4d4"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="54" y="217" width="186" height="49" forecolor="#FFFFFF" uuid="908a2e43-be08-4ba6-881e-bd82bcea7261"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[TALLERES CURSADOS DE BIOMAGNETISMO 
+O TÉCNICAS CURATIVAS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="266" width="202" height="20" backcolor="#0099CC" uuid="f3eab78d-9bd6-467e-9d3c-573db5ca8613"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="62" y="266" width="167" height="20" forecolor="#FFFFFF" uuid="ead446b5-35e1-4ac2-9966-bf4b917ace05"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[OTROS TALLERES CURSADOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="286" width="202" height="20" backcolor="#0099CC" uuid="9cc8d248-baf5-4b61-829d-ad7c0ab91fb9"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="62" y="286" width="178" height="20" forecolor="#FFFFFF" uuid="959c1a6c-c774-4cb3-a61c-005609c0884e"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[CÓMO SE ENTERÓ DEL CURSO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="256" y="197" width="299" height="20" backcolor="#66FFFF" uuid="49ac8df4-0af0-44cc-83e0-96bd31290cb8"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="296" y="197" width="238" height="20" uuid="637cba62-5d73-48bc-a408-7f302f28a055"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{formacad}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="266" width="299" height="20" backcolor="#66FFFF" uuid="93751e33-174c-4141-8ebc-6a1b63c87b56"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="296" y="266" width="238" height="20" uuid="19c40fcd-1d95-4529-a430-73f4c560422b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{otrotaller}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="286" width="299" height="20" backcolor="#66FFFF" uuid="acd0d8f3-17f3-4787-beb0-25c78bed7f6e"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="296" y="286" width="238" height="20" uuid="94bee97d-1fcb-4076-bef4-b4b4f51bcf71"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{enterogusedu}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="256" y="217" width="299" height="49" backcolor="#66FFFF" uuid="c731bb78-f3df-425e-993e-f8078b35aac5"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="296" y="217" width="238" height="49" uuid="0e80c57d-7a4f-4b6c-8368-b6c58c0c22fd"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tallercurs}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="50" width="299" height="20" backcolor="#66FFFF" uuid="1681a9ce-1a8b-4354-9433-ab934bd6bd16"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="332" y="50" width="149" height="20" uuid="18140386-a11a-4883-807f-70c9c766d634"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{genero}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="90" width="299" height="20" backcolor="#66FFFF" uuid="0795f5ea-ec06-48f3-8721-3f22ee9c05ff"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="332" y="90" width="149" height="20" uuid="3f982083-91bd-4312-9ed8-69382baafa3d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dni}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="110" width="299" height="20" backcolor="#66FFFF" uuid="508c4af5-577c-403d-84e1-ed5f3fa1ea39"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="256" y="110" width="299" height="20" uuid="eeadaf90-223a-4074-9435-d2a3f39645e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="130" width="299" height="20" backcolor="#66FFFF" uuid="51ae404e-f570-4b74-beec-af1eb07e882c"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="278" y="130" width="268" height="20" uuid="47153cae-a391-4b76-8e3f-5c64cf3a1870"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{correo}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="170" width="299" height="20" backcolor="#66FFFF" uuid="46eae976-dd4d-4400-bb39-58f03a0fd49f"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="284" y="170" width="238" height="20" uuid="6a5d2c10-4685-49d6-a972-966c2c224648"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telmovil}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="150" width="299" height="20" backcolor="#66FFFF" uuid="219e302f-002f-4898-85f0-a152a52b3fb0"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="296" y="150" width="238" height="20" uuid="713793d6-9161-4dce-afd9-f730a6be57cc"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telfijo}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="54" y="356" width="202" height="20" backcolor="#0099CC" uuid="6f904cf6-fb32-4c24-85da-359e0e957430"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="62" y="356" width="186" height="20" forecolor="#FFFFFF" uuid="9003c46f-b13a-45e6-a865-594a3482fe58"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[CUENTA INTERBANCARIA BBVA(dólares)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="376" width="202" height="20" backcolor="#0099CC" uuid="61198ff1-dd46-4878-a3c9-3554abe27da7"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="87" y="376" width="137" height="20" forecolor="#FFFFFF" uuid="acf12308-6c53-44d5-a14e-358daf550f8a"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[CUENTA BBVA (dólares)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="396" width="202" height="20" backcolor="#0099CC" uuid="dd8c8b5b-3dcd-4a7c-ad70-56f770f8eba3"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="100" y="396" width="100" height="20" forecolor="#FFFFFF" uuid="aeea6ee8-cd9e-4c99-a63c-52aa7edf86e7"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[A NOMBRE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="416" width="202" height="20" backcolor="#0099CC" uuid="54f56d6f-12db-4984-b960-6369ca1365b8"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="140" y="416" width="97" height="20" forecolor="#FFFFFF" uuid="15afa092-df19-4627-9a58-1da575b1a873"/>
+				<textElement>
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[RUC]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="256" y="416" width="299" height="20" backcolor="#66FFFF" uuid="6b54342a-b425-4381-a26c-857de13588ff"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="416" width="223" height="20" uuid="84c5c553-5181-4eca-8d65-db39bd2110a8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ruc}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="356" width="299" height="20" backcolor="#66FFFF" uuid="2eb56b37-d83e-4090-b7b2-5ee824e94bc3"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="356" width="223" height="20" uuid="4fc87dd0-4fcd-43d8-9fed-8e0817006bbf"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cuentainter}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="376" width="299" height="20" backcolor="#66FFFF" uuid="d487368a-b703-446f-8e62-0ba8fb3236ba"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="376" width="223" height="20" uuid="f4cb12d2-4260-453b-a63f-9a1a5a64e188"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cuenta}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="256" y="396" width="299" height="20" backcolor="#66FFFF" uuid="92150ad3-1f90-4728-b1aa-da7742acdd17"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="396" width="223" height="20" uuid="fffbe072-3106-4e72-9134-04c0e3db128e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="99" y="323" width="157" height="20" forecolor="#CC00CC" uuid="bbf31b6d-4e6e-4c8a-a3d7-6d1ba86625f5"/>
+				<textElement>
+					<font size="12" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Tarifa Standard: $ 700]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="323" width="223" height="20" forecolor="#CC00CC" uuid="4c27fbf7-6ec1-437c-b13a-ca50e000b26a"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEPÓSITOS EN DÓLARES AMERICANOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="452" width="202" height="20" backcolor="#0099CC" uuid="7809479c-87f3-4e46-9bbc-f0b06c54a490"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="62" y="452" width="178" height="20" forecolor="#FFFFFF" uuid="89167cee-41db-427c-ac36-25b5c82783fc"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEPOSITANTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="471" width="202" height="20" backcolor="#0099CC" uuid="1aa2be17-b57f-49ad-97a5-e751c273defe"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="62" y="471" width="186" height="20" forecolor="#FFFFFF" uuid="fb73cf09-6cb0-4a23-8cb2-6fef974769a5"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[FECHA Y HORA DEL DEPÓSITO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="511" width="202" height="20" backcolor="#0099CC" uuid="014b8b84-1eea-4fde-8c63-9f237a1c2410"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="73" y="511" width="175" height="20" forecolor="#FFFFFF" uuid="fa56a356-3978-49d2-9d85-429b47e3655f"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[NÚMERO DE OPERACIÓN]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="256" y="511" width="299" height="20" backcolor="#66FFFF" uuid="8272a029-fa79-40d1-8818-bbd49f358388"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="511" width="223" height="20" uuid="1b8a47a2-b321-4519-a6c4-003a9c989535"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nrooperac}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="491" width="299" height="20" backcolor="#66FFFF" uuid="2b46e159-7a45-45e6-bb5c-698d24c7c895"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="491" width="223" height="20" uuid="a9357168-53fd-4b4f-b182-c7f69a1bce69"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{enviocorreo}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="472" width="299" height="20" backcolor="#66FFFF" uuid="7ad11c58-cc22-47c8-8256-9d37717c97e9"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="472" width="223" height="20" uuid="4027a3a1-98a7-482c-8349-130b239675cd"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechahora}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="256" y="452" width="299" height="20" backcolor="#66FFFF" uuid="84de8778-b26b-4b95-917f-cc0f820d3ddf"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="283" y="452" width="223" height="20" uuid="580ec97c-c248-45bc-ae36-352f6428e0b2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombredepos}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="54" y="491" width="202" height="20" backcolor="#0099CC" uuid="593fb8f9-f7cc-4584-b513-5974c4409e7c"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="78" y="491" width="170" height="20" forecolor="#FFFFFF" uuid="15213ffc-a271-4893-96f6-f437d2e87cc9"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ENVIÓ POR CORREO VOUCHER]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="256" y="70" width="299" height="20" backcolor="#66FFFF" uuid="30dca097-bcf1-4a72-9574-21669ac50008"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="332" y="70" width="149" height="20" uuid="e70f4149-42e3-454b-94c8-a0930e6b9820"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechanac}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/style.css" />
+        <link href="${request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="${request.contextPath}/resources/css/estiloCurso.css"
+              rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" type="image/x-icon"
+              href="#{request.contextPath}/resources/images/gusedu.ico" />
+        <title>
+            <ui:insert name="titulo">
+
+            </ui:insert>
+        </title>
+    </h:head>
+    <h:body style="background-repeat: no-repeat; background-image: url('#{request.contextPath}/resources/images/Fonddo Gusedu.PNG'); margin-top: 20%; margin-left: 20%">
+        <div id="Body">
+            <div class='cFL cPosRel' id="Content">
+                <ui:insert name="content"></ui:insert>
+            </div>
+        </div>
+    </h:body>
+</html>

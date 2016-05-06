@@ -1,0 +1,106 @@
+body {
+    background-color:white;
+    margin:0 auto;
+    font-size:12px;
+    
+}
+/*ID*/
+#Body
+{
+    background-color:white;
+    height:1200px;
+    margin:0 auto;
+    width:1015px
+}
+#Content
+{
+    border: -1px;
+    height:1000px;
+    width:1020px;
+}
+
+#Center
+{
+    border: 1px solid gray;
+    height:960px;
+    width:700px;
+}
+#Footer
+{
+    border:1px solid gray;
+    height:100px;
+    width:1010px;
+}
+#Left
+{
+    border:1px solid gray;
+    height:960px;
+    width:280px;
+}
+#Right
+{
+    border:1px solid gray;
+    height:960px;
+    width:300px;
+}
+#Top
+{
+    border:1px solid gray;
+    height:100px;
+    width:1010px
+}
+/*Claase*/
+.cFL
+{
+    float:left;
+}
+.cFR
+{
+    float:right;
+}
+.cPosRel
+{
+    position:relative;
+}
+.cPosAbs
+{
+    position:absolute;
+}
+.columna1
+{
+    background-color: #3388cc;
+    color:white;
+    font-weight: bold;
+    text-align: left;
+}
+.columna2
+{
+    background-color:#c2dfef;
+    color:black;
+    font-weight: bold;
+    width: 600px;
+    text-align: center;
+}
+.columna3
+{
+    background-color:#c2dfef;
+    color:black;
+    font-weight: bold;
+    width: 120px;
+    text-align: center;
+}
+.columna4
+{
+    background-color:#c2dfef;
+    color:black;
+    font-weight: bold;
+    width: 225px;
+    text-align: center;
+}
+.panel
+{
+    background-image: url("FonddoGusedu.PNG");
+    alignment-adjust: central;
+    margin-top: -35px;
+    overflow: scroll;
+}
