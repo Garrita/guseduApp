@@ -3,6 +3,7 @@ package com.gusedu.dao;
 import com.gusedu.entidad.EProductoLog;
 import com.gusedu.entidad.EProductoLogAvanzado;
 import com.gusedu.entidad.Obsequio;
+import com.gusedu.entidad.detalleDelivery;
 import com.gusedu.entidad.detalle_factura;
 import java.util.List;
 
@@ -37,7 +38,8 @@ public interface ProductoService {
         
         public boolean SP_CrearCabeceraProducto(int cod_cli,int prod_cod,
                                                 String nom_item,
-                                                int cantidad,double costo,int cod_vis,double cost);
+                                                int cantidad,double costo,int cod_vis,double cost,
+                                                String ubicacion,String ubicacio_contacto,String contacto,String vendedor,boolean delivery,double pasaje);
 	public List<detalle_factura> SP_ListarProductosF(int cod_cli);
         
         public boolean SP_EliminarProductoFactura(int cod_cli);
@@ -57,4 +59,6 @@ public interface ProductoService {
         public List<Obsequio> SP_ListarObsequio(Date fec_i,Date fec_f);
         
         public boolean SP_EliminarObsequio(int id_prodObsequio,int cant,int id_producto);
+            
+        public detalleDelivery SP_VerificarDelivery(int cli);
 }

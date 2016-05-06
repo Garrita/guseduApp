@@ -385,7 +385,7 @@
                                              update=":#{p:component('dialogParesByHistorial')}" >
                                 <f:actionListener binding="#{historialTerapiaBean.llenadomatriz()}" />
                             </p:commandButton>
-                            <p:commandButton value="Venta de Productos" update=":#{p:component('dialogProduct')}" oncomplete="PF('dlgProduct').show();"  />
+                            <p:commandButton value="Venta de Productos" action="#{visitaBean.listar}" update=":#{p:component('dialogProduct')},:#{p:component('productos')}" oncomplete="PF('dlgProduct').show();"  />
                             <p:commandButton value="Ver Factura" update=":#{p:component('dialogFactura')}" action="#{scheduleView.BUSCARFACTURA()}" oncomplete="PF('dlgFactura').show();" />
                             <p:commandButton id="addButton2" value="Cerrar" action="#{scheduleView.cleaner()}" oncomplete="PF('myschedule').update();PF('eventDialog2').hide();"  />
 

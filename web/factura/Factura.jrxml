@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0fb015d3-25a1-4b3f-8fbc-65c4ae3b1716">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="143"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ItemDataSet" uuid="8ad2a5be-0a81-40a4-9dff-3c2384f821d2">
+		<parameter name="total_value" class="java.lang.Double"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="item" class="java.lang.String"/>
+		<field name="precio_unitario" class="java.lang.Double"/>
+		<field name="cantidad" class="java.lang.Integer"/>
+		<field name="monto" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="ItemDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="total" class="java.lang.Double"/>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="32" y="-7" width="356" height="86" uuid="1eec0996-b3de-440a-8ff8-3091cb47856d"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<text><![CDATA[FACTURA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="235" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="16" width="100" height="20" uuid="05017978-cc5d-4e49-ac54-f80a2971c6ac"/>
+				<text><![CDATA[Cliente : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="16" width="100" height="20" uuid="91c97a05-e132-4136-9013-e564dbedf11a"/>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="36" width="100" height="20" uuid="0bd5fdc7-6116-4f08-8fa1-ef8305c7edd8"/>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="36" width="100" height="20" uuid="d11439ec-82ea-4dd8-a7b4-e1f17998d364"/>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="56" width="555" height="179" uuid="51c87b3c-30e4-4994-b6ee-c04fbb318aef"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ItemDataSet" uuid="182aa64d-4c85-4854-b3e6-3f64667f9183">
+						<datasetParameter name="total_value">
+							<datasetParameterExpression><![CDATA[$P{total}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{ItemDataSource}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="284" uuid="df3fea9c-a6ec-48f1-b418-ebadeab2dff5">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="28d8155b-fcc4-43c3-8a0f-89f7a35ed213"/>
+								<text><![CDATA[Item]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="284" height="20" uuid="7c46590a-80fb-41b7-9194-89009626e2ea"/>
+								<textFieldExpression><![CDATA[$F{item}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="73583339-03c0-4d30-b796-f530e16b3321">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="38f41c3e-aff4-4c9d-b3b4-49e7ad1d82cf"/>
+								<text><![CDATA[Precio unitario]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="">
+								<reportElement x="0" y="0" width="90" height="20" uuid="a976d169-7f4b-4101-a67b-ccf3f49c185a"/>
+								<textFieldExpression><![CDATA[$F{precio_unitario}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="a00029ae-cadc-4fca-8b39-26b39bf6a8b9">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="23a4de8c-38b0-4bae-aabf-3b5450e1a4dc"/>
+								<text><![CDATA[Cantidad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="2e0ff768-c5b7-4a5e-9335-a610c2ba160b"/>
+								<text><![CDATA[TOTAL : ]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="fb39725e-c664-4d6b-ab6c-449222680e40"/>
+								<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="dc107bdb-8d17-4c02-94ed-73ea0b155992">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="b3f98302-226b-42f1-aa8d-31bd0a1a11f8"/>
+								<text><![CDATA[Monto]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="4a1d4876-7972-4ca7-a803-90e0810615bb"/>
+								<textFieldExpression><![CDATA[$P{total_value}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="eeeebe48-99f5-4f22-8739-fd45e926c10d"/>
+								<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

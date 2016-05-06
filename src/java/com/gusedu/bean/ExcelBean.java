@@ -25,6 +25,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
@@ -175,7 +177,10 @@ decStyle.setDataFormat((short)2);
                 
 
        
-        }
+        } 
+            /*Row fila = sheet.createRow(4);
+            Cell celda = fila.createCell(1);
+            celda.setCellValue("Joel Romero Guillen");*/
     }
     
     public void today()

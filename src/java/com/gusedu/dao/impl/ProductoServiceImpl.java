@@ -9,6 +9,7 @@ import com.gusedu.dao.ProductoService;
 import com.gusedu.entidad.EProductoLog;
 import com.gusedu.entidad.EProductoLogAvanzado;
 import com.gusedu.entidad.Obsequio;
+import com.gusedu.entidad.detalleDelivery;
 import com.gusedu.entidad.detalle_factura;
 import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
@@ -147,32 +148,35 @@ public class ProductoServiceImpl
 /* 121*/        return result;
             }
 
+            @Override
             public boolean updateProducto(Producto producto) {
-                
-                
-                boolean resultado = false;
-
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = sesion.beginTransaction();
-            System.out.println("Actualizo Producto....");
-/* 133*/        sesion.merge(producto);
-/* 134*/        System.out.println(producto.getProExistencias());
-            tx.commit();
-            resultado = true;
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-                System.out.println("ERROR de saveHistoriaClinica : " + e.getMessage());
-            }
-            System.out.println(e.getMessage());
-        } finally {
-            sesion.flush();
-            sesion.close();
-        }
- 
-/* 147*/        return resultado;
+             boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ActualizarProducto(:costo, :descripC, :descripM, :descripL, :stock, :stockmin,:costoC,:simb,:tip,:val_img,:val_sku,:val_mod,:val_ume,:val_pro_cod) }");
+             q.setParameter("costo", producto.getProCostoUnitario());
+             q.setParameter("descripC", producto.getProDescripcionC());
+             q.setParameter("descripM", producto.getProDescripcionM());
+             q.setParameter("descripL", producto.getProDescripcionL());
+             q.setParameter("stock", producto.getProExistencias());
+             q.setParameter("stockmin", producto.getProStockMin());
+             q.setParameter("costoC", producto.getProCostoUnitarioC());
+             q.setParameter("simb", producto.getProCurrencySymbol());
+             q.setParameter("tip", producto.getTipoProducto().getTprCodigo());
+             q.setParameter("val_img", producto.getProUrlImagen());
+             q.setParameter("val_sku", producto.getProSku());
+             q.setParameter("val_mod", producto.getModelo());
+             q.setParameter("val_ume", producto.getUnidadMedida().getUmeCodigo());
+             q.setParameter("val_pro_cod", producto.getProCodigo());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_ActualizarProducto : "+e.getMessage());
+             resultado=false;
+         }
+         return resultado;
             }
 
             public boolean deleteProductoVisita(ProductoVisita productoVisita) {
@@ -209,7 +213,7 @@ public class ProductoServiceImpl
         boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_InsertarProducto(:costo, :descripC, :descripM, :descripL, :stock, :stockmin,:costoC,:simb) }");
+             Query q = session.createSQLQuery("{ CALL SP_InsertarProducto(:costo, :descripC, :descripM, :descripL, :stock, :stockmin,:costoC,:simb,:tip) }");
              q.setParameter("costo", producto.getProCostoUnitario());
              q.setParameter("descripC", producto.getProDescripcionC());
              q.setParameter("descripM", producto.getProDescripcionM());
@@ -218,6 +222,7 @@ public class ProductoServiceImpl
              q.setParameter("stockmin", producto.getProStockMin());
              q.setParameter("costoC", producto.getProCostoUnitarioC());
              q.setParameter("simb", producto.getProCurrencySymbol());
+             q.setParameter("tip", producto.getTipoProducto().getTprCodigo());
              q.executeUpdate();
              resultado = true;
          }
@@ -298,12 +303,12 @@ public class ProductoServiceImpl
     }
 
     @Override
-    public boolean SP_CrearCabeceraProducto(int cod_cli, int prod_cod,  String nom_item, int cantidad, double costo,int cod_vis,double valor) {
+    public boolean SP_CrearCabeceraProducto(int cod_cli, int prod_cod,  String nom_item, int cantidad, double costo,int cod_vis,double valor,String ubicacion,String ubicacio_contacto,String contacto,String vendedor,boolean delivery,double pasaje) {
           boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          String empresa= StaticUtil.userLogged();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_CrearCabeceraProducto(:codigo_cliente,:prod_cod,:nom_item,:cantidad,:costo,:cod_vis,:empresa,:cost) }");
+             Query q = session.createSQLQuery("{ CALL SP_CrearCabeceraProducto(:codigo_cliente,:prod_cod,:nom_item,:cantidad,:costo,:cod_vis,:empresa,:cost,:ubicacion,:ubicacio_contacto,:contacto,:vendedor,:delivery,:pasaje) }");
              q.setParameter("codigo_cliente", cod_cli);
              q.setParameter("prod_cod",prod_cod);
              q.setParameter("nom_item", nom_item);
@@ -312,6 +317,12 @@ public class ProductoServiceImpl
              q.setParameter("cod_vis", cod_vis);
              q.setParameter("empresa", empresa);
              q.setParameter("cost", valor);
+             q.setParameter("ubicacion", ubicacion);
+             q.setParameter("ubicacio_contacto", ubicacio_contacto);
+             q.setParameter("contacto", contacto);
+             q.setParameter("vendedor", vendedor);
+             q.setParameter("delivery", delivery);
+             q.setParameter("pasaje", pasaje);
              System.out.println("COD CLI : "+cod_cli+"\nPROD_COD :"+prod_cod+"\nNOM_ITEM : "+nom_item+
                                 "\nCANTIDAD :"+cantidad+"\nCOSTO : "+costo+"\nCOD_VIS : "+cod_vis+"\nEMPRESA : "+empresa);
              q.executeUpdate();
@@ -482,7 +493,15 @@ boolean resultado = false;
         try {
             tx = sesion.beginTransaction();
             Query q = sesion.createSQLQuery("{ CALL SP_ValidarStockMinimo }");
-            resultado=q.list();
+            List<Object[]> d=q.list();
+            for (Object[] result : d) 
+            {
+      
+                int valor = (int) result[0];
+                String item = (String) result[1];
+                int cantidad = (int) ((double) result[2]);
+                resultado.add(valor+"|"+item+" : "+cantidad);
+              }
 
         } 
         catch(Exception e)
@@ -570,5 +589,42 @@ boolean resultado = false;
              resultado=false;
          }
          return resultado;
+    }
+
+    @Override
+    public detalleDelivery SP_VerificarDelivery(int cli) {
+         detalleDelivery obj = null;
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+         
+             Query q = session.createSQLQuery("{ CALL SP_VerificarDelivery(:emp,:cod_cli) }");
+               q.setParameter("cod_cli",cli);
+               q.setParameter("emp",StaticUtil.userLogged());
+			Object[] d =   (Object[]) q.uniqueResult();
+                         boolean delivery=(boolean) d[0];
+                         String ubicacion=(String) d[1];
+                         String contacto=(String) d[2];
+                         String vendedor=(String) d[3];
+                         double pasaje= (double) d[4];
+                         obj = new detalleDelivery(delivery, vendedor, ubicacion, contacto,pasaje);
+                       /* Object 
+                        
+			for (Object[] result : d) {
+				
+				    int cod_det_factura = (int) result[0];
+                                    String item=(String) result[1];
+                                    double precio_unitario=(double) result[2];
+                                    int cantidad = (int) result[3];
+                                    double monto=(double) result[4];
+                                    int cod_factura=(int) result[5];
+                                    lista.add(new detalle_factura(cod_det_factura, item, precio_unitario,cantidad, monto, cod_factura));
+			}*/
+        } catch (Exception e) {
+            System.out.println("Error en SP_ObtenerCabecera : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return obj;  
     }
 }

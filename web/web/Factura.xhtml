@@ -20,6 +20,27 @@
                     <p:inputText value="#{scheduleView.cab_fact.factura_real}" />
                     <p:commandButton value="Guardar " action="#{scheduleView.UPDATE_FACTURA()}" />
                 </p:panelGrid>
+                <h:panelGrid columns="2"  rendered="#{scheduleView.cab_fact.delivery}" >
+                    <f:facet name="header">
+                        <p:outputLabel value="Datos de Delivery" />
+                    </f:facet>
+                    <p:outputLabel value="Dirección de Cliente : " />
+                    <p:outputLabel value="#{scheduleView.cab_fact.ubicacion}" />
+                    
+                    <p:outputLabel value="Contacto : " />
+                    <p:outputLabel value="#{scheduleView.cab_fact.contacto}" />
+                    
+                    <p:outputLabel value="Dirección de Contacto : " />
+                    <p:outputLabel value="#{scheduleView.cab_fact.ubicacion_contacto}" />
+                    
+                    <p:outputLabel value="Vendedor : " />
+                    <p:outputLabel value="#{scheduleView.cab_fact.vendedor}" />
+                    
+                    <p:outputLabel value="Pasaje : " />
+                    <p:outputLabel value="#{scheduleView.cab_fact.pasaje}" />
+                    
+                </h:panelGrid>
+                
                 <br/>
                 <br/>
                 <p:remoteCommand name="rc_x" action="#{scheduleView.REFRESCAR()}" />
@@ -85,6 +106,7 @@
                 </p:dataTable>
             </p:panel>
             <p:commandButton value="Registrar y Validar Pago" oncomplete="rc()" />
+            <a href="${request.contextPath}/web/PDF_Factura.jsf"    target="_blank" >Exportar PDF</a>
         </h:form>
     </ui:composition>
 </html>

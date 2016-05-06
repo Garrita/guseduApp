@@ -13,19 +13,23 @@ public class ClientePersona {
         private int cli_codigo ;
         private String per_dni;
         private String paciente;
+        private String ubicacion;
+        private String direccion;
 
     public ClientePersona() {
     }
 
-    public ClientePersona(int cli_codigo, String per_dni, String paciente) {
+    public ClientePersona(int cli_codigo, String per_dni, String paciente, String ubicacion, String direccion) {
         this.cli_codigo = cli_codigo;
         this.per_dni = per_dni;
         this.paciente = paciente;
+        this.ubicacion = ubicacion;
+        this.direccion = direccion;
     }
 
-        
-        
-        
+    
+
+            
     public int getCli_codigo() {
         return cli_codigo;
     }
@@ -49,7 +53,23 @@ public class ClientePersona {
     public void setPaciente(String paciente) {
         this.paciente = paciente;
     }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
         
-        
+         
         
 }

@@ -231,7 +231,9 @@ public class ClienteServiceImpl
 				   int cli_codigo = (int) result[0];
                                    String per_dni=(String) result[1];
                                    String paciente=(String) result[2];
-                                   lista.add(new ClientePersona(cli_codigo, per_dni, paciente));
+                                   String ubicacion= (String)result[3];
+                                   String direccion= (String)result[4];
+                                   lista.add(new ClientePersona(cli_codigo, per_dni, paciente,ubicacion,direccion));
                    	}
         } catch (Exception e) {
             System.out.println("Error listaClientePersona : "+e.getMessage());
@@ -256,7 +258,9 @@ public class ClienteServiceImpl
 				   int cli_codigo = (int) result[0];
                                    String per_dni=(String) result[1];
                                    String paciente=(String) result[2];
-                                   lista.add(new ClientePersona(cli_codigo, per_dni, paciente));
+                                   String ubicacion= (String)result[3];
+                                   String direccion= (String)result[4];
+                                   lista.add(new ClientePersona(cli_codigo, per_dni, paciente,ubicacion,direccion));
                    	}
         } catch (Exception e) {
             System.out.println("Error getALLlistaClientePersona : "+e.getMessage());
