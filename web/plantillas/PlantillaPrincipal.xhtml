@@ -34,7 +34,7 @@
 			<ui:include src="menu.xhtml" />
                          <p:growl id="growl" showDetail="true"   life="1500" /> 
 			<ui:insert name="content"></ui:insert>
-                        <p:dialog header="Productos agotandose o agotados" widgetVar="dlgAvisoProducto" modal="true" height="100">
+                        <p:dialog header="Productos agotándose o agotados" widgetVar="dlgAvisoProducto" modal="true" height="100">
                             <p:selectOneListbox id="basic"  style="width: 350px;" >
                                 <f:selectItems value="#{productoBean.existencias}" var="list_stock" 
                                        itemLabel="#{list_stock}" 
